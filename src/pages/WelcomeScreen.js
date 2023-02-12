@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./Button";
+import Button from "../Components/Button";
 
 import * as S from '../styled/WelcomeScreen.styled';
 
@@ -11,6 +11,10 @@ import abstractDesktop from '../Image/abstract-desktop.jpg';
 const WelcomeScreen = () => {
     return (
         <S.Section>
+            <header>
+                <h1>Welcome on board.</h1>
+                <h2>Let’s make things happen.</h2>
+            </header>
             <picture>
                 <source srcSet={abstractMobile} media='(min-width:320px)'></source>
                 <source srcSet={abstractTablet} media='(min-width:768px)'></source>
