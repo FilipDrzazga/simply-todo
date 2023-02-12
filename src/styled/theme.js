@@ -16,9 +16,9 @@ const rules = {
         laptopL: `(min-width:${size.laptopL})`,
         desktop: `(min-width:${size.desktop})`
     },
-    margin: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
+    margin: ['0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem', '2.4rem'],
     padding: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
-    fontSizes: ['0.7rem', '1rem', '1.2rem', '1.5rem'],
+    fontSizes: ['0.7rem', '1rem', '1.2rem', '1.5rem', '2rem', '2.1rem'],
     colors: {
         darkPurple: '#080227',
         purple: '#13044E',
