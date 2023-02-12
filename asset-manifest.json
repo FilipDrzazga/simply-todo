@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/FilipDrzazga/simply-todo.git/static/js/main.248f0c1e.js",
-    "static/media/abstract.jpg": "/FilipDrzazga/simply-todo.git/static/media/abstract.611f2f66c6c9767db6eb.jpg",
-    "static/media/abstract-desktop.jpg": "/FilipDrzazga/simply-todo.git/static/media/abstract-desktop.9ca076f213c68696eb78.jpg",
-    "static/media/abstract-tablet.jpg": "/FilipDrzazga/simply-todo.git/static/media/abstract-tablet.292b1e5d964324b877b1.jpg",
-    "static/media/abstract-mobile.jpg": "/FilipDrzazga/simply-todo.git/static/media/abstract-mobile.4fca9df713f332b7bbb4.jpg",
-    "index.html": "/FilipDrzazga/simply-todo.git/index.html",
-    "main.248f0c1e.js.map": "/FilipDrzazga/simply-todo.git/static/js/main.248f0c1e.js.map"
+    "main.js": "/simply-todo.git/static/js/main.5c847a6a.js",
+    "static/media/abstract.jpg": "/simply-todo.git/static/media/abstract.611f2f66c6c9767db6eb.jpg",
+    "static/media/abstract-desktop.jpg": "/simply-todo.git/static/media/abstract-desktop.9ca076f213c68696eb78.jpg",
+    "static/media/abstract-tablet.jpg": "/simply-todo.git/static/media/abstract-tablet.292b1e5d964324b877b1.jpg",
+    "static/media/abstract-mobile.jpg": "/simply-todo.git/static/media/abstract-mobile.4fca9df713f332b7bbb4.jpg",
+    "index.html": "/simply-todo.git/index.html",
+    "main.5c847a6a.js.map": "/simply-todo.git/static/js/main.5c847a6a.js.map"
   },
   "entrypoints": [
-    "static/js/main.248f0c1e.js"
+    "static/js/main.5c847a6a.js"
   ]
 }
