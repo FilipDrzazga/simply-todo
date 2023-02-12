@@ -8,7 +8,7 @@ const size = {
   desktop: '2560px'
 }
 
-export const rules = {
+const rules = {
     breakpoints: {
         mobile: `(min-width:${size.mobile})`,
         tablet: `(min-width:${size.tablet})`,
@@ -16,9 +16,9 @@ export const rules = {
         laptopL: `(min-width:${size.laptopL})`,
         desktop: `(min-width:${size.desktop})`
     },
-    space: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
-    fonts: 'Roboto, sans-serif, Arial',
-    fontSizes: ['0.4rem', '0.8rem', '1.2rem', '1.6rem', '2rem'],
+    margin: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
+    padding: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
+    fontSizes: ['0.7rem', '1rem', '1.2rem', '1.5rem'],
     colors: {
         darkPurple: '#080227',
         purple: '#13044E',
@@ -27,3 +27,5 @@ export const rules = {
         white: '#FFFFFF'
     },
 };
+
+export { rules };
