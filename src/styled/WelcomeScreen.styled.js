@@ -14,7 +14,6 @@ const Section = styled.section`
         align-items:center;
         flex-direction:column;
         flex-wrap:wrap;
-
         h1{
             font-size:${({theme})=>theme.fontSizes[4]};
             color:${({theme})=>theme.colors.darkPurple};
