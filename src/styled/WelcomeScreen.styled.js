@@ -19,8 +19,7 @@ const Section = styled.section`
             color:${({theme})=>theme.colors.darkPurple};
         }
         h2{
-            align-self:flex-start;
-            margin-left:${({theme})=>theme.margin[3]};
+            // align-self:flex-start;
             font-size:${({ theme }) => theme.fontSizes[1]};
             font-weight: 400;
             color:${({theme})=>theme.colors.darkPurple};
@@ -36,6 +35,16 @@ const ButtonContainer = styled.div`
     bottom:0;
     left:50%;
     transform:translate(-50%, -20%);
+    display:flex;
+    flex-direction:column;
+    gap:${({ theme }) => theme.margin[2]};
+    margin-bottom:${({theme})=>theme.margin[3]};
+    a{
+        width:100%;
+        height:100%;
+        text-decoration: none;
+        color:white;
+    }
 `
 
 export { Section, ButtonContainer };
