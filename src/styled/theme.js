@@ -27,6 +27,7 @@ const rules = {
         lightGray:'#F9FAFF',
         placeholder: '#D0D5DC',
         inputFocus: '#1C53F4',
+        inputFocusOutline: '#1C53F450',
         white: '#FFFFFF'
     },
 };

@@ -49,7 +49,7 @@ const InputsContainer = styled.div`
     width:100%;
     display:flex;
     flex-direction:column;
-    gap:${({theme})=>theme.margin[4]};
+    gap:${({theme})=>theme.margin[3]};
     margin-top:${({theme})=>theme.margin[3]};
     input{
         width: 100%;

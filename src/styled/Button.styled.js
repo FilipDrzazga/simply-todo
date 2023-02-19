@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Button = styled.button`
-    width: ${({ size }) => size === 'xl' ? '20rem' : '15rem'};
+    width: ${({ size }) => size === 'xl' ? '100%' : '60%'};
     height: 3.5rem;
     border:none;
     border-radius:15px;
