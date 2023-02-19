@@ -1,14 +1,11 @@
 {
   "files": {
-    "main.js": "/simply-todo/static/js/main.05322d10.js",
-    "static/media/abstract.jpg": "/simply-todo/static/media/abstract.611f2f66c6c9767db6eb.jpg",
-    "static/media/abstract-desktop.jpg": "/simply-todo/static/media/abstract-desktop.9ca076f213c68696eb78.jpg",
-    "static/media/abstract-tablet.jpg": "/simply-todo/static/media/abstract-tablet.292b1e5d964324b877b1.jpg",
+    "main.js": "/simply-todo/static/js/main.ba78a7da.js",
     "static/media/abstract-mobile.jpg": "/simply-todo/static/media/abstract-mobile.4fca9df713f332b7bbb4.jpg",
     "index.html": "/simply-todo/index.html",
-    "main.05322d10.js.map": "/simply-todo/static/js/main.05322d10.js.map"
+    "main.ba78a7da.js.map": "/simply-todo/static/js/main.ba78a7da.js.map"
   },
   "entrypoints": [
-    "static/js/main.05322d10.js"
+    "static/js/main.ba78a7da.js"
   ]
 }
