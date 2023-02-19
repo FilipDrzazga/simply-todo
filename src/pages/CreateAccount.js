@@ -1,6 +1,7 @@
 import React from "react";
 import * as S from "../styled/CreateAccount.styled";
 import Button from "../Components/Button";
+import Input from "../Components/Input";
 
 import abstractMobile from '../Image/abstract-mobile.jpg';
 
@@ -16,10 +17,8 @@ const CreateAccount = () => {
             </figure>
                 <S.Form>
                     <S.InputsContainer>
-                        <label htmlFor='email'>Email
-                        <input id='email' type='text' placeholder='Enter your Email...'></input></label>
-                        <label htmlFor="password">Password
-                        <input id="password" type='text' placeholder="Enter your password..."></input></label>
+                        <Input id='email' type='text' placeholder='Enter your Email...' htmlFor='email' labelText='Email' />
+                        <Input id='password' type='text' placeholder='Enter your password...' htmlFor='password' labelText='Password' />
                     </S.InputsContainer>
                     <S.ButtonContainer>
                         <Button size='xl' color='dark' disabled>Create account</Button>
