@@ -3,33 +3,75 @@ import * as S from "../styled/CreateAccount.styled";
 import Button from "../Components/Button";
 import Input from "../Components/Input";
 
+import { useFormik } from 'formik';
+import { validationSchema } from "../utils/validationSchema";
+
 import abstractMobile from '../Image/abstract-mobile.jpg';
 
 const CreateAccount = () => {
+
+    const onSubmit = (values, actions) => {
+        console.log(actions, values);
+    };
+
+    const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validateOnMount:true,
+        validationSchema: validationSchema,
+        onSubmit: onSubmit,
+    });
+
     return (
-        <S.Section>
-            <header>
-                <h1>Create an account.</h1>
-                <h2>Let's make things happen.</h2>
-            </header>
-            <figure>
-                <img src={abstractMobile} alt='abstract' />
-            </figure>
-                <S.Form>
-                    <S.InputsContainer>
-                        <Input id='email' type='text' placeholder='Enter your Email...' htmlFor='email' labelText='Email' />
-                        <Input id='password' type='text' placeholder='Enter your password...' htmlFor='password' labelText='Password' />
-                    </S.InputsContainer>
-                    <S.ButtonContainer>
-                        <Button size='xl' color='dark' disabled>Create account</Button>
-                        <div>
-                            <hr/><span>or continue</span><hr/>
-                        </div>
-                        <Button size='l' color='light' navigateTo='/login'>Login</Button>
-                    </S.ButtonContainer>
-                </S.Form>
-        </S.Section>
-    )
+      <S.Section>
+        <header>
+          <h1>Create an account.</h1>
+          <h2>Let's make things happen.</h2>
+        </header>
+        <figure>
+          <img src={abstractMobile} alt="abstract" />
+        </figure>
+        <S.Form onSubmit={handleSubmit} autoComplete="off">
+          <S.InputsContainer>
+            <Input
+              id="email"
+              type="text"
+              value={values.email}
+              error={errors.email}
+              touched={touched.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Enter your Email..."
+              htmlFor="email"
+              labelText="Email"
+            />
+            <Input
+              id="password"
+              type="text"
+              value={values.password}
+              error={errors.password}
+              touched={touched.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Enter your password..."
+              htmlFor="password"
+              labelText="Password"
+            />
+          </S.InputsContainer>
+          <S.ButtonContainer>
+            <Button type='submit' size="xl" color="dark" disabled={!isValid}>Create account</Button>
+            <div>
+              <hr />
+              <span>or continue</span>
+              <hr />
+            </div>
+            <Button size="l" color="light" navigateTo="/login">Login</Button>
+          </S.ButtonContainer>
+        </S.Form>
+      </S.Section>
+    );
 };
 
 export default CreateAccount;

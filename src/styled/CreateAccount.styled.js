@@ -19,7 +19,6 @@ const Section = styled.section`
             color:${({theme})=>theme.colors.darkPurple};
         }
         h2{
-            // align-self:flex-start;
             font-size:${({ theme }) => theme.fontSizes[1]};
             font-weight: 400;
             color:${({theme})=>theme.colors.darkPurple};
@@ -37,7 +36,7 @@ const Form = styled.form`
     left:0;
     width:100%;
     height:70%;
-    border-radius:20px;
+    border-radius:20px 20px 0 0;
     background-color:${({theme})=>theme.colors.lightGray};
     display:flex;
     flex-direction:column;
@@ -49,24 +48,9 @@ const InputsContainer = styled.div`
     width:100%;
     display:flex;
     flex-direction:column;
-    gap:${({theme})=>theme.margin[3]};
-    margin-top:${({theme})=>theme.margin[3]};
-    input{
-        width: 100%;
-        height: 3.5rem;
-        margin-top:${({ theme }) => theme.margin[0]};
-        padding-left:${({theme})=>theme.padding[4]};
-        border: 1px solid transparent;
-        border-radius:15px;
-        &::placeholder{
-            color:${({theme})=>theme.colors.placeholder};
-        }
-    }
-    label{
-        font-size:${({ theme }) => theme.fontSizes[0]};
-        color:${({theme})=>theme.colors.darkPurple};
-    }
-    `
+    gap:${({theme})=>theme.margin[1]};
+    margin-top:${({theme})=>theme.margin[0]};
+`
 
 const ButtonContainer = styled.div`
     width:100%;
