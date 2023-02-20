@@ -35,6 +35,7 @@ const ButtonContainer = styled.div`
     bottom:0;
     left:50%;
     transform:translate(-50%, -20%);
+    width:90%;
     display:flex;
     flex-direction:column;
     gap:${({ theme }) => theme.margin[2]};

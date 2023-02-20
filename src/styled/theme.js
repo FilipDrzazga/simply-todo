@@ -27,6 +27,11 @@ const rules = {
         lightGray:'#F9FAFF',
         placeholder: '#D0D5DC',
         inputFocus: '#1C53F4',
+        inputFocusOutline: '#1C53F470',
+        inputError: '#EA4335',
+        inputErrorOutline: '#EA433570',
+        inputCorrect: '#34A853',
+        inputCorrectOutline: '#34A85370',
         white: '#FFFFFF'
     },
 };
