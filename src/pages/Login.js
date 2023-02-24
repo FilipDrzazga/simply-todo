@@ -26,10 +26,10 @@ const CreateAccount = () => {
 
     return (
       <S.Section>
-        <header>
+        <S.Header>
           <h1>Login.</h1>
           <h2>Let's make things happen.</h2>
-        </header>
+        </S.Header>
         <figure>
           <img src={abstractMobile} alt="abstract" />
         </figure>
