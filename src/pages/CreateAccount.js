@@ -13,16 +13,13 @@ import abstractMobile from '../Image/abstract-mobile.jpg';
 const CreateAccount = () => {
 
   const [createUser, setCreateUser] = useState(null);
-  const [displayAccountMsg, setDisplayAccountMsg  ] = useState('');
 
   const onSubmit = ({ email, password }, actions) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((respose) => {
-        setCreateUser(true);
-        setDisplayAccountMsg(authMessageHandler());
+        setCreateUser(authMessageHandler('create-account'));
       }).catch((error) => {
-        setCreateUser(false);
-        setDisplayAccountMsg(authMessageHandler(error.code));
+        setCreateUser(authMessageHandler(error.code));
       })
   };
 
@@ -38,8 +35,7 @@ const CreateAccount = () => {
 
   return (
     <S.Section>
-      {createUser && <AuthPopup message={displayAccountMsg}  />}
-      {createUser === false && <AuthPopup message={displayAccountMsg} />}
+      {createUser && <AuthPopup message={createUser} />}
       <S.Header>
         <h1>Create an account.</h1>
         <h2>Let's make things happen.</h2>
