@@ -1,13 +1,19 @@
-const authMessageHandler = (errors = false) => {
-    if (!errors) {
-        return {
-            message: 'Well done.',
-            messageDescripction: 'Thanks for creating new account.',
-            icon: 'circle-check',
-            iconColor: 'green'
-        }
-    }
+const authMessageHandler = (errors) => {
     switch (errors) {
+        case "login":
+            return {
+                message: 'Welcome back.',
+                messageDescripction: 'Enjoy your family app.',
+                icon: 'circle-check',
+                iconColor: 'green'
+            }
+        case "create-account":
+            return {
+                message: 'Well done.',
+                messageDescripction: 'Thanks for creating new account.',
+                icon: 'circle-check',
+                iconColor: 'green'
+            }
         case "auth/email-already-in-use":
             return {
                 message: 'Ooops!',
@@ -15,12 +21,30 @@ const authMessageHandler = (errors = false) => {
                 icon: 'circle-xmark',
                 iconColor: 'red'
             }
+        case "auth/user-not-found":
+            return {
+                message:'Ooops!',
+                messageDescripction:`User doesn't exist. Try to create account.`,
+                icon:'circle-xmark',
+                iconColor:'red',
+            }
+        case "auth/wrong-password":
+            return {
+                message:'Ooops!',
+                messageDescripction:`Wrong password or email adress. `,
+                icon:'circle-xmark',
+                iconColor:'red',
+            }
+        case "auth/invalid-email":
+            return {
+                message:'Ooops!',
+                messageDescripction:`Wrong password or email adress. `,
+                icon:'circle-xmark',
+                iconColor:'red',
+            }
         default:
             return '';
     };
 };
 
 export { authMessageHandler };
-// "auth/email-already-in-use"
-// "auth/invalid-email"
-// "auth/wrong-password"
