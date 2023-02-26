@@ -10,9 +10,7 @@ const AuthPopup = ({ message }) => {
                 <p>{ message.message }</p>
                 <p>{ message.messageDescripction }</p>
             </S.Header>
-            <S.IconContainer iconColor={message.iconColor}>
-                <Icon iconName={message.icon} />
-            </S.IconContainer>
+            <Icon iconName={message.icon} iconColor={message.iconColor} />
         </S.Section>
     )
 };

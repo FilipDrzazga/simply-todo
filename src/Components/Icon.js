@@ -1,13 +1,16 @@
 import React from "react";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { far } from '@fortawesome/free-regular-svg-icons'
+import * as S from '../styled/Icon.style';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 library.add(far);
 
-const Icon = ({ iconName }) => {
+const Icon = ({ iconName, iconColor }) => {
     return (
-        <FontAwesomeIcon icon={['far', iconName]} />
+        <S.Container iconColor={iconColor}>
+            <FontAwesomeIcon icon={['far', iconName]} />
+        </S.Container>
     )
 };
 

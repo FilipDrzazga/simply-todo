@@ -14,13 +14,15 @@ const CreateAccount = () => {
 
   const [createUser, setCreateUser] = useState(null);
 
-  const onSubmit = ({ email, password }, actions) => {
+  const onSubmit = ({ email, password }, {resetForm}) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((respose) => {
         setCreateUser(authMessageHandler('create-account'));
       }).catch((error) => {
         setCreateUser(authMessageHandler(error.code));
-      })
+      }).finally(() => {
+        resetForm();
+      });
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({

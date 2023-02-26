@@ -14,12 +14,14 @@ const CreateAccount = () => {
 
   const [isLogin, setIsLogin] = useState(null);
 
-  const onSubmit = ({email, password}, actions) => {
+  const onSubmit = ({email, password}, {resetForm}) => {
     signInWithEmailAndPassword(auth, email, password).then(response => {
       setIsLogin(authMessageHandler('login'));
     }).catch((error) => {
       setIsLogin(authMessageHandler(error.code));
-    })
+    }).finally(() => {
+      resetForm();
+    });
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
