@@ -30,12 +30,27 @@ const Label = styled.label`
     color:${({ error, touched, theme })=> error && touched ? theme.colors.inputError : theme.colors.darkPurple};
 `
 
+const MessagesContainer = styled.div`
+    display:flex;
+    justify-content:space-between;
+`
+
 const ErrorMessage = styled.span`
-    width:100%;
+    width:45%;
     height:10px;
     margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
     color:${({ theme }) => theme.colors.inputError};
 `
 
-export { Input, Label, ErrorMessage };
+const ForgotPassword = styled.span`
+    height:10px;
+    margin-top:-3%;
+    font-size:${({ theme }) => theme.fontSizes[0]};
+    color:${({ theme }) => theme.colors.darkPurple};
+    text-decoration-line:underline;
+    text-align:right;
+
+`
+
+export { Input, Label, MessagesContainer, ErrorMessage, ForgotPassword };

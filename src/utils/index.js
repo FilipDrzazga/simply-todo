@@ -1,4 +1,4 @@
-import { validationSchema } from "./validationSchema";
+import { passwordEmailValidation, recoveryPasswordValidation } from "./validationSchema";
 import { authMessageHandler } from "./authMessageHandler";
 
-export { validationSchema, authMessageHandler };
+export { passwordEmailValidation, recoveryPasswordValidation, authMessageHandler };

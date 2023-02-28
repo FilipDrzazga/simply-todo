@@ -5,7 +5,7 @@ import Input from "../Components/Input";
 import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from 'formik';
-import { validationSchema, authMessageHandler } from '../utils/index';
+import { passwordEmailValidation, authMessageHandler } from '../utils/index';
 import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
 
 import abstractMobile from '../Image/abstract-mobile.jpg';
@@ -14,13 +14,15 @@ const CreateAccount = () => {
 
   const [createUser, setCreateUser] = useState(null);
 
-  const onSubmit = ({ email, password }, actions) => {
+  const onSubmit = ({ email, password }, {resetForm}) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((respose) => {
+      .then(() => {
         setCreateUser(authMessageHandler('create-account'));
       }).catch((error) => {
         setCreateUser(authMessageHandler(error.code));
-      })
+      }).finally(() => {
+        resetForm();
+      });
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -29,7 +31,7 @@ const CreateAccount = () => {
       password: ''
     },
     validateOnMount: true,
-    validationSchema: validationSchema,
+    validationSchema: passwordEmailValidation,
     onSubmit: onSubmit,
   });
 
