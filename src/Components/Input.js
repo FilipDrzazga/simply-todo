@@ -1,8 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as S from '../styled/Input.styled'
 
-const Input = ({id, type, value, error, touched, onChange, onBlur, placeholder, htmlFor, labelText}) => {
+const Input = ({ id, type, value, error, touched, onChange, onBlur, placeholder, htmlFor, labelText, forgotPassword }) => {
+
+    const navigate = useNavigate();
+
     return (
         <>
             <S.Label htmlFor={htmlFor}>{labelText}
@@ -17,7 +21,10 @@ const Input = ({id, type, value, error, touched, onChange, onBlur, placeholder, 
                     placeholder={placeholder}>
                 </S.Input>
             </S.Label>
-            <S.ErrorMessage>{ touched && error }</S.ErrorMessage>
+            <S.MessagesContainer>
+                <S.ErrorMessage>{touched && error}</S.ErrorMessage>
+                {forgotPassword && <S.ForgotPassword onClick={()=>navigate('/password-recovery')}>Forgot password?</S.ForgotPassword>}
+            </S.MessagesContainer>
         </>
     )
 }

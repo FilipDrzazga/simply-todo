@@ -2,11 +2,15 @@ import * as yup from 'yup';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
-const validationSchema = yup.object().shape({
+const passwordEmailValidation = yup.object().shape({
     email: yup.string().email("*Please enter a valid email").required("*Required"),
     password: yup.string().matches(passwordRegex, {
         message: "*Min. 8 characters, at least one uppercase letter, lowercase and number"
     }).required("*Required"),
 });
 
-export { validationSchema };
+const recoveryPasswordValidation = yup.object().shape({
+    email: yup.string().email("*Please enter a valid email").required("*Required"),
+});
+
+export { passwordEmailValidation, recoveryPasswordValidation };

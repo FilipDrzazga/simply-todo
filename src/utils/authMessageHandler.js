@@ -14,6 +14,13 @@ const authMessageHandler = (errors) => {
                 icon: 'circle-check',
                 iconColor: 'green'
             }
+            case "reset-password":
+            return {
+                message: 'Well done.',
+                messageDescripction: 'Your reset link was sended to your email.',
+                icon: 'circle-check',
+                iconColor: 'green'
+            }
         case "auth/email-already-in-use":
             return {
                 message: 'Ooops!',

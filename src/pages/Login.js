@@ -5,7 +5,7 @@ import Input from "../Components/Input";
 import AuthPopup from '../Components/AuthPopup';
 
 import { useFormik } from 'formik';
-import { validationSchema, authMessageHandler } from "../utils/index";
+import { passwordEmailValidation, authMessageHandler } from "../utils/index";
 import { auth, signInWithEmailAndPassword } from "../firebase/firebase";
 
 import abstractMobile from '../Image/abstract-mobile.jpg';
@@ -15,13 +15,14 @@ const CreateAccount = () => {
   const [isLogin, setIsLogin] = useState(null);
 
   const onSubmit = ({email, password}, {resetForm}) => {
-    signInWithEmailAndPassword(auth, email, password).then(response => {
-      setIsLogin(authMessageHandler('login'));
-    }).catch((error) => {
-      setIsLogin(authMessageHandler(error.code));
-    }).finally(() => {
-      resetForm();
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        setIsLogin(authMessageHandler('login'));
+      }).catch((error) => {
+        setIsLogin(authMessageHandler(error.code));
+      }).finally(() => {
+        resetForm();
+      });
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -30,7 +31,7 @@ const CreateAccount = () => {
         password: ''
       },
       validateOnMount:true,
-      validationSchema: validationSchema,
+      validationSchema: passwordEmailValidation,
       onSubmit: onSubmit,
   });
 
@@ -69,6 +70,7 @@ const CreateAccount = () => {
             placeholder="Enter your password..."
             htmlFor="password"
             labelText="Password"
+            forgotPassword
           />
         </S.InputsContainer>
         <S.ButtonContainer>
@@ -78,7 +80,7 @@ const CreateAccount = () => {
             <span>or continue</span>
             <hr />
           </div>
-          <Button size="l" color="light" navigateTo="/createAccount">Create account</Button>
+          <Button size="l" color="light" navigateTo="/create-account">Create account</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

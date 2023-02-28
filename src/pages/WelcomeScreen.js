@@ -16,7 +16,7 @@ const WelcomeScreen = () => {
                 <img src={abstractMobile} alt='abstract'/>
             </figure>
             <S.ButtonContainer>
-                <Button size='xl' color='dark' navigateTo='/createAccount'>Create account</Button>
+                <Button size='xl' color='dark' navigateTo='/create-account'>Create account</Button>
                 <Button size='xl' color='light' navigateTo='/login'>Login</Button>
             </S.ButtonContainer>
         </S.Section>
