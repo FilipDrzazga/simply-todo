@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { motion } from 'framer-motion';
 
-const Button = styled.button`
+const Button = styled(motion.button)`
     width: ${({ size }) => size === 'xl' ? '100%' : '60%'};
     height: 3.5rem;
     border:none;

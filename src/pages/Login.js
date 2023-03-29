@@ -8,18 +8,18 @@ import { useFormik } from 'formik';
 import { passwordEmailValidation, authMessageHandler } from "../utils/index";
 import { auth, signInWithEmailAndPassword } from "../firebase/firebase";
 
-import abstractMobile from '../Image/abstract-mobile.jpg';
+import abstractMobile from '../image/abstract-mobile.jpg';
 
 const CreateAccount = () => {
 
-  const [isLogin, setIsLogin] = useState(null);
+  const [popupMsg, setPopupMsg] = useState(null);
 
   const onSubmit = ({email, password}, {resetForm}) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setIsLogin(authMessageHandler('login'));
+        setPopupMsg(authMessageHandler('login'));
       }).catch((error) => {
-        setIsLogin(authMessageHandler(error.code));
+        setPopupMsg(authMessageHandler(error.code));
       }).finally(() => {
         resetForm();
       });
@@ -37,7 +37,7 @@ const CreateAccount = () => {
 
   return (
     <S.Section>
-      {isLogin && <AuthPopup message={isLogin} />}
+      {popupMsg && <AuthPopup message={popupMsg} />}
       <S.Header>
         <h1>Login.</h1>
         <h2>Let's make things happen.</h2>

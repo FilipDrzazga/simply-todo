@@ -3,7 +3,7 @@ import Button from "../Components/Button";
 
 import * as S from '../styled/WelcomeScreen.styled';
 
-import abstractMobile from '../Image/abstract-mobile.jpg';
+import abstractMobile from '../image/abstract-mobile.jpg';
 
 const WelcomeScreen = () => {
     return (

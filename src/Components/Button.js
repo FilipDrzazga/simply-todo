@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import * as S from "../styled/Button.styled";
 
-const Button = ({ children, type, size, color, disabled, navigateTo }) => {
+const Button = ({ children, type, size, color, disabled, navigateTo, whileHover }) => {
 
     const navigate = useNavigate();
 

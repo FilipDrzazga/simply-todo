@@ -8,7 +8,7 @@ import { recoveryPasswordValidation, authMessageHandler } from "../utils";
 import { auth, sendPasswordResetEmail } from "../firebase/firebase";
 
 import * as S from '../styled/CreateAccount.styled';
-import abstractMobile from '../Image/abstract-mobile.jpg'
+import abstractMobile from '../image/abstract-mobile.jpg'
 
 const PasswordRecovery = () => {
 
