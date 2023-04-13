@@ -21,7 +21,7 @@ const Header = styled.header`
     text-align:center;
 `
 const IconContainer = styled.div`
-    color:${({ iconColor, theme }) => iconColor === 'green' ? theme.colors.inputCorrect : theme.colors.inputError };
+    color:${({ iconColor, theme }) => iconColor && theme.colors[iconColor] };
 `
 
 export { Section, Header, IconContainer };

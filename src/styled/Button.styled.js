@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { motion } from 'framer-motion';
 
 const Button = styled(motion.button)`
@@ -12,7 +12,12 @@ const Button = styled(motion.button)`
     font-weight: 300;
     letter-spacing: 2px;
     word-spacing:1px;
-    ${({disabled})=> disabled && 'opacity: 0.4'};
+    ${({ disabled }) => disabled && 'opacity: 0.4'};
+    ${({ circle }) => circle && css`
+        width:3.5rem;
+        height:3.5rem;
+        border-radius: 50px;
+    `}
 `
 
 export { Button };

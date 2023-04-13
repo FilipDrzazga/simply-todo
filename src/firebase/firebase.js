@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth ,createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getFirestore, collection, addDoc, setDoc, doc } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBEfZVeUzu-ir24akGyKTc-2pSZG1uzFg4",
+    apiKey: 'AIzaSyBEfZVeUzu-ir24akGyKTc-2pSZG1uzFg4',
     authDomain: "family-bank-app-4d547.firebaseapp.com",
     databaseURL: "https://family-bank-app-4d547-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "family-bank-app-4d547",
@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db = getFirestore(app);
 const auth = getAuth(app);
 
-export { db, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail };
+export { db, addDoc, setDoc, doc, collection, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail };

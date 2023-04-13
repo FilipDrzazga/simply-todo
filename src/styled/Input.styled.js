@@ -9,25 +9,25 @@ const Input = styled.input`
     border-radius:15px;
     color:${({theme})=>theme.colors.darkPurple};
     ${({ error, touched }) => error && touched && css`
-    outline:3px solid ${({theme})=>theme.colors.inputErrorOutline};
-    border:1px solid ${({ theme }) => theme.colors.inputError};
+    outline:3px solid ${({theme})=>theme.colors.darkRed};
+    border:1px solid ${({ theme }) => theme.colors.red};
     `};
     ${({ error, touched }) => !error && touched && css`
-    outline:3px solid ${({theme})=>theme.colors.inputCorrectOutline};
-    border:1px solid ${({ theme }) => theme.colors.inputCorrect};
+    outline:3px solid ${({theme})=>theme.colors.darkGreen};
+    border:1px solid ${({ theme }) => theme.colors.green};
     `};
     &:placeholder{
         color:${({theme})=>theme.colors.placeholder};
     }
     &:focus{
-        outline:3px solid ${({theme})=>theme.colors.inputFocusOutline};
-        border:1px solid ${({ theme }) => theme.colors.inputFocus};
+        outline:3px solid ${({theme})=>theme.colors.darkBlue};
+        border:1px solid ${({ theme }) => theme.colors.blue};
     }
 `
 
 const Label = styled.label`
     font-size:${({ theme }) => theme.fontSizes[0]};
-    color:${({ error, touched, theme })=> error && touched ? theme.colors.inputError : theme.colors.darkPurple};
+    color:${({ error, touched, theme })=> error && touched ? theme.colors.red : theme.colors.darkPurple};
 `
 
 const MessagesContainer = styled.div`
@@ -40,7 +40,7 @@ const ErrorMessage = styled.span`
     height:10px;
     margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
-    color:${({ theme }) => theme.colors.inputError};
+    color:${({ theme }) => theme.colors.red};
 `
 
 const ForgotPassword = styled.span`

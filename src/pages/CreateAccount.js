@@ -5,19 +5,26 @@ import Input from "../Components/Input";
 import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from 'formik';
+import { useNavigate } from "react-router-dom";
 import { passwordEmailValidation, authMessageHandler } from '../utils/index';
-import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
+import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
 
 import abstractMobile from '../image/abstract-mobile.jpg';
 
 const CreateAccount = () => {
 
   const [popupMsg, setPopupMsg] = useState(null);
+  const navigate = useNavigate();
 
   const onSubmit = ({ email, password }, {resetForm}) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
+        navigate("/create-task");
         setPopupMsg(authMessageHandler('create-account'));
+        addDoc(collection(db, 'users'), {
+          email: email,
+          userId:userCredential.user.uid,
+        });
       }).catch((error) => {
         setPopupMsg(authMessageHandler(error.code));
       }).finally(() => {

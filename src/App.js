@@ -5,7 +5,7 @@ import WelcomeScreen from "./pages/WelcomeScreen";
 import CreateAccount from "./pages/CreateAccount";
 import Login from './pages/Login';
 import PasswordRecovery from "./pages/PasswordRecovery";
-import NewUser from "./pages/NewUser";
+import CreateTask from "./pages/CreateTask";
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
       <Route path='/create-account' element={<CreateAccount/>} />
       <Route path='/login' element={<Login />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
-      <Route path="/new-user" element={<NewUser />} />
+      <Route path="/create-task" element={<CreateTask />} />
     </Routes>
   )
 };
