@@ -6,6 +6,7 @@ import CreateAccount from "./pages/CreateAccount";
 import Login from './pages/Login';
 import PasswordRecovery from "./pages/PasswordRecovery";
 import CreateTask from "./pages/CreateTask";
+import CreateCategory from "./pages/CreateCategory";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
       <Route path="/create-task" element={<CreateTask />} />
+      <Route path="/create-category" element={<CreateCategory />} />
     </Routes>
   )
 };

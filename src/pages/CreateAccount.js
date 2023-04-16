@@ -80,13 +80,13 @@ const CreateAccount = () => {
           />
         </S.InputsContainer>
         <S.ButtonContainer>
-          <Button type='submit' size="xl" color="dark" disabled={!isValid}>Create account</Button>
+          <Button type='submit' size="100%" color="dark" disabled={!isValid}>Create account</Button>
           <div>
             <hr />
             <span>or continue</span>
             <hr />
           </div>
-          <Button size="l" color="light" navigateTo="/login">Login</Button>
+          <Button size="60%" color="light" navigateTo="/login">Login</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

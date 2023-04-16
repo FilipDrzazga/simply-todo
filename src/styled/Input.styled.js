@@ -26,13 +26,16 @@ const Input = styled.input`
 `
 
 const Label = styled.label`
+    width: 100%;
     font-size:${({ theme }) => theme.fontSizes[0]};
     color:${({ error, touched, theme })=> error && touched ? theme.colors.red : theme.colors.darkPurple};
 `
 
 const MessagesContainer = styled.div`
+    width:100%;
     display:flex;
     justify-content:space-between;
+    margin-bottom:${({theme})=>theme.margin[1]};
 `
 
 const ErrorMessage = styled.span`

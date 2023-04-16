@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { motion } from 'framer-motion';
 
 const Button = styled(motion.button)`
-    width: ${({ size }) => size === 'xl' ? '100%' : '60%'};
+    width: ${({ size }) => size };
     height: 3.5rem;
     border:none;
     border-radius:15px;

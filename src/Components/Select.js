@@ -7,8 +7,8 @@ const Select = () => {
       <>
         <S.SelectContainer>
             <S.SelectButton>
-                <div></div>
-                <span></span>
+                <Icon iconName='circle' iconColor='darkPurple'/>
+                <span>No category</span>
                 <Icon iconName={'angle-down'} iconColor='darkPurple'/>
             </S.SelectButton>
         </S.SelectContainer>

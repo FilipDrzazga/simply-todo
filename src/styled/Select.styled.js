@@ -2,16 +2,20 @@ import styled from "styled-components";
 
 const SelectContainer = styled.div`
     position: relative;
-    width: 40%;
+    width: 48%;
     height: 3.5rem;
 `
 
-    const SelectButton = styled.button`
+    const SelectButton = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     width:100%;
     height:100%;
     border:none;
     border-radius:15px;
-    background-color:${({ color, theme }) => color === 'dark'? theme.colors.purple : theme.colors.lightPurple};
+    font-size: ${({theme})=>theme.fontSizes[0]};
+    background-color:${({ theme }) => theme.colors.white};
 `
 
 export { SelectContainer, SelectButton };

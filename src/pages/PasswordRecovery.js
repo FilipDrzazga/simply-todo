@@ -60,14 +60,14 @@ const PasswordRecovery = () => {
                     />
                 </S.InputsContainer>
                 <S.ButtonContainer>
-                    <Button type='submit' size="xl" color="dark" disabled={!isValid}>Sent password</Button>
+                    <Button type='submit' size="100%" color="dark" disabled={!isValid}>Sent password</Button>
                     <div>
                         <hr />
                         <span>or continue</span>
                         <hr />
                     </div>
-                    <Button size="l" color="light" navigateTo="/create-account">Create account</Button>
-                    <Button size="l" color="light" navigateTo="/login">Login</Button>
+                    <Button size="60%" color="light" navigateTo="/create-account">Create account</Button>
+                    <Button size="60%" color="light" navigateTo="/login">Login</Button>
                 </S.ButtonContainer>
             </S.Form>
         </S.Section>

@@ -2,14 +2,18 @@ import React from "react";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
 import Select from "../Components/Select";
+import Icon from "../Components/Icon";
 
 import { useFormik } from 'formik';
 import { createNewTask } from "../utils/validationSchema";
+import { useNavigate } from "react-router-dom";
+
+import * as S from '../styled/CreateTask.styled';
 
 const CreateTask = () => {
 
-    const onSubmit = ({ newTask, category }) => {
-
+    const onSubmit = ({ newTask, category }, {resetForm}) => {
+        console.log('im in');
     }
 
     const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -23,17 +27,21 @@ const CreateTask = () => {
   });
 
     return (
-        <section>
-            <form onSubmit={handleSubmit} autoComplete='off'>
-                <Input id='newTask' type='text' value={values.newTask} error={errors.newTask} touched={touched.newTask} onChange={handleChange} onBlur={handleBlur} placeholder='Write new task...' htmlFor='newTask'/>
+        <S.Section>
+            <S.Form onSubmit={handleSubmit} autoComplete='off'>
+                <Input id='newTask' type='text' value={values.newTask} error={errors.newTask} touched={touched.newTask} onChange={handleChange} onBlur={handleBlur} placeholder='Write new task...' htmlFor='newTask' />
                 <Select/>
-                <Button size='l' color='light'>Create Category</Button>
-                <div>
-                    <Button circle='true' color='dark'>X</Button>
-                    <Button type='submit' size='l' color='dark' disabled={!isValid}>Create Task</Button>
-                </div>
-            </form>
-        </section>
+                <Button type='submit' size='48%' color='dark' disabled={!isValid} >Create task</Button>
+            </S.Form>
+            <S.ButtonContainer>
+            </S.ButtonContainer>
+            <S.ButtonContainer>
+                <Button circle='true' color='dark'>
+                    <Icon size='xl' iconName={'fa-xmark'} iconColor='white' />
+                </Button>
+                <Button size='60%' color='light' navigateTo='/create-category' >Create category</Button>
+            </S.ButtonContainer>
+        </S.Section>
     )
 };
 
