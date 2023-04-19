@@ -10,7 +10,7 @@ const Button = styled(motion.button)`
     color:${({ color, theme }) => color === 'dark' ? theme.colors.white : theme.colors.darkPurple};
     font-size: ${({ theme }) => theme.fontSizes[0]};
     font-weight: 300;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     word-spacing:1px;
     ${({ disabled }) => disabled && 'opacity: 0.4'};
     ${({ circle }) => circle && css`

@@ -22,7 +22,7 @@ const Form = styled.form`
 
 const ButtonContainer = styled.div`
     width:100%;
-    height:20%;
+    height:35%;
     display:flex;
     justify-content:space-between;
     align-items:flex-end;
