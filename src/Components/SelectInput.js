@@ -55,12 +55,10 @@ const customStyles = {
 };
 
 const SelectInput = () => {
-    return (
-      <>
-        <S.SelectContainer>
-          <S.CustomSelect styles={customStyles} options={dumyData} classNamePrefix='custom-select' />
-        </S.SelectContainer>
-      </>
+  return (
+    <S.SelectContainer>
+      <S.CustomSelect styles={customStyles} options={dumyData} classNamePrefix='custom-select' />
+    </S.SelectContainer>
   )
 }
 
