@@ -5,21 +5,28 @@ import Input from "../Components/Input";
 import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from 'formik';
+import { useNavigate } from "react-router-dom";
 import { passwordEmailValidation, authMessageHandler } from '../utils/index';
-import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
+import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
 
-import abstractMobile from '../Image/abstract-mobile.jpg';
+import abstractMobile from '../image/abstract-mobile.jpg';
 
 const CreateAccount = () => {
 
-  const [createUser, setCreateUser] = useState(null);
+  const [popupMsg, setPopupMsg] = useState(null);
+  const navigate = useNavigate();
 
   const onSubmit = ({ email, password }, {resetForm}) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setCreateUser(authMessageHandler('create-account'));
+      .then((userCredential) => {
+        navigate("/create-task");
+        setPopupMsg(authMessageHandler('create-account'));
+        addDoc(collection(db, 'users'), {
+          email: email,
+          userId:userCredential.user.uid,
+        });
       }).catch((error) => {
-        setCreateUser(authMessageHandler(error.code));
+        setPopupMsg(authMessageHandler(error.code));
       }).finally(() => {
         resetForm();
       });
@@ -37,7 +44,7 @@ const CreateAccount = () => {
 
   return (
     <S.Section>
-      {createUser && <AuthPopup message={createUser} />}
+      {popupMsg && <AuthPopup message={popupMsg} />}
       <S.Header>
         <h1>Create an account.</h1>
         <h2>Let's make things happen.</h2>
@@ -73,13 +80,13 @@ const CreateAccount = () => {
           />
         </S.InputsContainer>
         <S.ButtonContainer>
-          <Button type='submit' size="xl" color="dark" disabled={!isValid}>Create account</Button>
+          <Button type='submit' size="100%" color="dark" disabled={!isValid}>Create account</Button>
           <div>
             <hr />
             <span>or continue</span>
             <hr />
           </div>
-          <Button size="l" color="light" navigateTo="/login">Login</Button>
+          <Button size="60%" color="light" navigateTo="/login">Login</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

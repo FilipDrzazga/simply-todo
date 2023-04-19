@@ -13,4 +13,8 @@ const recoveryPasswordValidation = yup.object().shape({
     email: yup.string().email("*Please enter a valid email").required("*Required"),
 });
 
-export { passwordEmailValidation, recoveryPasswordValidation };
+const createNewTask = yup.object().shape({
+    newTask: yup.string().required("*Required")
+})
+
+export { passwordEmailValidation, recoveryPasswordValidation, createNewTask };

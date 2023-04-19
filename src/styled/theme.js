@@ -26,12 +26,12 @@ const rules = {
         gray: '#7D8A9D',
         lightGray:'#F9FAFF',
         placeholder: '#D0D5DC',
-        inputFocus: '#1C53F4',
-        inputFocusOutline: '#1C53F470',
-        inputError: '#EA4335',
-        inputErrorOutline: '#EA433570',
-        inputCorrect: '#34A853',
-        inputCorrectOutline: '#34A85370',
+        blue: '#1C53F4',
+        darkBlue: '#1C53F470',
+        red: '#EA4335',
+        darkRed: '#EA433570',
+        green: '#34A853',
+        darkGreen: '#34A85370',
         white: '#FFFFFF'
     },
 };
