@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/simply-todo/static/js/main.adbaba2c.js",
+    "main.js": "/simply-todo/static/js/main.382db175.js",
     "static/media/abstract-mobile.jpg": "/simply-todo/static/media/abstract-mobile.4fca9df713f332b7bbb4.jpg",
     "index.html": "/simply-todo/index.html",
-    "main.adbaba2c.js.map": "/simply-todo/static/js/main.adbaba2c.js.map"
+    "main.382db175.js.map": "/simply-todo/static/js/main.382db175.js.map"
   },
   "entrypoints": [
-    "static/js/main.adbaba2c.js"
+    "static/js/main.382db175.js"
   ]
 }
