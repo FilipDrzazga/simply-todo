@@ -20,19 +20,35 @@ const rules = {
     padding: ['0rem', '0.3rem', '0.6rem', '0.9rem', '1.2rem', '1.5rem', '1.8rem'],
     fontSizes: ['0.8rem', '1rem', '1.2rem', '1.5rem', '2rem', '2.1rem'],
     colors: {
-        darkPurple: '#080227',
-        purple: '#13044E',
-        lightPurple: '#E3DDFF',
-        gray: '#7D8A9D',
-        lightGray:'#F9FAFF',
-        placeholder: '#D0D5DC',
-        blue: '#1C53F4',
-        darkBlue: '#1C53F470',
-        red: '#EA4335',
-        darkRed: '#EA433570',
-        green: '#34A853',
-        darkGreen: '#34A85370',
-        white: '#FFFFFF'
+        font: {
+            primary: '#FAFAFA',
+            secondary: '#191919',
+        },
+        button: {
+            primary: '#479F45',
+            secondary: '#FAFAFA',
+            delete: '#EA4335',
+            add: '#479F45',
+            checkbox: '#479F45',
+        },
+        background: {
+            primary: '#191919',
+            secondary: '#474747',
+        },
+        input: {
+            background: '#191919',
+            border: '#FAFAFA',
+            label: '#FAFAFA',
+            placeholder: '#474747',
+            font: '#FAFAFA',
+            focus: '#1C53F4',
+            invalid: '#EA4335',
+            valid: '#34A853',
+        },
+        icon: {
+            default: '#FAFAFA',
+            delete: '#EA4335',
+        }
     },
 };
 

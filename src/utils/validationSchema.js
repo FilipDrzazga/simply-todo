@@ -4,6 +4,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
 const passwordEmailValidation = yup.object().shape({
     email: yup.string().email("*Please enter a valid email").required("*Required"),
+    username: yup.string().required("*Required"),
     password: yup.string().matches(passwordRegex, {
         message: "*Min. 8 characters, at least one uppercase letter, lowercase and number"
     }).required("*Required"),

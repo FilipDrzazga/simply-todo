@@ -8,8 +8,6 @@ import { useFormik } from 'formik';
 import { passwordEmailValidation, authMessageHandler } from "../utils/index";
 import { auth, signInWithEmailAndPassword } from "../firebase/firebase";
 
-import abstractMobile from '../image/abstract-mobile.jpg';
-
 const CreateAccount = () => {
 
   const [popupMsg, setPopupMsg] = useState(null);
@@ -38,15 +36,7 @@ const CreateAccount = () => {
   return (
     <S.Section>
       {popupMsg && <AuthPopup message={popupMsg} />}
-      <S.Header>
-        <h1>Login.</h1>
-        <h2>Let's make things happen.</h2>
-      </S.Header>
-      <figure>
-        <img src={abstractMobile} alt="abstract" />
-      </figure>
       <S.Form onSubmit={handleSubmit} autoComplete='off'>
-        <S.InputsContainer>
           <Input
             id="email"
             type="text"
@@ -72,7 +62,6 @@ const CreateAccount = () => {
             labelText="Password"
             forgotPassword
           />
-        </S.InputsContainer>
         <S.ButtonContainer>
           <Button type='submit' size="100%" color="dark" disabled={!isValid}>Login</Button>
           <div>

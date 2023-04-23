@@ -1,84 +1,50 @@
 import styled from "styled-components";
 
 const Section = styled.section`
-    position:relative;
-    width:100%;
-    height:100%;
-    img{
-        width:100%;
-        height:100vh;
-    }
-`
-const Header = styled.header`
-    position: absolute;
-    top:0;
-    left:0;
-    transform:translateY(60%);
-    width:100%;
     display:flex;
-    align-items:center;
     flex-direction:column;
-    flex-wrap:wrap;
-    h1{
-        font-size:${({theme})=>theme.fontSizes[4]};
-        color:${({theme})=>theme.colors.darkPurple};
-    }
-    h2{
-        font-size:${({ theme }) => theme.fontSizes[1]};
-        font-weight: 400;
-        color:${({theme})=>theme.colors.darkPurple};
-    }
+    justify-content:center;
+    width:100%;
+    height:100vh;
+    min-height:100vh;
+    background-color:${({theme})=>theme.colors.background.primary};
 `
 
 const Form = styled.form`
-    position:absolute;
-    bottom:0;
-    left:0;
     width:100%;
-    height:70%;
-    border-radius:20px 20px 0 0;
-    background-color:${({theme})=>theme.colors.lightGray};
+    height:85%;
     display:flex;
     flex-direction:column;
-    align-items:center;
-    padding:${({theme})=>theme.padding[4]}
-`
-
-const InputsContainer = styled.div`
-    width:100%;
-    display:flex;
-    flex-direction:column;
-    gap:${({theme})=>theme.margin[1]};
-    margin-top:${({theme})=>theme.margin[0]};
+    justify-content:center;
 `
 
 const ButtonContainer = styled.div`
     width:100%;
+    flex-grow:1;
     display:flex;
-    flex-direction;column;
-    flex-wrap:wrap;
+    flex-direction:column;
     align-items:center;
-    justify-content:center;
-    gap:${({theme})=>theme.margin[2]};
-    margin-top:${({ theme }) => theme.margin[5]};
+    justify-content:flex-end;
     div{
         display:flex;
         justify-content:center;
         align-items:center;
         width:100%;
+        margin-top:${({theme})=>theme.margin[1]};
+        margin-bottom:${({theme})=>theme.margin[1]};
+        color:${({theme})=>theme.colors.font.primary};
         hr{
             width:30%;
             margin-right: 0.5rem;
             margin-left: 0.5rem;
             border: none;
             border-top: 1px solid;
-            color:${({theme})=>theme.colors.darkPurple};
         }
         span{
-            font-size:${({theme})=>theme.fontSizes[0]};
-            color:${({theme})=>theme.colors.darkPurple};
+            font-size:${({ theme }) => theme.fontSizes[0]};
+            font-weight:lighter;
         }
     }
 `
 
-export { Section, Header, Form, InputsContainer, ButtonContainer };
+export { Section, Form, ButtonContainer };

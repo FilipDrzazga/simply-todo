@@ -1,34 +1,39 @@
 import styled, { css } from "styled-components";
 
+const InputContainer = styled.div`
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:${({theme})=>theme.margin[0]};
+`
+
 const Input = styled.input`
-    width: 100%;
+    width: ${({size})=>size};
     height: 3.5rem;
-    margin-top:${({ theme }) => theme.margin[0]};
-    padding-left:${({theme})=>theme.padding[4]};
-    border: none;
+    background-color: ${({ theme }) => theme.colors.input.background};
+    color: ${({ theme }) => theme.colors.input.font};
     border-radius:15px;
-    color:${({theme})=>theme.colors.darkPurple};
-    ${({ error, touched }) => error && touched && css`
-    outline:3px solid ${({theme})=>theme.colors.darkRed};
-    border:1px solid ${({ theme }) => theme.colors.red};
-    `};
-    ${({ error, touched }) => !error && touched && css`
-    outline:3px solid ${({theme})=>theme.colors.darkGreen};
-    border:1px solid ${({ theme }) => theme.colors.green};
-    `};
-    &:placeholder{
-        color:${({theme})=>theme.colors.placeholder};
+    border:2px solid ${({ theme }) => theme.colors.input.border};
+    ${({ theme, error, touched }) => error && touched && css`border:2px solid ${theme.colors.input.invalid};`};
+    ${({ theme, error, touched }) => !error && touched && css`border:2px solid ${theme.colors.input.valid};`};
+    &::placeholder{
+        padding-left:${({ theme }) => theme.padding[4]};
+        color:${({ theme }) => theme.colors.input.placeholder};
     }
     &:focus{
-        outline:3px solid ${({theme})=>theme.colors.darkBlue};
-        border:1px solid ${({ theme }) => theme.colors.blue};
+        outline:none;
+        border:2px solid ${({ theme }) => theme.colors.input.focus};
     }
 `
 
 const Label = styled.label`
-    width: 100%;
+    width: ${({ size }) => size};
     font-size:${({ theme }) => theme.fontSizes[0]};
-    color:${({ error, touched, theme })=> error && touched ? theme.colors.red : theme.colors.darkPurple};
+    color: ${({theme})=> theme.colors.input.label};
+    ${({ theme, error, touched }) => error && touched && css`color:${theme.colors.input.invalid};`};
+    ${({ theme, error, touched }) => !error && touched && css`color:${theme.colors.input.valid};`};
 `
 
 const MessagesContainer = styled.div`
@@ -43,17 +48,17 @@ const ErrorMessage = styled.span`
     height:10px;
     margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
-    color:${({ theme }) => theme.colors.red};
+    color:${({ theme }) => theme.colors.input.invalid};
 `
 
 const ForgotPassword = styled.span`
     height:10px;
     margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
-    color:${({ theme }) => theme.colors.darkPurple};
+    color:${({ theme }) => theme.colors.input.label};
     text-decoration-line:underline;
     text-align:right;
 
 `
 
-export { Input, Label, MessagesContainer, ErrorMessage, ForgotPassword };
+export { InputContainer, Input, Label, MessagesContainer, ErrorMessage, ForgotPassword };

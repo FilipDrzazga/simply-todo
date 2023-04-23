@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { passwordEmailValidation, authMessageHandler } from '../utils/index';
 import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
 
-import abstractMobile from '../image/abstract-mobile.jpg';
-
 const CreateAccount = () => {
 
   const [popupMsg, setPopupMsg] = useState(null);
@@ -45,42 +43,48 @@ const CreateAccount = () => {
   return (
     <S.Section>
       {popupMsg && <AuthPopup message={popupMsg} />}
-      <S.Header>
-        <h1>Create an account.</h1>
-        <h2>Let's make things happen.</h2>
-      </S.Header>
-      <figure>
-        <img src={abstractMobile} alt="abstract" />
-      </figure>
       <S.Form onSubmit={handleSubmit} autoComplete="off">
-        <S.InputsContainer>
-          <Input
-            id="email"
-            type="text"
-            value={values.email}
-            error={errors.email}
-            touched={touched.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Enter your Email..."
-            htmlFor="email"
-            labelText="Email"
-          />
-          <Input
-            id="password"
-            type="text"
-            value={values.password}
-            error={errors.password}
-            touched={touched.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Enter your password..."
-            htmlFor="password"
-            labelText="Password"
-          />
-        </S.InputsContainer>
+        <Input
+          id="username"
+          type="text"
+          value={values.username}
+          error={errors.username}
+          touched={touched.username}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="Username..."
+          htmlFor="username"
+          labelText="Username"
+          size='90%'
+        />
+        <Input
+          id="email"
+          type="text"
+          value={values.email}
+          error={errors.email}
+          touched={touched.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="Enter your Email..."
+          htmlFor="email"
+          labelText="Email"
+          size='90%'
+        />
+        <Input
+          id="password"
+          type="password"
+          value={values.password}
+          error={errors.password}
+          touched={touched.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="Enter your password..."
+          htmlFor="password"
+          labelText="Password"
+          size='90%'
+        />
         <S.ButtonContainer>
-          <Button type='submit' size="100%" color="dark" disabled={!isValid}>Create account</Button>
+          <Button type='submit' size="90%" color="dark" disabled={!isValid}>Create account</Button>
           <div>
             <hr />
             <span>or continue</span>

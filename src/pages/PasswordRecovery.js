@@ -8,7 +8,6 @@ import { recoveryPasswordValidation, authMessageHandler } from "../utils";
 import { auth, sendPasswordResetEmail } from "../firebase/firebase";
 
 import * as S from '../styled/CreateAccount.styled';
-import abstractMobile from '../image/abstract-mobile.jpg'
 
 const PasswordRecovery = () => {
 
@@ -37,28 +36,19 @@ const PasswordRecovery = () => {
     return (
         <S.Section>
             {isRecovered && <AuthPopup message={isRecovered} />}
-            <S.Header>
-                <h1>Password recovery.</h1>
-                <h2>Let's make things happen.</h2>
-            </S.Header>
-            <figure>
-                <img src={abstractMobile} alt="abstract" />
-            </figure>
             <S.Form onSubmit={handleSubmit} autoComplete="off">
-                <S.InputsContainer>
-                    <Input
-                        id="email"
-                        type="text"
-                        value={values.email}
-                        error={errors.email}
-                        touched={touched.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="Enter your Email..."
-                        htmlFor="email"
-                        labelText="Email"
-                    />
-                </S.InputsContainer>
+                <Input
+                    id="email"
+                    type="text"
+                    value={values.email}
+                    error={errors.email}
+                    touched={touched.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Enter your Email..."
+                    htmlFor="email"
+                    labelText="Email"
+                />
                 <S.ButtonContainer>
                     <Button type='submit' size="100%" color="dark" disabled={!isValid}>Sent password</Button>
                     <div>

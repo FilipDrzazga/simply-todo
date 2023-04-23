@@ -6,16 +6,21 @@ const Button = styled(motion.button)`
     height: 3.5rem;
     border:none;
     border-radius:15px;
-    background-color:${({ color, theme }) => color === 'dark'? theme.colors.purple : theme.colors.lightPurple};
-    color:${({ color, theme }) => color === 'dark' ? theme.colors.white : theme.colors.darkPurple};
+    background-color:${({ theme }) => theme.colors.button.primary};
+    color:${({ theme }) => theme.colors.font.primary};
     font-size: ${({ theme }) => theme.fontSizes[0]};
-    font-weight: 300;
-    letter-spacing: 1px;
-    word-spacing:1px;
+    font-weight:lighter;
     ${({ disabled }) => disabled && 'opacity: 0.4'};
-    ${({ circle }) => circle && css`
+    ${({ theme, secondary }) => secondary && css`
+        background-color:transparent;
+        color:${ theme.colors.font.primary};
+        border: 2px solid ${theme.colors.button.secondary};
+    `}
+    ${({ theme, circle }) => circle && css`
         width:3.5rem;
         height:3.5rem;
+        background-color: ${({ theme }) => theme.colors.button.add};
+        color:${ theme.colors.font.secondary};
         border-radius: 50px;
     `}
 `
