@@ -16,10 +16,10 @@ const Input = styled.input`
     color: ${({ theme }) => theme.colors.input.font};
     border-radius:15px;
     border:2px solid ${({ theme }) => theme.colors.input.border};
+    padding-left:${({ theme }) => theme.padding[4]};
     ${({ theme, error, touched }) => error && touched && css`border:2px solid ${theme.colors.input.invalid};`};
     ${({ theme, error, touched }) => !error && touched && css`border:2px solid ${theme.colors.input.valid};`};
     &::placeholder{
-        padding-left:${({ theme }) => theme.padding[4]};
         color:${({ theme }) => theme.colors.input.placeholder};
     }
     &:focus{
@@ -37,28 +37,25 @@ const Label = styled.label`
 `
 
 const MessagesContainer = styled.div`
-    width:100%;
+    width: ${({ size }) => size};
     display:flex;
     justify-content:space-between;
-    margin-bottom:${({theme})=>theme.margin[1]};
+    margin-bottom:${({theme})=>theme.margin[2]};
 `
 
 const ErrorMessage = styled.span`
-    width:45%;
+    width:60%;
     height:10px;
-    margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
     color:${({ theme }) => theme.colors.input.invalid};
 `
 
 const ForgotPassword = styled.span`
     height:10px;
-    margin-top:-3%;
     font-size:${({ theme }) => theme.fontSizes[0]};
+    font-weight:lighter;
     color:${({ theme }) => theme.colors.input.label};
     text-decoration-line:underline;
-    text-align:right;
-
 `
 
 export { InputContainer, Input, Label, MessagesContainer, ErrorMessage, ForgotPassword };

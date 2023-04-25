@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import * as S from "../styled/CreateAccount.styled";
+import * as S from "../styled/Login.styled";
 import Button from "../Components/Button";
 import Input from "../Components/Input";
+import Separator from "../Components/Separator";
 import AuthPopup from '../Components/AuthPopup';
 
 import { useFormik } from 'formik';
@@ -48,6 +49,7 @@ const CreateAccount = () => {
             placeholder="Enter your Email..."
             htmlFor="email"
             labelText="Email"
+            size='90%'
           />
           <Input
             id="password"
@@ -60,16 +62,13 @@ const CreateAccount = () => {
             placeholder="Enter your password..."
             htmlFor="password"
             labelText="Password"
+            size='90%'
             forgotPassword
           />
         <S.ButtonContainer>
-          <Button type='submit' size="100%" color="dark" disabled={!isValid}>Login</Button>
-          <div>
-            <hr />
-            <span>or continue</span>
-            <hr />
-          </div>
-          <Button size="60%" color="light" navigateTo="/create-account">Create account</Button>
+          <Button primary type='submit' size="90%" disabled={!isValid}>Login</Button>
+          <Separator/>
+          <Button secondary size="60%" navigateTo="/create-account">Create account</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

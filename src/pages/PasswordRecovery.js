@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import * as S from '../styled/PasswordRecovery.styled';
 import Button from "../Components/Button";
 import Input from "../Components/Input";
+import Separator from "../Components/Separator";
 import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from "formik";
 import { recoveryPasswordValidation, authMessageHandler } from "../utils";
 import { auth, sendPasswordResetEmail } from "../firebase/firebase";
 
-import * as S from '../styled/CreateAccount.styled';
 
 const PasswordRecovery = () => {
 
@@ -48,16 +49,13 @@ const PasswordRecovery = () => {
                     placeholder="Enter your Email..."
                     htmlFor="email"
                     labelText="Email"
+                    size="90%"
                 />
                 <S.ButtonContainer>
-                    <Button type='submit' size="100%" color="dark" disabled={!isValid}>Sent password</Button>
-                    <div>
-                        <hr />
-                        <span>or continue</span>
-                        <hr />
-                    </div>
-                    <Button size="60%" color="light" navigateTo="/create-account">Create account</Button>
-                    <Button size="60%" color="light" navigateTo="/login">Login</Button>
+                    <Button primary type='submit' size="90%" disabled={!isValid}>Sent password</Button>
+                    <Separator/>
+                    <Button secondary size="60%" navigateTo="/create-account">Create account</Button>
+                    <Button secondary size="60%" navigateTo="/login">Login</Button>
                 </S.ButtonContainer>
             </S.Form>
         </S.Section>

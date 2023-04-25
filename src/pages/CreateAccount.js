@@ -85,9 +85,9 @@ const CreateAccount = () => {
           size='90%'
         />
         <S.ButtonContainer>
-          <Button type='submit' size="90%" color="dark" disabled={!isValid}>Create account</Button>
+          <Button primary type='submit' size="90%" disabled={!isValid}>Create account</Button>
           <Separator/>
-          <Button size="60%" color="light" navigateTo="/login">Login</Button>
+          <Button secondary size="60%" navigateTo="/login">Login</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

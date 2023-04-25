@@ -21,7 +21,7 @@ const Input = ({ id, type, value, error, touched, onChange, onBlur, placeholder,
                 size={size}
                 placeholder={placeholder}>
             </S.Input>
-            <S.MessagesContainer>
+            <S.MessagesContainer size={size}>
                 <S.ErrorMessage>{touched && error}</S.ErrorMessage>
                 {forgotPassword && <S.ForgotPassword onClick={() => navigate('/password-recovery')}>Forgot password?</S.ForgotPassword>}
             </S.MessagesContainer>

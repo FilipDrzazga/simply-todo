@@ -13,6 +13,7 @@ const Button = styled(motion.button)`
     ${({ disabled }) => disabled && 'opacity: 0.4'};
     ${({ theme, secondary }) => secondary && css`
         background-color:transparent;
+        margin-bottom:${({theme})=>theme.margin[3]};
         color:${ theme.colors.font.primary};
         border: 2px solid ${theme.colors.button.secondary};
     `}
