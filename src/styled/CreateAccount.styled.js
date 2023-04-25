@@ -15,7 +15,7 @@ const Form = styled.form`
     height:100%;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:flex-end;
 `
 
 const ButtonContainer = styled.div`
