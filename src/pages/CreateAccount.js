@@ -7,6 +7,8 @@ import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { queryUserData } from "../store/userSlice";
 import { passwordEmailValidation, authMessageHandler } from '../utils/index';
 import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
 
@@ -14,25 +16,29 @@ const CreateAccount = () => {
 
   const [popupMsg, setPopupMsg] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onSubmit = ({ email, password }, {resetForm}) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        navigate("/create-task");
-        setPopupMsg(authMessageHandler('create-account'));
-        addDoc(collection(db, 'users'), {
-          email: email,
-          userId:userCredential.user.uid,
-        });
-      }).catch((error) => {
-        setPopupMsg(authMessageHandler(error.code));
-      }).finally(() => {
-        resetForm();
+  const onSubmit = async ({ email, password, username }, { resetForm }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const docRef = await addDoc(collection(db, 'users'), {
+        username,
+        email,
+        userId: userCredential.user.uid,
+        isNewUser:true,
       });
+      dispatch(queryUserData(docRef.id));
+    } catch (error) {
+      setPopupMsg(authMessageHandler(error.code));
+    } finally {
+      resetForm();
+      navigate('/todo');
+    };
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
+      username:'',
       email: '',
       password: ''
     },
@@ -85,9 +91,9 @@ const CreateAccount = () => {
           size='90%'
         />
         <S.ButtonContainer>
-          <Button primary type='submit' size="90%" disabled={!isValid}>Create account</Button>
+          <Button primary='true' type='submit' size="90%" disabled={!isValid}>Create account</Button>
           <Separator/>
-          <Button secondary size="60%" navigateTo="/login">Login</Button>
+          <Button secondary='true' size="60%" navigateTo="/login">Login</Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

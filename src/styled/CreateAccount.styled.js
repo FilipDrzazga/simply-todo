@@ -7,7 +7,7 @@ const Section = styled.section`
     width:100%;
     height:100vh;
     min-height:100vh;
-    background-color:${({theme})=>theme.colors.background.primary};
+    background-color:${({ theme }) => theme.colors.background.primary};
 `
 
 const Form = styled.form`

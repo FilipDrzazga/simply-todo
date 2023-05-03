@@ -7,10 +7,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 library.add(far, fas);
 
-const Icon = ({ iconName, iconColor, size }) => {
+const Icon = ({ iconName, iconType, iconColor = 'default', size }) => {
     return (
         <S.Container iconColor={iconColor}>
-            <FontAwesomeIcon size={size} icon={[far || fas, iconName]} />
+            <FontAwesomeIcon size={size} icon={[iconType, iconName]} />
         </S.Container>
     )
 };

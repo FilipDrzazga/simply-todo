@@ -48,7 +48,9 @@ const rules = {
         icon: {
             default: '#FAFAFA',
             delete: '#EA4335',
-        }
+            checkbox: '#34A853'
+        },
+        borderLine: '#474747',
     },
 };
 
