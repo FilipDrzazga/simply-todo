@@ -5,15 +5,14 @@ import Input from "../Components/Input";
 import Separator from "../Components/Separator";
 import AuthPopup from "../Components/AuthPopup";
 
-import { useFormik } from 'formik';
+import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { queryUserData } from "../store/userSlice";
-import { passwordEmailValidation, authMessageHandler } from '../utils/index';
+import { passwordEmailValidation, authMessageHandler } from "../utils/index";
 import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
 
 const CreateAccount = () => {
-
   const [popupMsg, setPopupMsg] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,26 +20,26 @@ const CreateAccount = () => {
   const onSubmit = async ({ email, password, username }, { resetForm }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const docRef = await addDoc(collection(db, 'users'), {
+      const docRef = await addDoc(collection(db, "users"), {
         username,
         email,
         userId: userCredential.user.uid,
-        isNewUser:true,
+        isNewUser: true,
       });
       dispatch(queryUserData(docRef.id));
     } catch (error) {
       setPopupMsg(authMessageHandler(error.code));
     } finally {
       resetForm();
-      navigate('/todo');
-    };
+      navigate("/todo");
+    }
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      username:'',
-      email: '',
-      password: ''
+      username: "",
+      email: "",
+      password: "",
     },
     validateOnMount: true,
     validationSchema: passwordEmailValidation,
@@ -62,7 +61,7 @@ const CreateAccount = () => {
           placeholder="Username..."
           htmlFor="username"
           labelText="Username"
-          size='90%'
+          size="90%"
         />
         <Input
           id="email"
@@ -75,7 +74,7 @@ const CreateAccount = () => {
           placeholder="Enter your Email..."
           htmlFor="email"
           labelText="Email"
-          size='90%'
+          size="90%"
         />
         <Input
           id="password"
@@ -88,12 +87,16 @@ const CreateAccount = () => {
           placeholder="Enter your password..."
           htmlFor="password"
           labelText="Password"
-          size='90%'
+          size="90%"
         />
         <S.ButtonContainer>
-          <Button primary='true' type='submit' size="90%" disabled={!isValid}>Create account</Button>
-          <Separator/>
-          <Button secondary='true' size="60%" navigateTo="/login">Login</Button>
+          <Button primary="true" type="submit" size="90%" disabled={!isValid}>
+            Create account
+          </Button>
+          <Separator />
+          <Button secondary="true" size="60%" navigateTo="/login">
+            Login
+          </Button>
         </S.ButtonContainer>
       </S.Form>
     </S.Section>

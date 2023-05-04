@@ -1,26 +1,26 @@
 import styled from "styled-components";
 
 const SeparatorContainer = styled.div`
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:100%;
-    margin-top:${({theme})=>theme.margin[1]};
-    margin-bottom:${({theme})=>theme.margin[1]};
-    color:${({theme})=>theme.colors.font.primary};
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: ${({ theme }) => theme.margin[1]};
+  margin-bottom: ${({ theme }) => theme.margin[1]};
+  color: ${({ theme }) => theme.colors.font.primary};
+`;
 
 const Line = styled.hr`
-    width:30%;
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
-    border: none;
-    border-top: 1px solid;
-`
+  width: 30%;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-top: 1px solid;
+`;
 
 const Span = styled.span`
-    font-size:${({ theme }) => theme.fontSizes[0]};
-    font-weight:lighter;
-`
+  font-size: ${({ theme }) => theme.fontSizes[0]};
+  font-weight: lighter;
+`;
 
 export { SeparatorContainer, Line, Span };
