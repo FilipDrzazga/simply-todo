@@ -11,12 +11,13 @@ const queryUserData = createAsyncThunk("user/queryUserData", async (userData) =>
 
 const queryUserTodos = createAsyncThunk("user/queryUserTodo", async (_, thunkAPI) => {
   const state = thunkAPI.getState();
-  const userTodos = query(collection(db, "usersTodos"), where("userId", "==", state.userData.userId));
+  const arrOfTodos = [];
+  const userTodos = query(collection(db, "usersTodos"), where("userId", "==", state.user.userData.userId));
   const userTodosSnapshot = await getDocs(userTodos);
   userTodosSnapshot.forEach((document) => {
-    console.log(document);
+    arrOfTodos.push(document.data());
   });
-  return userTodosSnapshot;
+  return arrOfTodos;
 });
 
 const initialState = {
@@ -28,20 +29,16 @@ const userSlice = createSlice({
   initialState,
   name: "user",
   reducers: {},
-  extraReducers: {
-    [queryUserData.fulfilled]: (state, action) => {
-      state.userData = action.payload;
-    },
-    [queryUserTodos.fulfilled]: (state, action) => {
-      state.userTodos = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(queryUserData.fulfilled, (state, action) => {
+        state.userData = action.payload;
+      })
+      .addCase(queryUserTodos.fulfilled, (state, action) => {
+        state.userTodos = action.payload;
+      });
   },
 });
 
 export { queryUserData, queryUserTodos };
 export default userSlice.reducer;
-
-// username,
-// email,
-// userId: userCredential.user.uid,
-// isNewUser: true,

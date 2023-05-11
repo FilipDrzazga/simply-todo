@@ -1,20 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "../styled/Todo.styled";
 import Icon from "../Components/Icon";
 import TodoList from "../Components/TodoList";
 import TodoItem from "../Components/TodoItem";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { addDoc, collection, db } from "../firebase/firebase";
 import { queryUserTodos } from "../store/userSlice";
-import { createBoardForNewUser } from "../utils";
 
 const Todo = () => {
+  const {
+    state: { isNewUser },
+  } = useLocation();
+  const [isNew, setIsNew] = useState(isNewUser);
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const addBoardForNewUser = async () => {
+    await addDoc(collection(db, "usersTodos"), {
+      userId: userData.userId,
+      boardName: "My task",
+      tasks: [
+        { taskName: "Add new board", isDone: false },
+        { taskName: "Add new task", isDone: false },
+      ],
+      tasksDone: [],
+    });
+    return setIsNew(false);
+  };
+
   useEffect(() => {
-    userData.isNewUser ? createBoardForNewUser(userData) : dispatch(queryUserTodos());
-  }, [userData]);
+    isNew ? addBoardForNewUser() : dispatch(queryUserTodos());
+  }, [isNew, dispatch]);
 
   return (
     <S.Section>

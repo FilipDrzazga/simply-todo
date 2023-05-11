@@ -24,14 +24,13 @@ const CreateAccount = () => {
         username,
         email,
         userId: userCredential.user.uid,
-        isNewUser: true,
       });
-      dispatch(queryUserData(docRef.id));
+      await dispatch(queryUserData(docRef.id));
+      navigate("/todo", { state: { isNewUser: true } });
     } catch (error) {
       setPopupMsg(authMessageHandler(error.code));
     } finally {
       resetForm();
-      navigate("/todo");
     }
   };
 
