@@ -21,10 +21,14 @@ const BoardList = styled.ul`
 `;
 
 const BoardItem = styled.li`
-  font-size: ${({ theme }) => theme.fontSizes[0]};
+  font-size: ${({ theme }) => theme.fontSizes[1]};
   font-weight: lighter;
   letter-spacing: 1px;
   white-space: nowrap;
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 const AddListBtn = styled.button`

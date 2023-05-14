@@ -14,13 +14,13 @@ const TaskItem = styled.li`
   gap: 10px;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.margin[0]};
+  margin-bottom: ${({ theme }) => theme.margin[2]};
+  margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
-  font-weight: 300;
+  font-weight: lighter;
   button {
     width: 10%;
     height: 100%;
-    // text-align:left;
     background-color: transparent;
     border: none;
   }
