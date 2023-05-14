@@ -17,9 +17,13 @@ const Header = styled.header`
   align-items: center;
   width: 100%;
   height: 20%;
-  padding: ${({ theme }) => theme.padding[2]};
+  padding: ${({ theme }) => theme.padding[3]};
+  h1 {
+    font-size: ${({ theme }) => theme.fontSizes[4]};
+  }
   span {
-    font-weight: 100;
+    font-size: ${({ theme }) => theme.fontSizes[3]};
+    font-weight: lighter;
     padding-left: ${({ theme }) => theme.padding[1]};
   }
   button {

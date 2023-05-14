@@ -6,7 +6,7 @@ import Separator from "../Components/Separator";
 import AuthPopup from "../Components/AuthPopup";
 
 import { useFormik } from "formik";
-import { recoveryPasswordValidation, authMessageHandler } from "../utils";
+import { emailAccountValidation, authMessageHandler } from "../utils";
 import { auth, sendPasswordResetEmail } from "../firebase/firebase";
 
 const PasswordRecovery = () => {
@@ -30,7 +30,7 @@ const PasswordRecovery = () => {
       email: "",
     },
     validateOnMount: true,
-    validationSchema: recoveryPasswordValidation,
+    validationSchema: emailAccountValidation,
     onSubmit: onSubmit,
   });
 

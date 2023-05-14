@@ -11,14 +11,14 @@ import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <GlobalStyle />
-        <ThemeProvider theme={rules}>
-          <App />
-        </ThemeProvider>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <GlobalStyle />
+      <ThemeProvider theme={rules}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
+  </Provider>
+  // </React.StrictMode>
 );

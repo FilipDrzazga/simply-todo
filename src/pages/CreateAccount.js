@@ -5,28 +5,29 @@ import Input from "../Components/Input";
 import Separator from "../Components/Separator";
 import AuthPopup from "../Components/AuthPopup";
 
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { queryUserData } from "../store/userSlice";
-import { passwordEmailValidation, authMessageHandler } from "../utils/index";
-import { db, addDoc, auth, collection, createUserWithEmailAndPassword } from "../firebase/firebase";
+import { createAccountValidation, authMessageHandler } from "../utils/index";
+import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
+import { createBoardForNewUser, createUserDataInDB } from "../store/userSlice";
 
 const CreateAccount = () => {
   const [popupMsg, setPopupMsg] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async ({ email, password, username }, { resetForm }) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const docRef = await addDoc(collection(db, "users"), {
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      const data = {
         username,
         email,
-        userId: userCredential.user.uid,
-      });
-      await dispatch(queryUserData(docRef.id));
-      navigate("/todo", { state: { isNewUser: true } });
+        userId: user.uid,
+      };
+      dispatch(createUserDataInDB(data));
+      dispatch(createBoardForNewUser(user.uid));
+      navigate("/todo");
     } catch (error) {
       setPopupMsg(authMessageHandler(error.code));
     } finally {
@@ -41,7 +42,7 @@ const CreateAccount = () => {
       password: "",
     },
     validateOnMount: true,
-    validationSchema: passwordEmailValidation,
+    validationSchema: createAccountValidation,
     onSubmit: onSubmit,
   });
 
