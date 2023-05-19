@@ -17,28 +17,49 @@ const Input = styled.input`
   border-radius: 15px;
   border: 2px solid ${({ theme }) => theme.colors.input.border};
   padding-left: ${({ theme }) => theme.padding[4]};
-  ${({ theme, error, touched }) =>
-    error &&
-    touched &&
+  ${({ borderStyleLine }) =>
+    borderStyleLine &&
     css`
-      border: 2px solid ${theme.colors.input.invalid};
-    `};
-  ${({ theme, error, touched }) =>
-    !error &&
-    touched &&
-    css`
-      border: 2px solid ${theme.colors.input.valid};
-    `};
+      padding-left: 0px;
+      border: none;
+      border-radius: 0px;
+      border-bottom: 1px white solid;
+      background-color: transparent;
+    `}
+  ${({ theme, error, touched, borderStyleLine }) => {
+    if (error && touched && borderStyleLine) {
+      return css`
+        border-bottom: 1px solid ${theme.colors.input.invalid};
+      `;
+    } else {
+      css`
+        border: 2px solid ${theme.colors.input.invalid};
+      `;
+    }
+  }}
+  ${({ theme, error, touched, borderStyleLine }) => {
+    if (!error && touched && borderStyleLine) {
+      return css`
+        border-bottom: 1px solid ${theme.colors.input.valid};
+      `;
+    } else {
+      css`
+        border: 2px solid ${theme.colors.input.valid};
+      `;
+    }
+  }}
   &::placeholder {
-    color: ${({ theme }) => theme.colors.input.placeholder};
+    color: ${({ placeholderColor, theme }) =>
+      placeholderColor ? theme.colors.font.primary : theme.colors.input.placeholder};
   }
   &:focus {
     outline: none;
-    border: 2px solid ${({ theme }) => theme.colors.input.focus};
+    border: 2px solid ${({ borderStyleLine, theme }) => (borderStyleLine ? "none" : theme.colors.input.focus)};
   }
 `;
 
 const Label = styled.label`
+  visibility: ${({ labelVisibility }) => !labelVisibility && "hidden"};
   width: ${({ size }) => size};
   font-size: ${({ theme }) => theme.fontSizes[0]};
   color: ${({ theme }) => theme.colors.input.label};

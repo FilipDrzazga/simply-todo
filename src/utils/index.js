@@ -1,4 +1,4 @@
-import { createAccountValidation, emailAccountValidation } from "./validationSchema";
+import { createAccountValidation, emailAccountValidation, renameOrCreate } from "./validationSchema";
 import { authMessageHandler } from "./authMessageHandler";
 
-export { createAccountValidation, emailAccountValidation, authMessageHandler };
+export { createAccountValidation, emailAccountValidation, renameOrCreate, authMessageHandler };

@@ -12,16 +12,19 @@ const Input = ({
   onChange,
   onBlur,
   placeholder,
+  placeholderColor,
   htmlFor,
   labelText,
+  labelVisibility,
   size,
   forgotPassword,
+  borderStyleLine,
 }) => {
   const navigate = useNavigate();
 
   return (
     <S.InputContainer>
-      <S.Label error={error} touched={touched} size={size} htmlFor={htmlFor}>
+      <S.Label error={error} touched={touched} size={size} htmlFor={htmlFor} labelVisibility={labelVisibility}>
         {labelText}
       </S.Label>
       <S.Input
@@ -34,6 +37,8 @@ const Input = ({
         onBlur={onBlur}
         size={size}
         placeholder={placeholder}
+        placeholderColor={placeholderColor}
+        borderStyleLine={borderStyleLine}
       ></S.Input>
       <S.MessagesContainer size={size}>
         <S.ErrorMessage>{touched && error}</S.ErrorMessage>

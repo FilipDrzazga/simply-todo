@@ -26,7 +26,7 @@ const TodoItem = () => {
 
   return (
     <S.TasksSection>
-      <S.TaskList>{userTodos && filterTodosByBoardId()}</S.TaskList>
+      <S.TaskList>{filterTodosByBoardId()}</S.TaskList>
     </S.TasksSection>
   );
 };
