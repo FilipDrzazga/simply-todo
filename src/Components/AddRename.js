@@ -2,20 +2,32 @@ import React from "react";
 import Input from "./Input";
 import Button from "./Button";
 
-import * as S from "../styled/CreateOrRenameTask.styled";
+import * as S from "../styled/AddRename.styled";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { renameOrCreate } from "../utils";
+import { addRename } from "../utils";
+import { addNewBoard, queryUserTodos } from "../store/userSlice";
 
-const CreateOrRenameTask = ({ id, htmlFor, placeholder, buttonText, labelText, closeModal }) => {
-  const onSubmit = ({ name }, { resetForm }) => {};
+const AddRename = ({ id, htmlFor, placeholder, buttonText, labelText, closeModal }) => {
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
+
+  const onSubmit = async ({ addBoard }, { resetForm }) => {
+    if (addBoard) {
+      await dispatch(addNewBoard({ userId: userData.userId, boardName: addBoard }));
+      await dispatch(queryUserTodos(userData.userId));
+    }
+  };
+
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      newTask: "",
+      addBoard: "",
     },
     validateOnMount: true,
-    validationSchema: renameOrCreate,
+    validationSchema: addRename,
     onSubmit: onSubmit,
   });
+
   const handleClick = (e) => {
     if (e.target.tagName === "SECTION") {
       closeModal(false);
@@ -28,9 +40,9 @@ const CreateOrRenameTask = ({ id, htmlFor, placeholder, buttonText, labelText, c
         <Input
           id={id}
           type="text"
-          value={values.newTask}
-          error={errors.newTask}
-          touched={touched.newTask}
+          value={values.addBoard}
+          error={errors.addBoard}
+          touched={touched.addBoard}
           onChange={handleChange}
           onBlur={handleBlur}
           placeholder={placeholder}
@@ -49,4 +61,4 @@ const CreateOrRenameTask = ({ id, htmlFor, placeholder, buttonText, labelText, c
   );
 };
 
-export default CreateOrRenameTask;
+export default AddRename;

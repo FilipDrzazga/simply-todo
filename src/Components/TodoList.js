@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import * as S from "../styled/TodoList.styled";
 import Icon from "./Icon";
+import AddRename from "./AddRename";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import CreateOrRenameTask from "./CreateOrRenameTask";
 
 const TodoList = () => {
   const { userTodos } = useSelector((state) => state.user);
@@ -30,12 +30,12 @@ const TodoList = () => {
         </S.BoardList>
       </S.Nav>
       {isOpen && (
-        <CreateOrRenameTask
-          id="newTask"
-          htmlFor="newTask"
+        <AddRename
+          id="addBoard"
+          htmlFor="addBoard"
           buttonText="Add"
-          labelText="New task"
-          placeholder="New task..."
+          labelText="New board"
+          placeholder="New board..."
           closeModal={setIsOpen}
         />
       )}

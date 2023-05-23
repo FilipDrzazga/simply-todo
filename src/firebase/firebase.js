@@ -7,7 +7,20 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, setDoc, getDoc, getDocs, doc, updateDoc, query, where } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  getDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  query,
+  where,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBEfZVeUzu-ir24akGyKTc-2pSZG1uzFg4",
@@ -34,10 +47,12 @@ export {
   collection,
   query,
   where,
+  orderBy,
   auth,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  serverTimestamp,
 };

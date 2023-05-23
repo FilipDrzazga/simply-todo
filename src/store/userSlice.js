@@ -1,5 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, db, doc, getDocs, setDoc, getDoc, query, where } from "../firebase/firebase";
+import {
+  collection,
+  db,
+  doc,
+  getDocs,
+  setDoc,
+  getDoc,
+  query,
+  where,
+  addDoc,
+  serverTimestamp,
+} from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
 
 const queryUserData = createAsyncThunk("user/queryUserData", async (userId) => {
@@ -15,15 +26,17 @@ const queryUserData = createAsyncThunk("user/queryUserData", async (userId) => {
   }
 });
 
-const queryUserTodos = createAsyncThunk("user/queryUserTodo", async (userId) => {
-  let arr = [];
+const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) => {
+  let todosArr = [];
   try {
     const userTodos = query(collection(db, "usersTodos"), where("userId", "==", userId));
     const userTodosSnapshot = await getDocs(userTodos);
     userTodosSnapshot.forEach((userTodos) => {
-      arr.push(userTodos.data());
+      todosArr.push({ ...userTodos.data() });
     });
-    return arr;
+    return todosArr.map((item) => {
+      return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
+    });
   } catch (error) {
     // set here rejectedWithValue from thunk late;
     console.log("error from queryUserTodos", `${error.message}`);
@@ -36,6 +49,7 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
       userId,
       boardName: "My task",
       boardId: uuid(),
+      createdAt: serverTimestamp(),
       tasks: [
         { taskName: "Add new board", isDone: false, taskId: uuid() },
         { taskName: "Add new task", isDone: false, taskId: uuid() },
@@ -48,7 +62,23 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
   }
 });
 
-const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }, { dispatch }) => {
+const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardName }) => {
+  try {
+    await addDoc(collection(db, "usersTodos"), {
+      userId,
+      boardName,
+      boardId: uuid(),
+      createdAt: serverTimestamp(),
+      tasks: [],
+      tasksDone: [],
+    });
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from addNewBoard", `${error.message}`);
+  }
+});
+
+const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
   try {
     await setDoc(doc(db, "users", userId), {
       username,
@@ -76,10 +106,13 @@ const userSlice = createSlice({
         state.userData = action.payload;
       })
       .addCase(queryUserTodos.fulfilled, (state, action) => {
-        state.userTodos = action.payload;
+        state.userTodos = action.payload.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
       });
   },
 });
 
-export { queryUserData, queryUserTodos, createBoardForNewUser, createUserDataInDB };
+export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, createUserDataInDB };
+export const { addBoard } = userSlice.actions;
 export default userSlice.reducer;

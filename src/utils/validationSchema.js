@@ -18,8 +18,8 @@ const emailAccountValidation = yup.object().shape({
   password: yup.string().required("*Required"),
 });
 
-const renameOrCreate = yup.object().shape({
-  newTask: yup.string().required("*Required").min(1, "*At least 1 character").max(10, "*Max 10 characters"),
+const addRename = yup.object().shape({
+  addBoard: yup.string().required("*Required").min(1, "*At least 1 character").max(10, "*Max 10 characters"),
 });
 
-export { createAccountValidation, emailAccountValidation, renameOrCreate };
+export { createAccountValidation, emailAccountValidation, addRename };
