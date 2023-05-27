@@ -6,7 +6,7 @@ const Nav = styled.nav`
   display: flex;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;
-const BoardList = styled.ul`
+const List = styled.ul`
   height: 100%;
   display: flex;
   justify-content: space-beatween;
@@ -20,7 +20,7 @@ const BoardList = styled.ul`
   }
 `;
 
-const BoardItem = styled.li`
+const Item = styled.li`
   font-size: ${({ theme }) => theme.fontSizes[1]};
   font-weight: lighter;
   letter-spacing: 1px;
@@ -38,4 +38,4 @@ const AddListBtn = styled.button`
   border: none;
 `;
 
-export { Nav, BoardList, BoardItem, AddListBtn };
+export { Nav, List, Item, AddListBtn };

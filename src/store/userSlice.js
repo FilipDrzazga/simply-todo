@@ -13,6 +13,19 @@ import {
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
 
+const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
+  try {
+    await setDoc(doc(db, "users", userId), {
+      username,
+      email,
+      userId,
+    });
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from createUserDataInDB", `${error.message}`);
+  }
+});
+
 const queryUserData = createAsyncThunk("user/queryUserData", async (userId) => {
   try {
     const userDataRef = doc(db, "users", userId);
@@ -23,23 +36,6 @@ const queryUserData = createAsyncThunk("user/queryUserData", async (userId) => {
   } catch (error) {
     // set here rejectedWithValue from thunk late;
     console.log("error from queryUserData", `${error.message}`);
-  }
-});
-
-const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) => {
-  let todosArr = [];
-  try {
-    const userTodos = query(collection(db, "usersTodos"), where("userId", "==", userId));
-    const userTodosSnapshot = await getDocs(userTodos);
-    userTodosSnapshot.forEach((userTodos) => {
-      todosArr.push({ ...userTodos.data() });
-    });
-    return todosArr.map((item) => {
-      return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
-    });
-  } catch (error) {
-    // set here rejectedWithValue from thunk late;
-    console.log("error from queryUserTodos", `${error.message}`);
   }
 });
 
@@ -62,9 +58,9 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
   }
 });
 
-const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardName }) => {
+const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardName }, { dispatch }) => {
   try {
-    await addDoc(collection(db, "usersTodos"), {
+    const docRef = await addDoc(collection(db, "usersTodos"), {
       userId,
       boardName,
       boardId: uuid(),
@@ -72,22 +68,33 @@ const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardN
       tasks: [],
       tasksDone: [],
     });
+    const getNewDoc = doc(db, "usersTodos", docRef.id);
+    const docSnapshot = await getDoc(getNewDoc);
+    if (docSnapshot.exists()) {
+      const data = { ...docSnapshot.data() };
+      const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+      return dispatch(addBoardToState(convertData));
+    }
   } catch (error) {
     // set here rejectedWithValue from thunk late;
     console.log("error from addNewBoard", `${error.message}`);
   }
 });
 
-const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
+const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) => {
+  let todosArr = [];
   try {
-    await setDoc(doc(db, "users", userId), {
-      username,
-      email,
-      userId,
+    const userTodos = query(collection(db, "usersTodos"), where("userId", "==", userId));
+    const userTodosSnapshot = await getDocs(userTodos);
+    userTodosSnapshot.forEach((userTodos) => {
+      todosArr.push({ ...userTodos.data() });
+    });
+    return todosArr.map((item) => {
+      return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
     });
   } catch (error) {
     // set here rejectedWithValue from thunk late;
-    console.log("error from createUserDataInDB", `${error.message}`);
+    console.log("error from queryUserTodos", `${error.message}`);
   }
 });
 
@@ -99,20 +106,24 @@ const initialState = {
 const userSlice = createSlice({
   initialState,
   name: "user",
-  reducers: {},
+  reducers: {
+    addBoardToState(state, action) {
+      state.userTodos.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(queryUserData.fulfilled, (state, action) => {
         state.userData = action.payload;
       })
       .addCase(queryUserTodos.fulfilled, (state, action) => {
-        state.userTodos = action.payload.sort((a, b) => {
-          return a.createdAt - b.createdAt;
+        state.userTodos = action.payload.sort((boardA, boardB) => {
+          return boardA && boardB ? boardA.createdAt - boardB.createdAt : boardA;
         });
       });
   },
 });
 
 export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, createUserDataInDB };
-export const { addBoard } = userSlice.actions;
+export const { addBoardToState } = userSlice.actions;
 export default userSlice.reducer;

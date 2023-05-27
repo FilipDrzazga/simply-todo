@@ -2,20 +2,26 @@ import React from "react";
 import Input from "./Input";
 import Button from "./Button";
 
-import * as S from "../styled/AddRename.styled";
+import * as S from "../styled/TaskEditor.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { addRename } from "../utils";
-import { addNewBoard, queryUserTodos } from "../store/userSlice";
+import { addNewBoard } from "../store/userSlice";
 
-const AddRename = ({ id, htmlFor, placeholder, buttonText, labelText, closeModal }) => {
+const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, isOpen }) => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
 
   const onSubmit = async ({ addBoard }, { resetForm }) => {
-    if (addBoard) {
-      await dispatch(addNewBoard({ userId: userData.userId, boardName: addBoard }));
-      await dispatch(queryUserTodos(userData.userId));
+    try {
+      if (addBoard) {
+        await dispatch(addNewBoard({ userId: userData.userId, boardName: addBoard }));
+      }
+    } catch (error) {
+      console.log("error come from TaskEditor comp:"`${error.message}`);
+    } finally {
+      resetForm();
+      isOpen(false);
     }
   };
 
@@ -30,7 +36,7 @@ const AddRename = ({ id, htmlFor, placeholder, buttonText, labelText, closeModal
 
   const handleClick = (e) => {
     if (e.target.tagName === "SECTION") {
-      closeModal(false);
+      isOpen(false);
     }
   };
 
@@ -61,4 +67,4 @@ const AddRename = ({ id, htmlFor, placeholder, buttonText, labelText, closeModal
   );
 };
 
-export default AddRename;
+export default TaskEditor;

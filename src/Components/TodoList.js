@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as S from "../styled/TodoList.styled";
 import Icon from "./Icon";
-import AddRename from "./AddRename";
+import TaskEditor from "./TaskEditor";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -20,23 +20,23 @@ const TodoList = () => {
         <S.AddListBtn onClick={(e) => addNewTodoList(e)}>
           <Icon iconName="plus" />
         </S.AddListBtn>
-        <S.BoardList>
+        <S.List>
           {userTodos &&
             userTodos.map((item, id) => (
-              <S.BoardItem id={id} key={item.boardId}>
+              <S.Item id={id} key={item.boardId}>
                 <Link to={`/todo/${item.boardId}`}>{item.boardName}</Link>
-              </S.BoardItem>
+              </S.Item>
             ))}
-        </S.BoardList>
+        </S.List>
       </S.Nav>
       {isOpen && (
-        <AddRename
+        <TaskEditor
           id="addBoard"
           htmlFor="addBoard"
           buttonText="Add"
           labelText="New board"
           placeholder="New board..."
-          closeModal={setIsOpen}
+          isOpen={setIsOpen}
         />
       )}
     </>

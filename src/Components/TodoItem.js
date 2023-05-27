@@ -15,19 +15,19 @@ const TodoItem = () => {
       userTodos &&
       filtered.map((item) =>
         item.tasks.map((todo, id) => (
-          <S.TaskItem id={id} key={todo.taskId}>
+          <S.Item id={id} key={todo.taskId}>
             <Icon iconColor="checkbox" iconType="far" iconName="circle" />
             {todo.taskName}
-          </S.TaskItem>
+          </S.Item>
         ))
       )
     );
   };
 
   return (
-    <S.TasksSection>
-      <S.TaskList>{filterTodosByBoardId()}</S.TaskList>
-    </S.TasksSection>
+    <S.Section>
+      <S.List>{filterTodosByBoardId()}</S.List>
+    </S.Section>
   );
 };
 

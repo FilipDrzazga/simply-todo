@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-const TasksSection = styled.section`
+const Section = styled.section`
   width: 100%;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;
-const TaskList = styled.ul`
+const List = styled.ul`
   padding: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
-const TaskItem = styled.li`
+const Item = styled.li`
   width: 100%;
   display: flex;
   gap: 10px;
@@ -26,4 +26,4 @@ const TaskItem = styled.li`
   }
 `;
 
-export { TasksSection, TaskList, TaskItem };
+export { Section, List, Item };

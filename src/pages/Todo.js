@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import * as S from "../styled/Todo.styled";
 import Icon from "../Components/Icon";
+import TodoList from "../Components/TodoList";
+import TodoListSettings from "../Components/TodoListSettings";
+import Button from "../Components/Button";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
 import { queryUserData, queryUserTodos } from "../store/userSlice";
-import TodoList from "../Components/TodoList";
 
 const Todo = () => {
   const { userData } = useSelector((state) => state.user);
@@ -33,7 +35,7 @@ const Todo = () => {
         navigate("/");
       }
     });
-  }, [dispatch, navigate]);
+  }, []);
   return (
     <S.Section>
       <S.Header>
@@ -46,6 +48,10 @@ const Todo = () => {
       </S.Header>
       <TodoList />
       <Outlet />
+      <Button position="absolute" circle="true">
+        <Icon iconName="plus" size="lg"></Icon>
+      </Button>
+      <TodoListSettings />
     </S.Section>
   );
 };

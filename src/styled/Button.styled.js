@@ -2,6 +2,13 @@ import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 const Button = styled(motion.button)`
+  ${({ position }) =>
+    position === "absolute" &&
+    css`
+      position: absolute;
+      bottom: 80px;
+      right: 20px;
+    `}
   width: ${({ size }) => size};
   height: 3.5rem;
   border: none;
