@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-const Nav = styled.nav`
+const BoardNav = styled.nav`
   width: 100%;
   height: 10%;
   display: flex;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;
-const List = styled.ul`
+const BoardList = styled.ul`
   height: 100%;
   display: flex;
   justify-content: space-beatween;
@@ -20,7 +20,7 @@ const List = styled.ul`
   }
 `;
 
-const Item = styled.li`
+const BoardItem = styled.li`
   font-size: ${({ theme }) => theme.fontSizes[1]};
   font-weight: lighter;
   letter-spacing: 1px;
@@ -31,11 +31,11 @@ const Item = styled.li`
   }
 `;
 
-const AddListBtn = styled.button`
+const AddBoardBtn = styled.button`
   min-width: 50px;
   height: 100%;
   background-color: transparent;
   border: none;
 `;
 
-export { Nav, List, Item, AddListBtn };
+export { BoardNav, BoardList, BoardItem, AddBoardBtn };

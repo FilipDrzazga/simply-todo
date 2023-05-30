@@ -5,50 +5,48 @@ import Button from "./Button";
 import * as S from "../styled/TaskEditor.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { addRename } from "../utils";
 import { addNewBoard } from "../store/userSlice";
+import { editTodo } from "../utils";
 
-const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, isOpen }) => {
+const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateField, setDisplayTaskEditor }) => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
 
-  const onSubmit = async ({ addBoard }, { resetForm }) => {
+  const onSubmit = async (values, { resetForm }) => {
     try {
-      if (addBoard) {
-        await dispatch(addNewBoard({ userId: userData.userId, boardName: addBoard }));
-      }
+      dispatch(addNewBoard({ userId: userData.userId, boardName: values[validateField] }));
     } catch (error) {
       console.log("error come from TaskEditor comp:"`${error.message}`);
     } finally {
       resetForm();
-      isOpen(false);
+      setDisplayTaskEditor(false);
     }
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
+      validateField: validateField,
       addBoard: "",
+      addTask: "",
     },
     validateOnMount: true,
-    validationSchema: addRename,
+    validationSchema: editTodo,
     onSubmit: onSubmit,
   });
 
-  const handleClick = (e) => {
-    if (e.target.tagName === "SECTION") {
-      isOpen(false);
-    }
+  const closeTaskEditor = (e) => {
+    e.target.tagName === "SECTION" && setDisplayTaskEditor(false);
   };
 
   return (
-    <S.Section onClick={handleClick}>
+    <S.Section onClick={(e) => closeTaskEditor(e)}>
       <S.Form onSubmit={handleSubmit} autoComplete="off">
         <Input
           id={id}
           type="text"
-          value={values.addBoard}
-          error={errors.addBoard}
-          touched={touched.addBoard}
+          value={values[validateField]}
+          error={errors[validateField]}
+          touched={touched[validateField]}
           onChange={handleChange}
           onBlur={handleBlur}
           placeholder={placeholder}

@@ -18,8 +18,22 @@ const emailAccountValidation = yup.object().shape({
   password: yup.string().required("*Required"),
 });
 
-const addRename = yup.object().shape({
-  addBoard: yup.string().required("*Required").min(1, "*At least 1 character").max(10, "*Max 10 characters"),
+const editTodo = yup.object().shape({
+  validateField: yup.string(),
+  addBoard: yup
+    .string()
+    .notRequired()
+    .when("validateField", {
+      is: (value) => value === "addBoard",
+      then: () => yup.string().required("*required").min(1, "*at least 1 character").max(10, "max. 10 characters"),
+    }),
+  addTask: yup
+    .string()
+    .notRequired()
+    .when("validateField", {
+      is: (value) => value === "addTask",
+      then: () => yup.string().required("*required").min(1, "*at least 1 character"),
+    }),
 });
 
-export { createAccountValidation, emailAccountValidation, addRename };
+export { createAccountValidation, emailAccountValidation, editTodo };

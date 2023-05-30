@@ -81,7 +81,7 @@ const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardN
   }
 });
 
-const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) => {
+const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
     const userTodos = query(collection(db, "usersTodos"), where("userId", "==", userId));
@@ -89,9 +89,11 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) =>
     userTodosSnapshot.forEach((userTodos) => {
       todosArr.push({ ...userTodos.data() });
     });
-    return todosArr.map((item) => {
+    const convertedTodos = todosArr.map((item) => {
       return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
     });
+    await dispatch(setActiveTodoBoard({ dbUserBoard: convertedTodos }));
+    return convertedTodos;
   } catch (error) {
     // set here rejectedWithValue from thunk late;
     console.log("error from queryUserTodos", `${error.message}`);
@@ -101,6 +103,7 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId) =>
 const initialState = {
   userData: "",
   userTodos: "",
+  activeBoard: "",
 };
 
 const userSlice = createSlice({
@@ -109,6 +112,15 @@ const userSlice = createSlice({
   reducers: {
     addBoardToState(state, action) {
       state.userTodos.push(action.payload);
+    },
+    setActiveTodoBoard(state, action) {
+      const { dbUserBoard, setActiveBoard } = action.payload;
+      if (dbUserBoard) {
+        const onStartActiveBoard = dbUserBoard.filter((board) => board.boardName === "My task");
+        state.activeBoard = onStartActiveBoard;
+      } else if (setActiveBoard) {
+        state.activeBoard = setActiveBoard;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -125,5 +137,5 @@ const userSlice = createSlice({
 });
 
 export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, createUserDataInDB };
-export const { addBoardToState } = userSlice.actions;
+export const { addBoardToState, setActiveTodoBoard } = userSlice.actions;
 export default userSlice.reducer;

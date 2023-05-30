@@ -6,7 +6,6 @@ import CreateAccount from "./pages/CreateAccount";
 import Login from "./pages/Login";
 import PasswordRecovery from "./pages/PasswordRecovery";
 import Todo from "./pages/Todo";
-import TodoItem from "./Components/TodoItem";
 
 const App = () => {
   return (
@@ -15,9 +14,7 @@ const App = () => {
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/login" element={<Login />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
-      <Route path="/todo" element={<Todo />}>
-        <Route path=":boardId" element={<TodoItem />} />
-      </Route>
+      <Route path="/todo" element={<Todo />} />
     </Routes>
   );
 };
