@@ -27,6 +27,13 @@ const editTodo = yup.object().shape({
       is: (value) => value === "addBoard",
       then: () => yup.string().required("*required").min(1, "*at least 1 character").max(10, "max. 10 characters"),
     }),
+  renameBoard: yup
+    .string()
+    .notRequired()
+    .when("validateField", {
+      is: (value) => value === "renameBoard",
+      then: () => yup.string().required("*required").min(1, "*at least 1 character").max(10, "max. 10 characters"),
+    }),
   addTask: yup
     .string()
     .notRequired()

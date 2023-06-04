@@ -6,7 +6,7 @@ import TodoBoard from "../Components/TodoBoard";
 import TodoTask from "../Components/TodoTask";
 import TodoListSettings from "../Components/TodoListSettings";
 
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
 import { queryUserData, queryUserTodos } from "../store/userSlice";

@@ -25,8 +25,8 @@ const CreateAccount = () => {
         email,
         userId: user.uid,
       };
-      dispatch(createUserDataInDB(data));
-      dispatch(createBoardForNewUser(user.uid));
+      await dispatch(createUserDataInDB(data));
+      await dispatch(createBoardForNewUser(user.uid));
       navigate("/todo");
     } catch (error) {
       setPopupMsg(authMessageHandler(error.code));

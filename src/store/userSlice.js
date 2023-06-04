@@ -10,6 +10,7 @@ import {
   where,
   addDoc,
   serverTimestamp,
+  updateDoc,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
 
@@ -44,6 +45,7 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
     await setDoc(doc(db, "usersTodos", userId), {
       userId,
       boardName: "My task",
+      defaultBoard: true,
       boardId: uuid(),
       createdAt: serverTimestamp(),
       tasks: [
@@ -68,8 +70,8 @@ const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardN
       tasks: [],
       tasksDone: [],
     });
-    const getNewDoc = doc(db, "usersTodos", docRef.id);
-    const docSnapshot = await getDoc(getNewDoc);
+    const getNewBoard = doc(db, "usersTodos", docRef.id);
+    const docSnapshot = await getDoc(getNewBoard);
     if (docSnapshot.exists()) {
       const data = { ...docSnapshot.data() };
       const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
@@ -81,10 +83,31 @@ const addNewBoard = createAsyncThunk("user/addNewBoard", async ({ userId, boardN
   }
 });
 
+const updateBoardName = createAsyncThunk("user/updateBoard", async (name, { getState }) => {
+  const state = getState();
+  try {
+    const queryBoard = await query(
+      collection(db, "usersTodos"),
+      where("boardName", "==", state.user.activeBoard[0].boardName)
+    );
+    const querySnapshot = await getDocs(queryBoard);
+    querySnapshot.forEach((document) => {
+      const documentRef = doc(db, "usersTodos", document.id);
+      updateDoc(documentRef, {
+        boardName: name,
+      });
+    });
+    return { name: name, boardId: state.user.activeBoard[0].boardId };
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from updateBoardName", `${error.message}`);
+  }
+});
+
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
-    const userTodos = query(collection(db, "usersTodos"), where("userId", "==", userId));
+    const userTodos = await query(collection(db, "usersTodos"), where("userId", "==", userId));
     const userTodosSnapshot = await getDocs(userTodos);
     userTodosSnapshot.forEach((userTodos) => {
       todosArr.push({ ...userTodos.data() });
@@ -132,10 +155,17 @@ const userSlice = createSlice({
         state.userTodos = action.payload.sort((boardA, boardB) => {
           return boardA && boardB ? boardA.createdAt - boardB.createdAt : boardA;
         });
+      })
+      .addCase(updateBoardName.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const boardToUpdate = state.userTodos.find((board) => board.boardId === action.payload.boardId);
+        if (boardToUpdate) {
+          boardToUpdate.boardName = action.payload.name;
+        }
       });
   },
 });
 
-export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, createUserDataInDB };
+export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, updateBoardName, createUserDataInDB };
 export const { addBoardToState, setActiveTodoBoard } = userSlice.actions;
 export default userSlice.reducer;

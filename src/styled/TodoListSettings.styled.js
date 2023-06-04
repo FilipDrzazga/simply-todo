@@ -25,6 +25,9 @@ const Item = styled.li``;
 const Button = styled.button`
   background-color: transparent;
   border: none;
+  &:disabled {
+    opacity: 0.3;
+  }
 `;
 
 export { Section, SettingsList, Item, Button };

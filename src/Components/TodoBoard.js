@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Icon from "./Icon";
 import * as S from "../styled/TodoBoard.styled";
+import TaskEditor from "./TaskEditor";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveTodoBoard } from "../store/userSlice";
-import TaskEditor from "./TaskEditor";
 
 const TodoBoard = () => {
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);

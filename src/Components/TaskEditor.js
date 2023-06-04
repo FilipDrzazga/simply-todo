@@ -1,11 +1,11 @@
 import React from "react";
 import Input from "./Input";
 import Button from "./Button";
-
 import * as S from "../styled/TaskEditor.styled";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { addNewBoard } from "../store/userSlice";
+import { addNewBoard, updateBoardName } from "../store/userSlice";
 import { editTodo } from "../utils";
 
 const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateField, setDisplayTaskEditor }) => {
@@ -13,14 +13,18 @@ const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateF
   const { userData } = useSelector((state) => state.user);
 
   const onSubmit = async (values, { resetForm }) => {
-    try {
-      dispatch(addNewBoard({ userId: userData.userId, boardName: values[validateField] }));
-    } catch (error) {
-      console.log("error come from TaskEditor comp:"`${error.message}`);
-    } finally {
-      resetForm();
-      setDisplayTaskEditor(false);
+    switch (validateField) {
+      case "addBoard":
+        dispatch(addNewBoard({ userId: userData.userId, boardName: values.addBoard }));
+        break;
+      case "renameBoard":
+        dispatch(updateBoardName(values.renameBoard));
+        break;
+      default:
+        return;
     }
+    resetForm();
+    setDisplayTaskEditor(false);
   };
 
   const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({

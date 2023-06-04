@@ -6,10 +6,8 @@ import { useSelector } from "react-redux";
 
 const TodoTask = () => {
   const user = useSelector((state) => state.user);
-  console.log(user.activeBoard);
 
   const displayTask = () => {
-    // const filter = user.userTodos && user.userTodos.filter((item) => item.boardId === params.boardId);
     return (
       user.activeBoard && (
         <S.TaskSection>
