@@ -6,6 +6,7 @@ import {
   getDocs,
   setDoc,
   getDoc,
+  deleteDoc,
   query,
   where,
   addDoc,
@@ -104,6 +105,25 @@ const updateBoardName = createAsyncThunk("user/updateBoard", async (name, { getS
   }
 });
 
+const removeBoardFromDB = createAsyncThunk("user/removeBoardFromDB", async (name, { getState }) => {
+  const state = getState();
+  try {
+    const queryBoard = await query(
+      collection(db, "usersTodos"),
+      where("boardName", "==", state.user.activeBoard[0].boardName)
+    );
+    const querySnapshot = await getDocs(queryBoard);
+    querySnapshot.forEach((document) => {
+      const documentRef = doc(db, "usersTodos", document.id);
+      deleteDoc(documentRef);
+    });
+    return { name: name };
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from removeBoardFromDB", `${error.message}`);
+  }
+});
+
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
@@ -115,7 +135,7 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { 
     const convertedTodos = todosArr.map((item) => {
       return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
     });
-    await dispatch(setActiveTodoBoard({ dbUserBoard: convertedTodos }));
+    await dispatch(setActiveTodoBoard({ dbUserBoards: convertedTodos }));
     return convertedTodos;
   } catch (error) {
     // set here rejectedWithValue from thunk late;
@@ -137,9 +157,9 @@ const userSlice = createSlice({
       state.userTodos.push(action.payload);
     },
     setActiveTodoBoard(state, action) {
-      const { dbUserBoard, setActiveBoard } = action.payload;
-      if (dbUserBoard) {
-        const onStartActiveBoard = dbUserBoard.filter((board) => board.boardName === "My task");
+      const { dbUserBoards, setActiveBoard } = action.payload;
+      if (dbUserBoards) {
+        const onStartActiveBoard = dbUserBoards.filter((board) => board.boardName === "My task");
         state.activeBoard = onStartActiveBoard;
       } else if (setActiveBoard) {
         state.activeBoard = setActiveBoard;
@@ -157,15 +177,26 @@ const userSlice = createSlice({
         });
       })
       .addCase(updateBoardName.fulfilled, (state, action) => {
-        console.log(action.payload);
         const boardToUpdate = state.userTodos.find((board) => board.boardId === action.payload.boardId);
         if (boardToUpdate) {
           boardToUpdate.boardName = action.payload.name;
         }
+      })
+      .addCase(removeBoardFromDB.fulfilled, (state, action) => {
+        const removedBoard = state.userTodos.filter((boards) => boards.boardName !== action.payload.name);
+        state.userTodos = removedBoard;
       });
   },
 });
 
-export { queryUserData, queryUserTodos, createBoardForNewUser, addNewBoard, updateBoardName, createUserDataInDB };
+export {
+  queryUserData,
+  queryUserTodos,
+  createBoardForNewUser,
+  addNewBoard,
+  updateBoardName,
+  removeBoardFromDB,
+  createUserDataInDB,
+};
 export const { addBoardToState, setActiveTodoBoard } = userSlice.actions;
 export default userSlice.reducer;

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Icon from "./Icon";
 
 import * as S from "../styled/TodoListSettings.styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeBoardFromDB } from "../store/userSlice";
 import TaskEditor from "./TaskEditor";
 
 const TodoListSettings = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
 
   const isDisabled = () => {
@@ -15,6 +17,10 @@ const TodoListSettings = () => {
 
   const renameBoard = () => {
     return setDisplayTaskEditor(true);
+  };
+
+  const deleteBoard = () => {
+    dispatch(removeBoardFromDB(user.activeBoard[0].boardName));
   };
 
   return (
@@ -32,7 +38,7 @@ const TodoListSettings = () => {
             </S.Button>
           </S.Item>
           <S.Item>
-            <S.Button disabled={isDisabled()}>
+            <S.Button onClick={() => deleteBoard()} disabled={isDisabled()}>
               <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
             </S.Button>
           </S.Item>

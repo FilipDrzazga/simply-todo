@@ -49,7 +49,7 @@ const Todo = () => {
       </S.Header>
       <TodoBoard />
       <TodoTask />
-      <Button position="absolute" circle="true">
+      <Button onClick={() => console.log("ok")} position="absolute" circle="true">
         <Icon iconName="plus" size="lg"></Icon>
       </Button>
       <TodoListSettings />

@@ -20,6 +20,8 @@ const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateF
       case "renameBoard":
         dispatch(updateBoardName(values.renameBoard));
         break;
+      case "addTask":
+        break;
       default:
         return;
     }
