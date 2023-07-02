@@ -3,6 +3,7 @@ import styled from "styled-components";
 const TaskSection = styled.section`
   width: 100%;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
+  overflow: auto;
 `;
 const TaskList = styled.ul`
   padding: ${({ theme }) => theme.padding[2]};

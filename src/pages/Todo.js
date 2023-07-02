@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "../styled/Todo.styled";
 import Icon from "../Components/Icon";
-import Button from "../Components/Button";
 import TodoBoard from "../Components/TodoBoard";
 import TodoTask from "../Components/TodoTask";
 import TodoListSettings from "../Components/TodoListSettings";
+import TaskEditor from "../Components/TaskEditor";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { queryUserData, queryUserTodos } from "../store/userSlice";
 
 const Todo = () => {
   const user = useSelector((state) => state.user);
+  const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,6 +38,10 @@ const Todo = () => {
     }
   };
 
+  const addNewTask = () => {
+    setDisplayTaskEditor(true);
+  };
+
   return (
     <S.Section>
       <S.Header>
@@ -49,10 +54,21 @@ const Todo = () => {
       </S.Header>
       <TodoBoard />
       <TodoTask />
-      <Button onClick={() => console.log("ok")} position="absolute" circle="true">
+      <S.AddTaskBtn onClick={() => addNewTask()}>
         <Icon iconName="plus" size="lg"></Icon>
-      </Button>
+      </S.AddTaskBtn>
       <TodoListSettings />
+      {displayTaskEditor && (
+        <TaskEditor
+          validateField="addTask"
+          id="addTask"
+          htmlFor="addTask"
+          placeholder="Enter new task..."
+          buttonText="Add"
+          labelText="Add task:"
+          setDisplayTaskEditor={setDisplayTaskEditor}
+        />
+      )}
     </S.Section>
   );
 };

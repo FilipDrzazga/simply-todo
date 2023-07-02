@@ -72,4 +72,16 @@ const AddBoardBtn = styled.button`
   border: none;
 `;
 
-export { Section, Header, Nav, BoardList, BoardItem, AddBoardBtn };
+const AddTaskBtn = styled.button`
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: ${({ theme }) => theme.colors.button.add};
+  color: ${({ theme }) => theme.colors.font.secendary};
+  border-radius: 50px;
+  border: none;
+`;
+
+export { Section, Header, Nav, BoardList, BoardItem, AddBoardBtn, AddTaskBtn };

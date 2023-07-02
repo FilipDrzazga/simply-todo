@@ -12,6 +12,7 @@ import {
   addDoc,
   serverTimestamp,
   updateDoc,
+  arrayUnion,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
 
@@ -124,6 +125,28 @@ const removeBoardFromDB = createAsyncThunk("user/removeBoardFromDB", async (name
   }
 });
 
+const createNewTask = createAsyncThunk("user/createNewTask", async ({ taskName, boardId }, { dispatch, getState }) => {
+  const state = getState();
+  try {
+    const taskId = uuid();
+    const queryBoard = await query(
+      collection(db, "usersTodos"),
+      where("boardName", "==", state.user.activeBoard[0].boardName)
+    );
+    const querySnapshot = await getDocs(queryBoard);
+    querySnapshot.forEach((document) => {
+      const documentRef = doc(db, "usersTodos", document.id);
+      updateDoc(documentRef, {
+        tasks: arrayUnion({ isDone: false, taskId: taskId, taskName: taskName }),
+      });
+    });
+    return dispatch(addNewTaskToBoard({ isDone: false, taskId: taskId, taskName: taskName, boardId: boardId }));
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from queryUserTodos", `${error.message}`);
+  }
+});
+
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
@@ -155,6 +178,11 @@ const userSlice = createSlice({
   reducers: {
     addBoardToState(state, action) {
       state.userTodos.push(action.payload);
+    },
+    addNewTaskToBoard(state, action) {
+      const filterBoard = state.userTodos.filter((board) => board.boardId === action.payload.boardId);
+      filterBoard && filterBoard[0].tasks.push({ ...action.payload });
+      state.activeBoard[0].tasks.push({ ...action.payload });
     },
     setActiveTodoBoard(state, action) {
       const { dbUserBoards, setActiveBoard } = action.payload;
@@ -196,7 +224,8 @@ export {
   addNewBoard,
   updateBoardName,
   removeBoardFromDB,
+  createNewTask,
   createUserDataInDB,
 };
-export const { addBoardToState, setActiveTodoBoard } = userSlice.actions;
+export const { addBoardToState, addNewTaskToBoard, setActiveTodoBoard } = userSlice.actions;
 export default userSlice.reducer;

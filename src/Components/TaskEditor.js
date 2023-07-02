@@ -5,12 +5,12 @@ import * as S from "../styled/TaskEditor.styled";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { addNewBoard, updateBoardName } from "../store/userSlice";
+import { addNewBoard, updateBoardName, createNewTask } from "../store/userSlice";
 import { editTodo } from "../utils";
 
 const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateField, setDisplayTaskEditor }) => {
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.user);
+  const { userData, activeBoard } = useSelector((state) => state.user);
 
   const onSubmit = async (values, { resetForm }) => {
     switch (validateField) {
@@ -21,6 +21,7 @@ const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateF
         dispatch(updateBoardName(values.renameBoard));
         break;
       case "addTask":
+        dispatch(createNewTask({ taskName: values.addTask, boardId: activeBoard[0].boardId }));
         break;
       default:
         return;
