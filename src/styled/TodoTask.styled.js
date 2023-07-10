@@ -27,4 +27,8 @@ const TaskItem = styled.li`
   }
 `;
 
-export { TaskSection, TaskList, TaskItem };
+const DeleteBtn = styled.button`
+  margin-left: auto;
+`;
+
+export { TaskSection, TaskList, TaskItem, DeleteBtn };

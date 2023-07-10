@@ -147,6 +147,28 @@ const createNewTask = createAsyncThunk("user/createNewTask", async ({ taskName, 
   }
 });
 
+const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, taskId }, { dispatch, getState }) => {
+  const state = getState();
+  const updatedArray = state.user.activeBoard[0].tasks.filter((task) => task.taskId !== taskId);
+  try {
+    const queryBoard = await query(
+      collection(db, "usersTodos"),
+      where("boardName", "==", state.user.activeBoard[0].boardName)
+    );
+    const querySnapshot = await getDocs(queryBoard);
+    querySnapshot.forEach((document) => {
+      const documentRef = doc(db, "usersTodos", document.id);
+      updateDoc(documentRef, {
+        tasks: updatedArray,
+      });
+    });
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from removeTaskFromBoard", `${error.message}`);
+  }
+  return dispatch(removeTaskFromBoard({ newArray: updatedArray, boardId: boardId }));
+});
+
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
@@ -183,6 +205,13 @@ const userSlice = createSlice({
       const filterBoard = state.userTodos.filter((board) => board.boardId === action.payload.boardId);
       filterBoard && filterBoard[0].tasks.push({ ...action.payload });
       state.activeBoard[0].tasks.push({ ...action.payload });
+    },
+    removeTaskFromBoard(state, action) {
+      const boardToUpdate = state.userTodos.find((board) => board.boardId === action.payload.boardId);
+      if (boardToUpdate) {
+        boardToUpdate.tasks = action.payload.newArray;
+      }
+      state.activeBoard[0].tasks = action.payload.newArray;
     },
     setActiveTodoBoard(state, action) {
       const { dbUserBoards, setActiveBoard } = action.payload;
@@ -224,8 +253,9 @@ export {
   addNewBoard,
   updateBoardName,
   removeBoardFromDB,
+  removeTaskFromDB,
   createNewTask,
   createUserDataInDB,
 };
-export const { addBoardToState, addNewTaskToBoard, setActiveTodoBoard } = userSlice.actions;
+export const { addBoardToState, addNewTaskToBoard, removeTaskFromBoard, setActiveTodoBoard } = userSlice.actions;
 export default userSlice.reducer;
