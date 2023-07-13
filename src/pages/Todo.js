@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
 import { queryUserData, queryUserTodos } from "../store/userSlice";
+import TodoTaskComplete from "../Components/TodoTaskComplete";
 
 const Todo = () => {
   const user = useSelector((state) => state.user);
@@ -54,6 +55,7 @@ const Todo = () => {
       </S.Header>
       <TodoBoard />
       <TodoTask />
+      <TodoTaskComplete />
       <S.AddTaskBtn onClick={() => addNewTask()}>
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
