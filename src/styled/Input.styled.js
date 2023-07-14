@@ -25,29 +25,35 @@ const Input = styled.input`
       border-radius: 0px;
       border-bottom: 1px white solid;
       background-color: transparent;
-    `}
-  ${({ theme, error, touched, borderStyleLine }) => {
-    if (error && touched && borderStyleLine) {
-      return css`
-        border-bottom: 1px solid ${theme.colors.input.invalid};
-      `;
-    } else {
-      css`
-        border: 2px solid ${theme.colors.input.invalid};
-      `;
-    }
-  }}
-  ${({ theme, error, touched, borderStyleLine }) => {
-    if (!error && touched && borderStyleLine) {
-      return css`
-        border-bottom: 1px solid ${theme.colors.input.valid};
-      `;
-    } else {
-      css`
-        border: 2px solid ${theme.colors.input.valid};
-      `;
-    }
-  }}
+    `};
+  ${({ theme, error, touched }) =>
+    error &&
+    touched &&
+    css`
+      border: 2px solid ${theme.colors.input.invalid};
+    `};
+  ${({ theme, error, touched }) =>
+    !error &&
+    touched &&
+    css`
+      border: 2px solid ${theme.colors.input.valid};
+    `};
+  ${({ theme, error, touched, borderStyleLine }) =>
+    error &&
+    touched &&
+    borderStyleLine &&
+    css`
+      border: none;
+      border-bottom: 1px solid ${theme.colors.input.invalid};
+    `};
+  ${({ theme, error, touched, borderStyleLine }) =>
+    !error &&
+    touched &&
+    borderStyleLine &&
+    css`
+      border: none;
+      border-bottom: 1px solid ${theme.colors.input.valid};
+    `};
   &::placeholder {
     color: ${({ placeholderColor, theme }) =>
       placeholderColor ? theme.colors.font.primary : theme.colors.input.placeholder};

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const TaskDoneSection = styled.section`
   width: 100%;
-  overflow: auto;
 `;
 
 const TaskDoneDisplayBtn = styled.button`

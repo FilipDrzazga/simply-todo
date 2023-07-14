@@ -10,7 +10,6 @@ const TodoTask = () => {
   const dispatch = useDispatch(removeTaskFromDB);
 
   const deleteTask = (boardId, taskId) => {
-    console.log(taskId);
     dispatch(removeTaskFromDB({ boardId: boardId, taskId: taskId }));
   };
 
