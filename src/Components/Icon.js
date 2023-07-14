@@ -7,9 +7,9 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(far, fas);
 
-const Icon = ({ iconName, iconType, iconColor = "default", size }) => {
+const Icon = ({ iconName, iconType, iconColor = "default", size, isRotate }) => {
   return (
-    <S.Container iconColor={iconColor}>
+    <S.Container iconColor={iconColor} isRotate={isRotate}>
       <FontAwesomeIcon size={size} icon={[iconType, iconName]} />
     </S.Container>
   );

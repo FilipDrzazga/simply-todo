@@ -17,7 +17,7 @@ const rules = {
     desktop: `(min-width:${size.desktop})`,
   },
   margin: ["0.4rem", "0.9rem", "1.2rem", "1.5rem", "1.8rem", "2.4rem", "2.6rem"],
-  padding: ["0rem", "0.3rem", "0.6rem", "0.9rem", "1.2rem", "1.5rem", "1.8rem"],
+  padding: ["0rem", "0.3rem", "0.6rem", "0.9rem", "1.2rem", "1.3rem", "1.8rem"],
   fontSizes: ["0.8rem", "1rem", "1.2rem", "1.5rem", "2rem", "2.1rem"],
   colors: {
     font: {
