@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "../styled/Input.styled";
 
 const Input = ({
+  autoFocus,
   id,
   type,
   value,
@@ -28,6 +29,7 @@ const Input = ({
         {labelText}
       </S.Label>
       <S.Input
+        autoFocus={autoFocus}
         id={id}
         type={type}
         value={value}

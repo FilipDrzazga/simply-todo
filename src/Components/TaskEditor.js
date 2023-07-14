@@ -49,6 +49,7 @@ const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateF
     <S.Section onClick={(e) => closeTaskEditor(e)}>
       <S.Form onSubmit={handleSubmit} autoComplete="off">
         <Input
+          autoFocus
           id={id}
           type="text"
           value={values[validateField]}
