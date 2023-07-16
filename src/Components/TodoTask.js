@@ -3,18 +3,18 @@ import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
 import { useDispatch, useSelector } from "react-redux";
-import { removeTaskFromDB } from "../store/userSlice";
+import { removeTaskFromDB, setTaskStatus } from "../store/userSlice";
 
 const TodoTask = () => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch(removeTaskFromDB);
+  const dispatch = useDispatch();
 
   const deleteTask = (boardId, taskId) => {
     dispatch(removeTaskFromDB({ boardId: boardId, taskId: taskId }));
   };
 
-  const completeTask = () => {
-    console.log("ok");
+  const taskDone = (taskId) => {
+    dispatch(setTaskStatus({ status: true, taskId: taskId }));
   };
 
   const displayTask = () => {
@@ -25,9 +25,9 @@ const TodoTask = () => {
             {user.activeBoard.map((item) =>
               item.tasks.map((task) => (
                 <S.TaskItem key={task.taskId} id={task.taskId}>
-                  <button onClick={() => completeTask()}>
+                  <S.CompleteTaskBtn onClick={() => taskDone(task.taskId)}>
                     <Icon iconName="circle" iconType="far" iconColor="checkbox" />
-                  </button>
+                  </S.CompleteTaskBtn>
                   {task.taskName}
                   <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>
                     <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />

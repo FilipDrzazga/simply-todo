@@ -169,6 +169,11 @@ const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, t
   return dispatch(removeTaskFromBoard({ newArray: updatedArray, boardId: boardId }));
 });
 
+// const updateBoardTasksArraysDB = createAsyncThunk('user/updateBoardTasksArrays', async(_,{getState})=>{
+//   const state = getState();
+
+// })
+
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
   try {
@@ -220,6 +225,29 @@ const userSlice = createSlice({
         boardToUpdate.tasks = action.payload.newArray;
       }
     },
+    setTaskStatus(state, action) {
+      const { status, taskId } = action.payload;
+      const [activeBoard] = state.activeBoard;
+      const [boardToUpdate] = state.userTodos.filter((board) => board.boardName === activeBoard.boardName);
+      if (status) {
+        const [taskComplete] = activeBoard.tasks
+          .filter((task) => task.taskId === taskId)
+          .map((task) => ({ ...task, isDone: status }));
+        const uncompleteTasks = activeBoard.tasks.filter((task) => task.taskId !== taskComplete.taskId);
+        activeBoard.tasksDone.push({ ...taskComplete });
+        activeBoard.tasks = uncompleteTasks;
+      }
+      if (!status) {
+        const [taskUncomplete] = activeBoard.tasksDone
+          .filter((task) => task.taskId === taskId)
+          .map((task) => ({ ...task, isDone: status }));
+        const completeTasks = activeBoard.tasksDone.filter((task) => task.taskId !== taskUncomplete.taskId);
+        activeBoard.tasks.push({ ...taskUncomplete });
+        activeBoard.tasksDone = completeTasks;
+      }
+      boardToUpdate.tasksDone = activeBoard.tasksDone;
+      boardToUpdate.tasks = activeBoard.tasks;
+    },
     setActiveTodoBoard(state, action) {
       const { dbUserBoards, setActiveBoard } = action.payload;
       if (dbUserBoards) {
@@ -246,10 +274,6 @@ const userSlice = createSlice({
           boardToUpdate.boardName = action.payload.name;
         }
       });
-    // .addCase(removeBoardFromDB.fulfilled, (state, action) => {
-    //   const removedBoard = state.userTodos.filter((boards) => boards.boardName !== action.payload.name);
-    //   state.userTodos = removedBoard;
-    // });
   },
 });
 
@@ -264,6 +288,12 @@ export {
   createNewTask,
   createUserDataInDB,
 };
-export const { addBoardToState, removeBoardFromState, addNewTaskToBoard, removeTaskFromBoard, setActiveTodoBoard } =
-  userSlice.actions;
+export const {
+  addBoardToState,
+  removeBoardFromState,
+  addNewTaskToBoard,
+  removeTaskFromBoard,
+  setActiveTodoBoard,
+  setTaskStatus,
+} = userSlice.actions;
 export default userSlice.reducer;

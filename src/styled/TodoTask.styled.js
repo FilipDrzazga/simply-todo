@@ -19,16 +19,19 @@ const TaskItem = styled.li`
   margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   font-weight: lighter;
-  button {
-    width: 10%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-  }
+`;
+
+const CompleteTaskBtn = styled.button`
+  width: 10%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
 `;
 
 const DeleteBtn = styled.button`
   margin-left: auto;
+  background-color: transparent;
+  border: none;
 `;
 
-export { TaskSection, TaskList, TaskItem, DeleteBtn };
+export { TaskSection, TaskList, TaskItem, CompleteTaskBtn, DeleteBtn };

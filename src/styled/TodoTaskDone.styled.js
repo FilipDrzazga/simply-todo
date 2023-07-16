@@ -34,12 +34,13 @@ const TaskDoneItem = styled.li`
   margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   font-weight: lighter;
-  button {
-    width: 10%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-  }
 `;
 
-export { TaskDoneSection, TaskDoneDisplayBtn, TaskDoneList, TaskDoneItem };
+const UncompleteTaskBtn = styled.button`
+  width: 10%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+`;
+
+export { TaskDoneSection, TaskDoneDisplayBtn, TaskDoneList, TaskDoneItem, UncompleteTaskBtn };
