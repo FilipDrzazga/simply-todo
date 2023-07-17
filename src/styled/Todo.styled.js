@@ -15,7 +15,7 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 20%;
+  min-height: 20%;
   padding: ${({ theme }) => theme.padding[3]};
   h1 {
     font-size: ${({ theme }) => theme.fontSizes[4]};
@@ -36,7 +36,7 @@ const Header = styled.header`
 
 const Nav = styled.nav`
   width: 100%;
-  height: 10%;
+  min-height: 20%;
   display: flex;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;
@@ -73,9 +73,9 @@ const AddBoardBtn = styled.button`
 `;
 
 const AddTaskBtn = styled.button`
-  position: absolute;
-  bottom: 80px;
-  right: 20px;
+  position: sticky;
+  top: 86vh;
+  left: 80%;
   width: 3.5rem;
   height: 3.5rem;
   background-color: ${({ theme }) => theme.colors.button.add};

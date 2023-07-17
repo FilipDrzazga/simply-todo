@@ -56,10 +56,10 @@ const Todo = () => {
       <TodoBoard />
       <TodoTask />
       <TodoTaskDone />
+      <TodoListSettings />
       <S.AddTaskBtn onClick={() => addNewTask()}>
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
-      <TodoListSettings />
       {displayTaskEditor && (
         <TaskEditor
           validateField="addTask"

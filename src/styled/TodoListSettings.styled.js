@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 const Section = styled.section`
   width: 100%;
-  height: 10%;
-  position: absolute;
-  bottom: 0;
+  height: 50px;
+  position: sticky;
+  top: 100vh;
   left: 0;
-  right: 0;
   background-color: ${({ theme }) => theme.colors.background.secondary};
+  // margin: auto;
 `;
 
 const SettingsList = styled.ul`

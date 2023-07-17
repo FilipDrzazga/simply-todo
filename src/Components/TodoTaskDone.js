@@ -21,7 +21,7 @@ const TodoTaskDone = () => {
   return (
     <S.TaskDoneSection>
       <S.TaskDoneDisplayBtn onClick={() => displayDoneTask()}>
-        Done ({user && user.activeBoard[0].tasksDone.length})
+        Done ({user.activeBoard[0] && user.activeBoard[0].tasksDone.length})
         <Icon iconName="caret-down" iconType="fas" size="sm" isRotate={isOpen} />
       </S.TaskDoneDisplayBtn>
       {isOpen && (

@@ -9,7 +9,7 @@ const TaskDoneDisplayBtn = styled.button`
   justify-content: space-between;
   align-content: center;
   width: 100%;
-  height: 30%;
+  height: 30px;
   margin-top: ${({ theme }) => theme.margin[3]};
   padding-left: ${({ theme }) => theme.padding[4]};
   padding-right: ${({ theme }) => theme.padding[5]};

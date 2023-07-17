@@ -12,7 +12,7 @@ const TodoListSettings = () => {
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
 
   const isDisabled = () => {
-    return user.activeBoard && user.activeBoard[0].defaultBoard;
+    return user.activeBoard[0] && user.activeBoard[0].defaultBoard;
   };
 
   const renameBoard = () => {
