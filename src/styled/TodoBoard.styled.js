@@ -2,8 +2,11 @@ import styled from "styled-components";
 
 const BoardNav = styled.nav`
   width: 100%;
-  height: 10%;
+  min-height: 3rem;
+  max-height: 3rem;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;
 const BoardList = styled.ul`

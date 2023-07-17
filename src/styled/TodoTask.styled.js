@@ -3,9 +3,9 @@ import styled from "styled-components";
 const TaskSection = styled.section`
   width: 100%;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
-  overflow: auto;
 `;
 const TaskList = styled.ul`
+  width: 100%;
   padding: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
@@ -30,6 +30,7 @@ const CompleteTaskBtn = styled.button`
 
 const DeleteBtn = styled.button`
   margin-left: auto;
+  margin-right: 10px;
   background-color: transparent;
   border: none;
 `;

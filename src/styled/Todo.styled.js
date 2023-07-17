@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 const Section = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  min-height: 100vh;
+  width: 100vw;
   background-color: ${({ theme }) => theme.colors.background.primary};
   color: ${({ theme }) => theme.colors.font.primary};
 `;
@@ -15,7 +14,7 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 20%;
+  min-height: 5rem;
   padding: ${({ theme }) => theme.padding[3]};
   h1 {
     font-size: ${({ theme }) => theme.fontSizes[4]};
@@ -34,47 +33,9 @@ const Header = styled.header`
   }
 `;
 
-const Nav = styled.nav`
-  width: 100%;
-  min-height: 20%;
-  display: flex;
-  border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
-`;
-const BoardList = styled.ul`
-  height: 100%;
-  display: flex;
-  justify-content: space-beatween;
-  align-items: center;
-  gap: 15px;
-  list-style-type: none;
-  overflow-x: scroll;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const BoardItem = styled.li`
-  font-size: ${({ theme }) => theme.fontSizes[1]};
-  font-weight: lighter;
-  letter-spacing: 1px;
-  white-space: nowrap;
-  a {
-    text-decoration: none;
-    color: white;
-  }
-`;
-
-const AddBoardBtn = styled.button`
-  min-width: 50px;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-`;
-
 const AddTaskBtn = styled.button`
-  position: sticky;
-  top: 86vh;
+  position: fixed;
+  bottom: 1.3rem;
   left: 80%;
   width: 3.5rem;
   height: 3.5rem;
@@ -84,4 +45,4 @@ const AddTaskBtn = styled.button`
   border: none;
 `;
 
-export { Section, Header, Nav, BoardList, BoardItem, AddBoardBtn, AddTaskBtn };
+export { Section, Header, AddTaskBtn };

@@ -4,10 +4,10 @@ const Section = styled.section`
   width: 100%;
   height: 50px;
   position: sticky;
-  top: 100vh;
-  left: 0;
+  bottom: 0px;
+  left: 0px;
+  margin-top: 50px;
   background-color: ${({ theme }) => theme.colors.background.secondary};
-  // margin: auto;
 `;
 
 const SettingsList = styled.ul`

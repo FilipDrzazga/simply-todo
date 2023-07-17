@@ -20,6 +20,7 @@ const TaskDoneDisplayBtn = styled.button`
 `;
 
 const TaskDoneList = styled.ul`
+  width: 100%;
   padding-left: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
