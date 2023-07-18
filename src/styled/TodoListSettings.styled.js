@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Section = styled.section`
   width: 100%;
   height: 50px;
-  position: sticky;
+  position: fixed;
   bottom: 0px;
   left: 0px;
   margin-top: 50px;

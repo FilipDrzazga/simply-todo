@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Icon from "./Icon";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setTaskStatus } from "../store/userSlice";
+import { setTaskStatus, updateBoardTasksArraysDB } from "../store/userSlice";
 import * as S from "../styled/TodoTaskDone.styled";
 
 const TodoTaskDone = () => {
@@ -16,6 +16,7 @@ const TodoTaskDone = () => {
 
   const taskUndone = (taskId) => {
     dispatch(setTaskStatus({ status: false, taskId: taskId }));
+    dispatch(updateBoardTasksArraysDB());
   };
 
   return (
@@ -34,6 +35,7 @@ const TodoTaskDone = () => {
               {task.taskName}
             </S.TaskDoneItem>
           ))}
+          <S.TaskDoneItem></S.TaskDoneItem>
         </S.TaskDoneList>
       )}
     </S.TaskDoneSection>

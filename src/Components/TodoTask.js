@@ -3,7 +3,7 @@ import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
 import { useDispatch, useSelector } from "react-redux";
-import { removeTaskFromDB, setTaskStatus } from "../store/userSlice";
+import { removeTaskFromDB, setTaskStatus, updateBoardTasksArraysDB } from "../store/userSlice";
 
 const TodoTask = () => {
   const user = useSelector((state) => state.user);
@@ -15,6 +15,7 @@ const TodoTask = () => {
 
   const taskDone = (taskId) => {
     dispatch(setTaskStatus({ status: true, taskId: taskId }));
+    dispatch(updateBoardTasksArraysDB());
   };
 
   const displayTask = () => {

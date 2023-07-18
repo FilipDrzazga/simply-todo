@@ -169,10 +169,31 @@ const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, t
   return dispatch(removeTaskFromBoard({ newArray: updatedArray, boardId: boardId }));
 });
 
-// const updateBoardTasksArraysDB = createAsyncThunk('user/updateBoardTasksArrays', async(_,{getState})=>{
-//   const state = getState();
-
-// })
+const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays", async (_, { getState }) => {
+  const state = getState();
+  const [userBoardToUpdate] = state.user.userTodos.filter(
+    (board) => board.boardName === state.user.activeBoard[0].boardName
+  );
+  const userTasksArrToUpdate = userBoardToUpdate.tasks;
+  const userTasksDoneArrToUpdate = userBoardToUpdate.tasksDone;
+  try {
+    const queryBoard = await query(
+      collection(db, "usersTodos"),
+      where("boardName", "==", state.user.activeBoard[0].boardName)
+    );
+    const querySnapshot = await getDocs(queryBoard);
+    querySnapshot.forEach((document) => {
+      const documentRef = doc(db, "usersTodos", document.id);
+      updateDoc(documentRef, {
+        tasks: userTasksArrToUpdate,
+        tasksDone: userTasksDoneArrToUpdate,
+      });
+    });
+  } catch (error) {
+    // set here rejectedWithValue from thunk late;
+    console.log("error from updateBoardTasksArraysDB", `${error.message}`);
+  }
+});
 
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
   let todosArr = [];
@@ -223,6 +244,7 @@ const userSlice = createSlice({
       const boardToUpdate = state.userTodos.find((board) => board.boardId === action.payload.boardId);
       if (boardToUpdate) {
         boardToUpdate.tasks = action.payload.newArray;
+        state.activeBoard[0].tasks = action.payload.newArray;
       }
     },
     setTaskStatus(state, action) {
@@ -287,6 +309,7 @@ export {
   removeTaskFromDB,
   createNewTask,
   createUserDataInDB,
+  updateBoardTasksArraysDB,
 };
 export const {
   addBoardToState,

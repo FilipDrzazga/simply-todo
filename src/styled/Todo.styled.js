@@ -5,6 +5,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   width: 100vw;
+  min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.primary};
   color: ${({ theme }) => theme.colors.font.primary};
 `;

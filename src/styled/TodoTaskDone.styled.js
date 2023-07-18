@@ -2,12 +2,14 @@ import styled from "styled-components";
 
 const TaskDoneSection = styled.section`
   width: 100%;
+  min-height: 115px;
 `;
 
 const TaskDoneDisplayBtn = styled.button`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-content: center;
+  gap: 10px;
   width: 100%;
   height: 30px;
   margin-top: ${({ theme }) => theme.margin[3]};
@@ -27,6 +29,7 @@ const TaskDoneList = styled.ul`
 
 const TaskDoneItem = styled.li`
   width: 100%;
+  height: 20px;
   display: flex;
   gap: 10px;
   justify-content: flex-start;
@@ -35,6 +38,9 @@ const TaskDoneItem = styled.li`
   margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   font-weight: lighter;
+  &:last-child {
+    height: 40px;
+  }
 `;
 
 const UncompleteTaskBtn = styled.button`
