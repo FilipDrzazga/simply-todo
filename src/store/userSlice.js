@@ -166,7 +166,7 @@ const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, t
     // set here rejectedWithValue from thunk late;
     console.log("error from removeTaskFromBoard", `${error.message}`);
   }
-  return dispatch(removeTaskFromBoard({ newArray: updatedArray, boardId: boardId }));
+  return dispatch(removeTaskFromBoard({ taskId: taskId, boardId: boardId }));
 });
 
 const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays", async (_, { getState }) => {
@@ -241,11 +241,10 @@ const userSlice = createSlice({
       state.activeBoard[0].tasks.push({ ...action.payload });
     },
     removeTaskFromBoard(state, action) {
-      const boardToUpdate = state.userTodos.find((board) => board.boardId === action.payload.boardId);
-      if (boardToUpdate) {
-        boardToUpdate.tasks = action.payload.newArray;
-        state.activeBoard[0].tasks = action.payload.newArray;
-      }
+      state.userTodos = state.userTodos
+        .filter((board) => board.boardId === action.payload.boardId)
+        .filter((tasks) => tasks.taskId !== action.payload.taskId);
+      state.activeBoard[0].tasks = state.activeBoard[0].tasks.filter((tasks) => tasks.taskId !== action.payload.taskId);
     },
     setTaskStatus(state, action) {
       const { status, taskId } = action.payload;
