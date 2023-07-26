@@ -51,8 +51,8 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
       boardId: uuid(),
       createdAt: serverTimestamp(),
       tasks: [
-        { taskName: "Add new board", isDone: false, taskId: uuid() },
-        { taskName: "Add new task", isDone: false, taskId: uuid() },
+        { taskName: "Add new board", isDone: false, taskId: uuid(), isEditing: false },
+        { taskName: "Add new task", isDone: false, taskId: uuid(), isEditing: false },
       ],
       tasksDone: [],
     });
@@ -137,10 +137,12 @@ const createNewTask = createAsyncThunk("user/createNewTask", async ({ taskName, 
     querySnapshot.forEach((document) => {
       const documentRef = doc(db, "usersTodos", document.id);
       updateDoc(documentRef, {
-        tasks: arrayUnion({ isDone: false, taskId: taskId, taskName: taskName }),
+        tasks: arrayUnion({ isDone: false, taskId: taskId, taskName: taskName, isEditing: false }),
       });
     });
-    return dispatch(addNewTaskToBoard({ isDone: false, taskId: taskId, taskName: taskName, boardId: boardId }));
+    return dispatch(
+      addNewTaskToBoard({ isDone: false, taskId: taskId, taskName: taskName, boardId: boardId, isEditing: false })
+    );
   } catch (error) {
     // set here rejectedWithValue from thunk late;
     console.log("error from queryUserTodos", `${error.message}`);
@@ -241,10 +243,39 @@ const userSlice = createSlice({
       state.activeBoard[0].tasks.push({ ...action.payload });
     },
     removeTaskFromBoard(state, action) {
-      state.userTodos = state.userTodos
-        .filter((board) => board.boardId === action.payload.boardId)
-        .filter((tasks) => tasks.taskId !== action.payload.taskId);
-      state.activeBoard[0].tasks = state.activeBoard[0].tasks.filter((tasks) => tasks.taskId !== action.payload.taskId);
+      console.log(action.payload);
+      const removedTask = state.activeBoard[0].tasks.filter((task) => task.taskId !== action.payload.taskId);
+      state.userTodos = state.userTodos.map((board) => {
+        return board.boardId === action.payload.boardId ? { ...board, tasks: removedTask } : board;
+      });
+      state.activeBoard[0].tasks = removedTask;
+    },
+    setIsEditing(state, action) {
+      state.activeBoard[0].tasks = state.activeBoard[0].tasks.map((task) => {
+        return task.taskId === action.payload ? { ...task, isEditing: true } : task;
+      });
+    },
+    setEditingComplete(state, action) {
+      state.activeBoard[0].tasks = state.activeBoard[0].tasks.map((task) => {
+        return task.taskId === action.payload.taskId
+          ? { ...task, taskName: action.payload.newTaskName, isEditing: false }
+          : task;
+      });
+      const boardToUpdate = state.userTodos.find((boards) => boards.boardId === action.payload.boardId);
+      const taskToUpdate = boardToUpdate && boardToUpdate.tasks.find((task) => task.taskId === action.payload.taskId);
+      if (taskToUpdate) {
+        taskToUpdate.taskName = action.payload.newTaskName;
+        taskToUpdate.isEditing = false;
+      }
+
+      // const board = state.userTodos.find((boards) => boards.boardId === action.payload.boardId);
+      // if (board) {
+      //   const task = board.tasks.find((task) => task.taskId === action.payload.taskId);
+      //   if (task) {
+      //     task.taskName = action.payload.newTaskName;
+      //     task.isEditing = false;
+      //   }
+      // }
     },
     setTaskStatus(state, action) {
       const { status, taskId } = action.payload;
@@ -315,6 +346,8 @@ export const {
   removeBoardFromState,
   addNewTaskToBoard,
   removeTaskFromBoard,
+  setIsEditing,
+  setEditingComplete,
   setActiveTodoBoard,
   setTaskStatus,
 } = userSlice.actions;

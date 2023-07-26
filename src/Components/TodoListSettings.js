@@ -49,7 +49,7 @@ const TodoListSettings = () => {
           validateField="renameBoard"
           id="renameBoard"
           htmlFor="renameBoard"
-          placeholder="Enter new name..."
+          placeholder="Enter new board name..."
           buttonText="Rename"
           labelText="Rename board:"
           setDisplayTaskEditor={setDisplayTaskEditor}

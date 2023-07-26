@@ -3,7 +3,13 @@ import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
 import { useDispatch, useSelector } from "react-redux";
-import { removeTaskFromDB, setTaskStatus, updateBoardTasksArraysDB } from "../store/userSlice";
+import {
+  removeTaskFromDB,
+  setEditingComplete,
+  setIsEditing,
+  setTaskStatus,
+  updateBoardTasksArraysDB,
+} from "../store/userSlice";
 
 const TodoTask = () => {
   const user = useSelector((state) => state.user);
@@ -18,24 +24,46 @@ const TodoTask = () => {
     dispatch(updateBoardTasksArraysDB());
   };
 
+  const handleItemClick = (e, taskId) => {
+    if (e.target.tagName === "LI") {
+      dispatch(setIsEditing(taskId));
+    }
+  };
+
+  const handleInputBlur = (e, taskId, boardId) => {
+    const newTaskName = e.target.value;
+    dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: newTaskName }));
+  };
+
   const displayTask = () => {
     return (
       user.activeBoard && (
         <S.TaskSection>
           <S.TaskList>
-            {user.activeBoard.map((item) =>
-              item.tasks.map((task) => (
-                <S.TaskItem key={task.taskId} id={task.taskId}>
-                  <S.CompleteTaskBtn onClick={() => taskDone(task.taskId)}>
-                    <Icon iconName="circle" iconType="far" iconColor="checkbox" />
-                  </S.CompleteTaskBtn>
-                  {task.taskName}
-                  <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>
-                    <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
-                  </S.DeleteBtn>
-                </S.TaskItem>
-              ))
-            )}
+            {user.activeBoard.map((item) => {
+              return item.tasks.map((task) =>
+                task.isEditing ? (
+                  <S.TaskItem key={task.taskId} id={task.taskId}>
+                    <input
+                      type="text"
+                      defaultValue={task.taskName}
+                      onClick={(e) => handleInputBlur(e, task.taskId, item.boardId)}
+                      autoFocus
+                    />
+                    <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>
+                      <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
+                    </S.DeleteBtn>
+                  </S.TaskItem>
+                ) : (
+                  <S.TaskItem onClick={(e) => handleItemClick(e, task.taskId)} key={task.taskId} id={task.taskId}>
+                    <S.CompleteTaskBtn onClick={() => taskDone(task.taskId)}>
+                      <Icon iconName="circle" iconType="far" iconColor="checkbox" />
+                    </S.CompleteTaskBtn>
+                    {task.taskName}
+                  </S.TaskItem>
+                )
+              );
+            })}
           </S.TaskList>
         </S.TaskSection>
       )
