@@ -22,7 +22,7 @@ const TaskItem = styled.li`
 `;
 
 const CompleteTaskBtn = styled.button`
-  width: 10%;
+  min-width: 10%;
   height: 100%;
   background-color: transparent;
   border: none;
@@ -35,4 +35,22 @@ const DeleteBtn = styled.button`
   border: none;
 `;
 
-export { TaskSection, TaskList, TaskItem, CompleteTaskBtn, DeleteBtn };
+const Textarea = styled.textarea`
+  min-width: 80%;
+  min-height: 100%;
+  height:auto;
+  margin-left: auto;
+  background-color: transparent;
+  border: none;
+  overflow-y:hidden;
+  resize: none;
+  color: ${({ theme }) => theme.colors.input.font};
+  font-size: ${({ theme }) => theme.fontSizes[2]};
+  &:focus {
+    outline:none;
+    border-bottom:1px solid ${({ theme }) => theme.colors.input.valid};
+    border:none:
+  }
+`;
+
+export { TaskSection, TaskList, TaskItem, CompleteTaskBtn, DeleteBtn, Textarea };

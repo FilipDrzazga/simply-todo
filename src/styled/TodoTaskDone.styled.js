@@ -23,13 +23,13 @@ const TaskDoneDisplayBtn = styled.button`
 
 const TaskDoneList = styled.ul`
   width: 100%;
-  padding-left: ${({ theme }) => theme.padding[2]};
+  padding: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
 
 const TaskDoneItem = styled.li`
   width: 100%;
-  height: 20px;
+  // height: 20px;
   display: flex;
   gap: 10px;
   justify-content: flex-start;
@@ -38,13 +38,14 @@ const TaskDoneItem = styled.li`
   margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   font-weight: lighter;
+  overflow-wrap: break-word;
   &:last-child {
     height: 40px;
   }
 `;
 
 const UncompleteTaskBtn = styled.button`
-  width: 10%;
+  min-width: 10%;
   height: 100%;
   background-color: transparent;
   border: none;

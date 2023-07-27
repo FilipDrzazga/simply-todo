@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
@@ -14,6 +14,7 @@ import {
 const TodoTask = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const textareaRef = useRef(null);
 
   const deleteTask = (boardId, taskId) => {
     dispatch(removeTaskFromDB({ boardId: boardId, taskId: taskId }));
@@ -30,9 +31,15 @@ const TodoTask = () => {
     }
   };
 
-  const handleInputBlur = (e, taskId, boardId) => {
+  const handleTextareaBlur = (e, taskId, boardId) => {
     const newTaskName = e.target.value;
     dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: newTaskName }));
+  };
+
+  const handleResizeTextarea = () => {
+    const textarea = textareaRef.current;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
   const displayTask = () => {
@@ -44,10 +51,12 @@ const TodoTask = () => {
               return item.tasks.map((task) =>
                 task.isEditing ? (
                   <S.TaskItem key={task.taskId} id={task.taskId}>
-                    <input
+                    <S.Textarea
+                      ref={textareaRef}
                       type="text"
                       defaultValue={task.taskName}
-                      onClick={(e) => handleInputBlur(e, task.taskId, item.boardId)}
+                      onClick={(e) => handleTextareaBlur(e, task.taskId, item.boardId)}
+                      onChange={() => handleResizeTextarea()}
                       autoFocus
                     />
                     <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>

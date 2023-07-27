@@ -267,15 +267,6 @@ const userSlice = createSlice({
         taskToUpdate.taskName = action.payload.newTaskName;
         taskToUpdate.isEditing = false;
       }
-
-      // const board = state.userTodos.find((boards) => boards.boardId === action.payload.boardId);
-      // if (board) {
-      //   const task = board.tasks.find((task) => task.taskId === action.payload.taskId);
-      //   if (task) {
-      //     task.taskName = action.payload.newTaskName;
-      //     task.isEditing = false;
-      //   }
-      // }
     },
     setTaskStatus(state, action) {
       const { status, taskId } = action.payload;
