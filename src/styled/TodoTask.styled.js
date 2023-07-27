@@ -37,7 +37,7 @@ const DeleteBtn = styled.button`
 
 const Textarea = styled.textarea`
   min-width: 80%;
-  min-height: 100%;
+  min-height:100%; 
   height:auto;
   margin-left: auto;
   background-color: transparent;
@@ -47,6 +47,7 @@ const Textarea = styled.textarea`
   color: ${({ theme }) => theme.colors.input.font};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   &:focus {
+    height:auto;
     outline:none;
     border-bottom:1px solid ${({ theme }) => theme.colors.input.valid};
     border:none:

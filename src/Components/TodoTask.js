@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
@@ -15,6 +15,7 @@ const TodoTask = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const textareaRef = useRef(null);
+  const itemRef = useRef(null);
 
   const deleteTask = (boardId, taskId) => {
     dispatch(removeTaskFromDB({ boardId: boardId, taskId: taskId }));
@@ -26,12 +27,15 @@ const TodoTask = () => {
   };
 
   const handleItemClick = (e, taskId) => {
+    const item = itemRef.current;
+    item.style.height = "auto";
+    item.style.height = `${item.scrollHeight}px`;
     if (e.target.tagName === "LI") {
       dispatch(setIsEditing(taskId));
     }
   };
 
-  const handleTextareaBlur = (e, taskId, boardId) => {
+  const handleTextareaClick = (e, taskId, boardId) => {
     const newTaskName = e.target.value;
     dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: newTaskName }));
   };
@@ -55,7 +59,7 @@ const TodoTask = () => {
                       ref={textareaRef}
                       type="text"
                       defaultValue={task.taskName}
-                      onClick={(e) => handleTextareaBlur(e, task.taskId, item.boardId)}
+                      onClick={(e) => handleTextareaClick(e, task.taskId, item.boardId)}
                       onChange={() => handleResizeTextarea()}
                       autoFocus
                     />
@@ -64,7 +68,12 @@ const TodoTask = () => {
                     </S.DeleteBtn>
                   </S.TaskItem>
                 ) : (
-                  <S.TaskItem onClick={(e) => handleItemClick(e, task.taskId)} key={task.taskId} id={task.taskId}>
+                  <S.TaskItem
+                    ref={itemRef}
+                    onClick={(e) => handleItemClick(e, task.taskId)}
+                    key={task.taskId}
+                    id={task.taskId}
+                  >
                     <S.CompleteTaskBtn onClick={() => taskDone(task.taskId)}>
                       <Icon iconName="circle" iconType="far" iconColor="checkbox" />
                     </S.CompleteTaskBtn>
