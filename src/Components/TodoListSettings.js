@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Icon from "./Icon";
 
 import * as S from "../styled/TodoListSettings.styled";
-import { useDispatch, useSelector } from "react-redux";
-import { removeBoardFromDB } from "../store/userSlice";
+import { useSelector } from "react-redux";
 import TaskEditor from "./TaskEditor";
+import TodoRemove from "./TodoRemove";
 
 const TodoListSettings = () => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
+  const [displayTodoRemove, setDisplayTodoRemove] = useState(false);
 
   const isDisabled = () => {
     return user.activeBoard[0] && user.activeBoard[0].defaultBoard;
@@ -20,7 +20,7 @@ const TodoListSettings = () => {
   };
 
   const deleteBoard = () => {
-    dispatch(removeBoardFromDB(user.activeBoard[0].boardName));
+    setDisplayTodoRemove(true);
   };
 
   return (
@@ -55,6 +55,7 @@ const TodoListSettings = () => {
           setDisplayTaskEditor={setDisplayTaskEditor}
         />
       )}
+      {displayTodoRemove && <TodoRemove setDisplayTodoRemove={setDisplayTodoRemove} />}
     </>
   );
 };

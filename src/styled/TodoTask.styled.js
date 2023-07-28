@@ -37,8 +37,7 @@ const DeleteBtn = styled.button`
 
 const Textarea = styled.textarea`
   min-width: 80%;
-  min-height:100%; 
-  height:auto;
+  min-height:100%;
   margin-left: auto;
   background-color: transparent;
   border: none;

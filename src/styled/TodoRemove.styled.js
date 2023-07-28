@@ -12,15 +12,21 @@ const Section = styled.section`
   backdrop-filter: blur(3px);
 `;
 
-const Form = styled.form`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  gap: 1rem;
   width: 90%;
-  padding-bottom: ${({ theme }) => theme.padding[5]};
+  padding: ${({ theme }) => theme.padding[3]};
   background-color: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 15px;
+  text-align: center;
+`;
+const Text = styled.p`
+  line-height: 1.3rem;
+  font-weight: lighter;
 `;
 
-export { Section, Form };
+export { Section, Container, Text };

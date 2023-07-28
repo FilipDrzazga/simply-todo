@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import * as S from "../styled/TodoTask.styled";
 import Icon from "./Icon";
 
@@ -59,7 +59,7 @@ const TodoTask = () => {
                       ref={textareaRef}
                       type="text"
                       defaultValue={task.taskName}
-                      onClick={(e) => handleTextareaClick(e, task.taskId, item.boardId)}
+                      onBlur={(e) => handleTextareaClick(e, task.taskId, item.boardId)}
                       onChange={() => handleResizeTextarea()}
                       autoFocus
                     />

@@ -15,10 +15,15 @@ const Button = styled(motion.button)`
     secondary &&
     css`
       background-color: transparent;
-      margin-bottom: ${({ theme }) => theme.margin[3]};
+      margin-bottom: ${theme.margin[3]};
       color: ${theme.colors.font.primary};
       border: 2px solid ${theme.colors.button.secondary};
-    `}
+    `};
+  ${({ theme, removebtn }) =>
+    removebtn &&
+    css`
+      background-color: ${theme.colors.button.delete};
+    `};
 `;
 
 export { Button };
