@@ -10,6 +10,7 @@ const Section = styled.section`
   width: 100vw;
   min-height: 100vh;
   backdrop-filter: blur(3px);
+  z-index: 999;
 `;
 
 const Form = styled.form`

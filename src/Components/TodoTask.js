@@ -35,9 +35,9 @@ const TodoTask = () => {
     }
   };
 
-  const handleTextareaClick = (e, taskId, boardId) => {
-    const newTaskName = e.target.value;
-    dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: newTaskName }));
+  const handleChangeApprove = (taskId, boardId) => {
+    const textareaValue = textareaRef.current.value;
+    dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: textareaValue }));
   };
 
   const handleResizeTextarea = () => {
@@ -59,10 +59,12 @@ const TodoTask = () => {
                       ref={textareaRef}
                       type="text"
                       defaultValue={task.taskName}
-                      onBlur={(e) => handleTextareaClick(e, task.taskId, item.boardId)}
                       onChange={() => handleResizeTextarea()}
                       autoFocus
                     />
+                    <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, task.boardId)}>
+                      <Icon iconName="circle-check" iconType="far" iconColor="checkbox" size="lg" />
+                    </S.ApproveChangeBtn>
                     <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>
                       <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
                     </S.DeleteBtn>

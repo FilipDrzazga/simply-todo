@@ -15,6 +15,7 @@ import {
   arrayUnion,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
+import { Children } from "react";
 
 const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
   try {

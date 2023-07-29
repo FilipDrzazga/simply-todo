@@ -28,6 +28,12 @@ const CompleteTaskBtn = styled.button`
   border: none;
 `;
 
+const ApproveChangeBtn = styled.button`
+  margin-right: 10px;
+  background-color: transparent;
+  border: none;
+`;
+
 const DeleteBtn = styled.button`
   margin-left: auto;
   margin-right: 10px;
@@ -53,4 +59,4 @@ const Textarea = styled.textarea`
   }
 `;
 
-export { TaskSection, TaskList, TaskItem, CompleteTaskBtn, DeleteBtn, Textarea };
+export { TaskSection, TaskList, TaskItem, CompleteTaskBtn, ApproveChangeBtn, DeleteBtn, Textarea };
