@@ -62,10 +62,10 @@ const TodoTask = () => {
                       onChange={() => handleResizeTextarea()}
                       autoFocus
                     />
-                    <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, task.boardId)}>
+                    <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, item.boardId)}>
                       <Icon iconName="circle-check" iconType="far" iconColor="checkbox" size="lg" />
                     </S.ApproveChangeBtn>
-                    <S.DeleteBtn onClick={() => deleteTask(task.boardId, task.taskId)}>
+                    <S.DeleteBtn onClick={() => deleteTask(item.boardId, task.taskId)}>
                       <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
                     </S.DeleteBtn>
                   </S.TaskItem>

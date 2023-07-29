@@ -244,7 +244,6 @@ const userSlice = createSlice({
       state.activeBoard[0].tasks.push({ ...action.payload });
     },
     removeTaskFromBoard(state, action) {
-      console.log(action.payload);
       const removedTask = state.activeBoard[0].tasks.filter((task) => task.taskId !== action.payload.taskId);
       state.userTodos = state.userTodos.map((board) => {
         return board.boardId === action.payload.boardId ? { ...board, tasks: removedTask } : board;
