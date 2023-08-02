@@ -5,11 +5,13 @@ import * as S from "../styled/TodoListSettings.styled";
 import { useSelector } from "react-redux";
 import TaskEditor from "./TaskEditor";
 import TodoRemove from "./TodoRemove";
+import TodoSharedBoard from "./TodoSharedBoard";
 
 const TodoListSettings = () => {
   const user = useSelector((state) => state.user);
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const [displayTodoRemove, setDisplayTodoRemove] = useState(false);
+  const [displayTodoSharedBoard, setDisplayTodoSharedBoard] = useState(false);
 
   const isDisabled = () => {
     return user.activeBoard[0] && user.activeBoard[0].defaultBoard;
@@ -23,6 +25,10 @@ const TodoListSettings = () => {
     setDisplayTodoRemove(true);
   };
 
+  const sharedBoard = () => {
+    setDisplayTodoSharedBoard(true);
+  };
+
   return (
     <>
       <S.Section>
@@ -33,7 +39,7 @@ const TodoListSettings = () => {
             </S.Button>
           </S.Item>
           <S.Item>
-            <S.Button disabled={isDisabled()}>
+            <S.Button onClick={() => sharedBoard()} disabled={isDisabled()}>
               <Icon iconName="user-group" iconType="fas" iconColor="default" size="lg" />
             </S.Button>
           </S.Item>
@@ -56,6 +62,7 @@ const TodoListSettings = () => {
         />
       )}
       {displayTodoRemove && <TodoRemove setDisplayTodoRemove={setDisplayTodoRemove} />}
+      {displayTodoSharedBoard && <TodoSharedBoard setDisplayTodoSharedBoard={setDisplayTodoSharedBoard} />}
     </>
   );
 };

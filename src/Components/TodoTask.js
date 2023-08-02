@@ -18,6 +18,8 @@ const TodoTask = () => {
   const itemRef = useRef(null);
 
   const deleteTask = (boardId, taskId) => {
+    const textareaValue = textareaRef.current.value;
+    dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: textareaValue }));
     dispatch(removeTaskFromDB({ boardId: boardId, taskId: taskId }));
   };
 

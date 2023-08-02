@@ -24,6 +24,7 @@ const TodoBoard = () => {
               {item.boardName}
             </S.BoardItem>
           ))}
+          <S.BoardItem></S.BoardItem>
         </S.BoardList>
       )
     );
