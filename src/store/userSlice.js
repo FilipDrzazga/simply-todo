@@ -217,10 +217,29 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { 
   }
 });
 
+const searchUsersByUsernameDB = createAsyncThunk("user/searchUserByUsername", async (username, { dispatch }) => {
+  let users = [];
+  try {
+    const searchUsersByUsername = await query(
+      collection(db, "users"),
+      where("username", ">=", username),
+      where("username", "<=", username + "\uf8ff")
+    );
+    const usersShapshot = await getDocs(searchUsersByUsername);
+    usersShapshot.forEach((doc) => {
+      return users.push({ ...doc.data() });
+    });
+    await dispatch(filterUsersFromDB(users));
+  } catch (error) {
+    console.log("error from searchUsersByUsernameDB", error.message);
+  }
+});
+
 const initialState = {
   userData: "",
   userTodos: "",
   activeBoard: "",
+  searchUsers: [],
 };
 
 const userSlice = createSlice({
@@ -300,6 +319,9 @@ const userSlice = createSlice({
         state.activeBoard = setActiveBoard;
       }
     },
+    filterUsersFromDB(state, action) {
+      state.searchUsers = [...action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -331,6 +353,7 @@ export {
   createNewTask,
   createUserDataInDB,
   updateBoardTasksArraysDB,
+  searchUsersByUsernameDB,
 };
 export const {
   addBoardToState,
@@ -341,5 +364,6 @@ export const {
   setEditingComplete,
   setActiveTodoBoard,
   setTaskStatus,
+  filterUsersFromDB,
 } = userSlice.actions;
 export default userSlice.reducer;

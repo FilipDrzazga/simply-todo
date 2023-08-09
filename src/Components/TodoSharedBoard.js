@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import * as S from "../styled/TodoSharedBoard.styled";
+import { useDispatch, useSelector } from "react-redux";
+import { searchUsersByUsernameDB } from "../store/userSlice";
 
 const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
-  const closeTodoSharedBoard = () => {
-    setDisplayTodoSharedBoard(false);
+  const [searchUser, setSearchUser] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (searchUser) {
+      dispatch(searchUsersByUsernameDB(searchUser));
+    }
+  }, [searchUser, dispatch]);
+
+  const closeTodoSharedBoard = (e) => {
+    e.target.tagName === "SECTION" && setDisplayTodoSharedBoard(false);
+  };
+
+  const handleInputChange = (e) => {
+    setSearchUser(e.target.value);
   };
 
   return (
-    <S.Section onClick={() => closeTodoSharedBoard()}>
+    <S.Section onClick={(e) => closeTodoSharedBoard(e)}>
       <S.SharedBoard>
         <S.SharedBoardHeader>
           <S.SharedBoardTitle>
@@ -23,18 +39,35 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
           </S.SharedBoardNav>
         </S.SharedBoardHeader>
         <S.SharedBoardInputContainer>
-          <S.SharedBoardSearchUser placeholder="Search user by email..." />
+          <S.SharedBoardSearchUser
+            onChange={handleInputChange}
+            value={searchUser}
+            type="text"
+            name="searchUser"
+            id="searchUser"
+            placeholder="Search user by email..."
+          />
         </S.SharedBoardInputContainer>
         <S.SharedBoardUsersList>
-          <S.SharedBoardUsersItem>
+          {/* <S.SharedBoardUsersItem>
             <S.SharedBoardUsersAvatar>
               <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
             </S.SharedBoardUsersAvatar>
             <S.SharedBoardUsersEmail>filip.drzazga@gmail.com</S.SharedBoardUsersEmail>
             <S.SharedBoardUsersBtn>Add</S.SharedBoardUsersBtn>
-          </S.SharedBoardUsersItem>
+          </S.SharedBoardUsersItem> */}
+          {user.searchUsers &&
+            user.searchUsers.map((user) => (
+              <S.SharedBoardUsersItem key={user.userId}>
+                <S.SharedBoardUsersAvatar>
+                  <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
+                </S.SharedBoardUsersAvatar>
+                <S.SharedBoardUsersname>{user.username}</S.SharedBoardUsersname>
+                <S.SharedBoardUsersBtn>Add</S.SharedBoardUsersBtn>
+              </S.SharedBoardUsersItem>
+            ))}
         </S.SharedBoardUsersList>
-        <Button primary={true} type="submit" size="95%">
+        <Button primary="true" type="submit" size="95%">
           Sharing
         </Button>
       </S.SharedBoard>

@@ -71,6 +71,8 @@ const SharedBoardSearchUser = styled.input`
   background-color: transparent;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.input.border};
+  outline: none;
+  color: ${({ theme }) => theme.colors.input.font};
   &::placeholder {
     padding-left: ${({ theme }) => theme.padding[2]};
     color: ${({ theme }) => theme.colors.font.primary};
@@ -80,7 +82,7 @@ const SharedBoardSearchUser = styled.input`
 const SharedBoardUsersList = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 15px;
   width: 100%;
@@ -98,6 +100,7 @@ const SharedBoardUsersItem = styled.li`
 const SharedBoardUsersAvatar = styled.div`
   width: 50px;
   height: 50px;
+  aligns-self: flex-start;
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -106,13 +109,16 @@ const SharedBoardUsersAvatarImg = styled.img`
   height: 100%;
   object-fit: cover;
 `;
-const SharedBoardUsersEmail = styled.span`
+const SharedBoardUsersname = styled.span`
+  flex-grow: 1;
+  text-align: center;
   font-size: ${({ theme }) => theme.fontSizes[0]};
   font-weight: lighter;
+  letter-spacing: 1.5px;
 `;
 const SharedBoardUsersBtn = styled.button`
-  width: 50px;
-  height: 25px;
+  width: 70px;
+  height: 30px;
   font-size: ${({ theme }) => theme.fontSizes[0]};
   color: ${({ theme }) => theme.colors.font.primary};
   border-radius: 7px;
@@ -132,6 +138,6 @@ export {
   SharedBoardUsersItem,
   SharedBoardUsersAvatar,
   SharedBoardUsersAvatarImg,
-  SharedBoardUsersEmail,
+  SharedBoardUsersname,
   SharedBoardUsersBtn,
 };
