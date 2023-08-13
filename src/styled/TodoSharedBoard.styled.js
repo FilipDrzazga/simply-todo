@@ -111,10 +111,11 @@ const SharedBoardUsersAvatarImg = styled.img`
 `;
 const SharedBoardUsersname = styled.span`
   flex-grow: 1;
-  text-align: center;
+  margin-left: ${({ theme }) => theme.margin[2]};
+  text-align: left;
   font-size: ${({ theme }) => theme.fontSizes[0]};
   font-weight: lighter;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
 `;
 const SharedBoardUsersBtn = styled.button`
   width: 70px;

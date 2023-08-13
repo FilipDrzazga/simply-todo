@@ -15,7 +15,6 @@ import {
   arrayUnion,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
-import { Children } from "react";
 
 const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
   try {
@@ -50,7 +49,7 @@ const createBoardForNewUser = createAsyncThunk("user/setTaskBoardForNewUser", as
       boardName: "My task",
       defaultBoard: true,
       boardId: uuid(),
-      createdAt: serverTimestamp(),
+      createdAt: new Date(1995, 11, 17),
       tasks: [
         { taskName: "Add new board", isDone: false, taskId: uuid(), isEditing: false },
         { taskName: "Add new task", isDone: false, taskId: uuid(), isEditing: false },
@@ -199,16 +198,27 @@ const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays",
 });
 
 const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { dispatch }) => {
-  let todosArr = [];
   try {
-    const userTodos = await query(collection(db, "usersTodos"), where("userId", "==", userId));
-    const userTodosSnapshot = await getDocs(userTodos);
-    userTodosSnapshot.forEach((userTodos) => {
-      todosArr.push({ ...userTodos.data() });
+    const queryUserTodos = await query(collection(db, "usersTodos"), where("userId", "==", userId));
+    const userTodosRef = await getDocs(queryUserTodos);
+    const userTodosPromises = userTodosRef.docs.map(async (doc) => ({ ...doc.data() }));
+
+    const sharedBoardsRef = await getDocs(collection(db, "users", userId, "sharedBoardsBy"));
+    const sharedBoardPromises = sharedBoardsRef.docs.map(async (doc) => {
+      const { sharedBoardId } = doc.data();
+      const querySharedBoards = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
+      const querySharedBoardsRef = await getDocs(querySharedBoards);
+      return querySharedBoardsRef.docs.map((board) => ({ ...board.data() }));
     });
-    const convertedTodos = todosArr.map((item) => {
-      return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
-    });
+
+    const allBoardsPromises = userTodosPromises.concat(sharedBoardPromises).flatMap((promises) => promises);
+    const allUserBoards = await Promise.all(allBoardsPromises);
+
+    const convertedTodos = allUserBoards
+      .flatMap((boards) => boards)
+      .map((item) => {
+        return { ...item, createdAt: JSON.stringify(item.createdAt.toMillis()) };
+      });
     await dispatch(setActiveTodoBoard({ dbUserBoards: convertedTodos }));
     return convertedTodos;
   } catch (error) {
@@ -232,6 +242,28 @@ const searchUsersByUsernameDB = createAsyncThunk("user/searchUserByUsername", as
     await dispatch(filterUsersFromDB(users));
   } catch (error) {
     console.log("error from searchUsersByUsernameDB", error.message);
+  }
+});
+
+const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async (user, { getState }) => {
+  const state = getState();
+  try {
+    const userDataRef = doc(db, "users", state.user.userData.userId);
+    const subcollectionRef = collection(userDataRef, "sharedBoards");
+    await addDoc(subcollectionRef, {
+      sharedBoardId: state.user.activeBoard[0].boardId,
+      sharedWith: arrayUnion({ ...user, isAdded: true, isGuest: true }),
+    });
+
+    const sharingUserDataRef = doc(db, "users", user.userId);
+    const sharingSubcollectionRef = collection(sharingUserDataRef, "sharedBoardsBy");
+    await addDoc(sharingSubcollectionRef, {
+      sharedBoardId: state.user.activeBoard[0].boardId,
+      sharedByUserId: state.user.userData.userId,
+      sharedByUsername: state.user.userData.username,
+    });
+  } catch (error) {
+    console.log("error from sharedBoardWithUsers", error.message);
   }
 });
 
@@ -354,6 +386,7 @@ export {
   createUserDataInDB,
   updateBoardTasksArraysDB,
   searchUsersByUsernameDB,
+  sharedBoardWithUsers,
 };
 export const {
   addBoardToState,

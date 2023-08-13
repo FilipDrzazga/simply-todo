@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { searchUsersByUsernameDB } from "../store/userSlice";
+import { searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
 
 const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   const [searchUser, setSearchUser] = useState("");
@@ -21,6 +21,10 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
 
   const handleInputChange = (e) => {
     setSearchUser(e.target.value);
+  };
+
+  const handleAddUserToBoard = (user) => {
+    dispatch(sharedBoardWithUsers(user));
   };
 
   return (
@@ -49,13 +53,6 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
           />
         </S.SharedBoardInputContainer>
         <S.SharedBoardUsersList>
-          {/* <S.SharedBoardUsersItem>
-            <S.SharedBoardUsersAvatar>
-              <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
-            </S.SharedBoardUsersAvatar>
-            <S.SharedBoardUsersEmail>filip.drzazga@gmail.com</S.SharedBoardUsersEmail>
-            <S.SharedBoardUsersBtn>Add</S.SharedBoardUsersBtn>
-          </S.SharedBoardUsersItem> */}
           {user.searchUsers &&
             user.searchUsers.map((user) => (
               <S.SharedBoardUsersItem key={user.userId}>
@@ -63,7 +60,7 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
                   <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
                 </S.SharedBoardUsersAvatar>
                 <S.SharedBoardUsersname>{user.username}</S.SharedBoardUsersname>
-                <S.SharedBoardUsersBtn>Add</S.SharedBoardUsersBtn>
+                <S.SharedBoardUsersBtn onClick={() => handleAddUserToBoard(user)}>Add</S.SharedBoardUsersBtn>
               </S.SharedBoardUsersItem>
             ))}
         </S.SharedBoardUsersList>
