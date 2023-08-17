@@ -23,6 +23,8 @@ const rules = {
     font: {
       primary: "#FAFAFA",
       secondary: "#191919",
+      accent: "#474747",
+      accentGreen: "#479F45",
     },
     button: {
       primary: "#479F45",

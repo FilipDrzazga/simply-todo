@@ -24,6 +24,7 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   };
 
   const handleAddUserToBoard = (user) => {
+    console.log("click");
     dispatch(sharedBoardWithUsers(user));
   };
 
@@ -64,9 +65,9 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
               </S.SharedBoardUsersItem>
             ))}
         </S.SharedBoardUsersList>
-        <Button primary="true" type="submit" size="95%">
+        {/* <Button primary="true" type="submit" size="95%">
           Sharing
-        </Button>
+        </Button> */}
       </S.SharedBoard>
     </S.Section>
   );

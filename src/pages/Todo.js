@@ -5,6 +5,7 @@ import TodoBoard from "../Components/TodoBoard";
 import TodoTask from "../Components/TodoTask";
 import TodoListSettings from "../Components/TodoListSettings";
 import TaskEditor from "../Components/TaskEditor";
+import Notifications from "../Components/Notifications";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,7 @@ import TodoTaskDone from "../Components/TodoTaskDone";
 const Todo = () => {
   const user = useSelector((state) => state.user);
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
+  const [displayNotifications, setDisplayNotifications] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,13 +32,17 @@ const Todo = () => {
     });
   }, []);
 
-  const userSignOut = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      // add some popup 'Are you sure to logout?'
-      console.log("error from signOut/"`${error.message}`);
-    }
+  // const userSignOut = async () => {
+  //   try {
+  //     await signOut(auth);
+  //   } catch (error) {
+  //     // add some popup 'Are you sure to logout?'
+  //     console.log("error from signOut/"`${error.message}`);
+  //   }
+  // };
+
+  const handleClickNotifications = () => {
+    setDisplayNotifications(!displayNotifications);
   };
 
   const addNewTask = () => {
@@ -49,8 +55,8 @@ const Todo = () => {
         <h1>
           Hello,<span>{user.userData.username}</span>
         </h1>
-        <button onClick={() => userSignOut()}>
-          <Icon size="xl" iconName="arrow-right-from-bracket" />
+        <button onClick={() => handleClickNotifications()}>
+          <Icon size="xl" iconName="bell" iconType="far" />
         </button>
       </S.Header>
       <TodoBoard />
@@ -60,6 +66,7 @@ const Todo = () => {
       <S.AddTaskBtn onClick={() => addNewTask()}>
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
+      {displayNotifications && <Notifications handleClickNotifications={handleClickNotifications} />}
       {displayTaskEditor && (
         <TaskEditor
           validateField="addTask"

@@ -31,6 +31,9 @@ const Header = styled.header`
     background-color: transparent;
     border: none;
     text-align: right;
+    div {
+      margin-right: 10px;
+    }
   }
 `;
 
