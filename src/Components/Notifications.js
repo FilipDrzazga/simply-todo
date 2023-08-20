@@ -38,10 +38,18 @@ const Notifications = ({ handleClickNotifications }) => {
                   <S.NotificationsUsername>{notification.sharedByUsername}</S.NotificationsUsername> invites you to{" "}
                   <S.NotificationsBoardName>{notification.sharedBoardName}</S.NotificationsBoardName> todo list
                 </S.NotificationsDescription>
-                <S.NotificationsBtnsContainer>
-                  <S.NotificationsBtn join={true}>Join </S.NotificationsBtn>
-                  <S.NotificationsBtn decline={true}>Decline</S.NotificationsBtn>
-                </S.NotificationsBtnsContainer>
+                {notification.isInvitationFulfilled === "pending" && (
+                  <S.NotificationsBtnsContainer>
+                    <S.NotificationsBtn join={true}>Join </S.NotificationsBtn>
+                    <S.NotificationsBtn decline={true}>Decline</S.NotificationsBtn>
+                  </S.NotificationsBtnsContainer>
+                )}
+                {notification.isInvitationFulfilled === true && (
+                  <S.JoinedStatus>joined to {notification.sharedBoardName} todo list</S.JoinedStatus>
+                )}
+                {!notification.isInvitationFulfilled && (
+                  <S.JoinedStatus>rejected access to {notification.sharedBoardName} todo list</S.JoinedStatus>
+                )}
               </S.NotificationsItem>
             ))}
         </S.NotificationsList>

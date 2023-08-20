@@ -69,7 +69,7 @@ const NotificationsList = styled.ul`
 const NotificationsItem = styled.li`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
 `;
@@ -128,11 +128,18 @@ const NotificationsBtn = styled.button`
     decline &&
     css`
       border: none;
-      // border: 2px solid ${theme.colors.borderLine};
       background-color: ${theme.colors.button.delete};
       letter-spacing: 0.5px;
       color: ${theme.colors.font.primary};
     `};
+`;
+
+const JoinedStatus = styled.span`
+  margin-left: 56px;
+  margin-top: -13px;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: ${({ theme }) => theme.colors.font.accent};
 `;
 
 export {
@@ -152,4 +159,5 @@ export {
   NotificationsAvatarImg,
   NotificationsBtnsContainer,
   NotificationsBtn,
+  JoinedStatus,
 };

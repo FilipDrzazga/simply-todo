@@ -10,7 +10,7 @@ import Notifications from "../Components/Notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
-import { queryAllSharedBoardsBy, queryUserData, queryUserTodos, setInvitationAlert } from "../store/userSlice";
+import { queryAllSharedBoardsBy, queryUserData, queryUserTodos } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 
 const Todo = () => {

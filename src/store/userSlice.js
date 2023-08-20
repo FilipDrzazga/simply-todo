@@ -13,9 +13,9 @@ import {
   serverTimestamp,
   updateDoc,
   arrayUnion,
+  writeBatch,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
-import { Timestamp, writeBatch } from "firebase/firestore";
 
 const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
   try {
