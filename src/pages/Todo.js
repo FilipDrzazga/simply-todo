@@ -10,7 +10,7 @@ import Notifications from "../Components/Notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
-import { queryUserData, queryUserTodos } from "../store/userSlice";
+import { queryAllSharedBoardsBy, queryUserData, queryUserTodos, setInvitationAlert } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 
 const Todo = () => {
@@ -25,6 +25,7 @@ const Todo = () => {
       if (user) {
         dispatch(queryUserData(user.uid));
         dispatch(queryUserTodos(user.uid));
+        dispatch(queryAllSharedBoardsBy(user.uid));
       } else {
         // user is signout, save data to db
         navigate("/");
@@ -56,7 +57,12 @@ const Todo = () => {
           Hello,<span>{user.userData.username}</span>
         </h1>
         <button onClick={() => handleClickNotifications()}>
-          <Icon size="xl" iconName="bell" iconType="far" />
+          <Icon
+            size="xl"
+            iconName="bell"
+            iconType={user.isNewInvitation ? "fas" : "far"}
+            iconColor={user.isNewInvitation ? "checkbox" : "default"}
+          />
         </button>
       </S.Header>
       <TodoBoard />

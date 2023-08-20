@@ -22,6 +22,7 @@ import {
   where,
   orderBy,
   serverTimestamp,
+  writeBatch,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -59,4 +60,5 @@ export {
   sendPasswordResetEmail,
   signOut,
   serverTimestamp,
+  writeBatch,
 };

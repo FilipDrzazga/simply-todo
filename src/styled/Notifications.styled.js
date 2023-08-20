@@ -63,6 +63,7 @@ const NotificationsList = styled.ul`
   height: auto;
   display: flex;
   flex-direction: column;
+  gap: 15px;
 `;
 
 const NotificationsItem = styled.li`
@@ -74,7 +75,7 @@ const NotificationsItem = styled.li`
 `;
 
 const NotificationsDescription = styled.p`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   flex-grow: 1;
   margin-left: ${({ theme }) => theme.margin[0]};
 `;

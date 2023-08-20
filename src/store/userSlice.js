@@ -15,6 +15,7 @@ import {
   arrayUnion,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
+import { Timestamp, writeBatch } from "firebase/firestore";
 
 const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async ({ username, email, userId }) => {
   try {
@@ -203,7 +204,11 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { 
     const userTodosRef = await getDocs(queryUserTodos);
     const userTodosPromises = userTodosRef.docs.map(async (doc) => ({ ...doc.data() }));
 
-    const sharedBoardsRef = await getDocs(collection(db, "users", userId, "sharedBoardsBy"));
+    const querySharedBoards = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("isInviteFulfilled", "==", true)
+    );
+    const sharedBoardsRef = await getDocs(querySharedBoards);
     const sharedBoardPromises = sharedBoardsRef.docs.map(async (doc) => {
       const { sharedBoardId } = doc.data();
       const querySharedBoards = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
@@ -258,7 +263,12 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
     const sharingUserDataRef = doc(db, "users", user.userId);
     const sharingSubcollectionRef = collection(sharingUserDataRef, "sharedBoardsBy");
     await addDoc(sharingSubcollectionRef, {
+      invitationDate: serverTimestamp(),
+      isInvitationFulfilled: "pending",
+      isNewInvitation: true,
+      isInvitationClear: false,
       sharedBoardId: state.user.activeBoard[0].boardId,
+      sharedBoardName: state.user.activeBoard[0].boardName,
       sharedByUserId: state.user.userData.userId,
       sharedByUsername: state.user.userData.username,
     });
@@ -267,11 +277,68 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
   }
 });
 
+const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", async (userId, { dispatch }) => {
+  try {
+    const queryBoards = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("isInvitationClear", "==", false)
+    );
+    const boardsRef = await getDocs(queryBoards);
+    const boardsArray = boardsRef.docs.map((notification) => ({ ...notification.data() }));
+    const convertedBoards = boardsArray.map((notification) => ({
+      ...notification,
+      invitationDate: JSON.stringify(notification.invitationDate.toMillis()),
+    }));
+    dispatch(setSharedBoardsBy(convertedBoards));
+    dispatch(setInvitationAlert(convertedBoards));
+  } catch (error) {
+    console.log("error from ueryNotifications", error.message);
+  }
+});
+
+const clearInvitation = createAsyncThunk("user/clearInvitation", async (userId, { dispatch }) => {
+  dispatch(clearInvitationInState());
+  try {
+    const querySharedBoards = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("isInvitationClear", "==", false)
+    );
+    const batch = writeBatch(db);
+    const boardsRef = await getDocs(querySharedBoards);
+    boardsRef.forEach((doc) => {
+      console.log(doc.data());
+      batch.update(doc.ref, { isInvitationClear: true });
+    });
+    await batch.commit();
+  } catch (error) {
+    console.log("error from clearIvitation", error.message);
+  }
+});
+
+const clearNewInvitation = createAsyncThunk("user/clearNewInvitation", async (userId, { dispatch }) => {
+  try {
+    const querySharedBoards = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("isNewInvitation", "==", true)
+    );
+    const batch = writeBatch(db);
+    const boardsRef = await getDocs(querySharedBoards);
+    boardsRef.forEach((doc) => {
+      batch.update(doc.ref, { isNewInvitation: false });
+    });
+    await batch.commit();
+  } catch (error) {
+    console.log("error from clearNewInvitation", error.message);
+  }
+});
+
 const initialState = {
   userData: "",
   userTodos: "",
   activeBoard: "",
   searchUsers: [],
+  sharedBoardsBy: [],
+  isNewInvitation: false,
 };
 
 const userSlice = createSlice({
@@ -354,6 +421,20 @@ const userSlice = createSlice({
     filterUsersFromDB(state, action) {
       state.searchUsers = [...action.payload];
     },
+    setInvitationAlert(state, action) {
+      if (action.payload) {
+        const isNew = action.payload.some((invitation) => invitation.isNewInvitation === true);
+        state.isNewInvitation = isNew;
+      } else {
+        state.isNewInvitation = false;
+      }
+    },
+    clearInvitationInState(state, action) {
+      state.sharedBoardsBy = [];
+    },
+    setSharedBoardsBy(state, action) {
+      state.sharedBoardsBy = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -387,6 +468,9 @@ export {
   updateBoardTasksArraysDB,
   searchUsersByUsernameDB,
   sharedBoardWithUsers,
+  queryAllSharedBoardsBy,
+  clearInvitation,
+  clearNewInvitation,
 };
 export const {
   addBoardToState,
@@ -398,5 +482,8 @@ export const {
   setActiveTodoBoard,
   setTaskStatus,
   filterUsersFromDB,
+  setInvitationAlert,
+  clearInvitationInState,
+  setSharedBoardsBy,
 } = userSlice.actions;
 export default userSlice.reducer;
