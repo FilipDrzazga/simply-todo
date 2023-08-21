@@ -17,6 +17,24 @@ const Notifications = ({ handleClickNotifications }) => {
     dispatch(clearInvitation(user.userData.userId));
   };
 
+  const switchNotificationStatus = (status, data) => {
+    switch (status) {
+      case "pending":
+        return (
+          <S.NotificationsBtnsContainer>
+            <S.NotificationsBtn join={true}>Join </S.NotificationsBtn>
+            <S.NotificationsBtn decline={true}>Decline</S.NotificationsBtn>
+          </S.NotificationsBtnsContainer>
+        );
+      case "rejected":
+        return <S.JoinedStatus>rejected access to {data.sharedBoardName} todo list</S.JoinedStatus>;
+      case "fulfilled":
+        return <S.JoinedStatus>joined to {data.sharedBoardName} todo list</S.JoinedStatus>;
+      default:
+        console.log("error from switch notification status!");
+    }
+  };
+
   return (
     <S.NotificationsSection>
       <S.NotificationsHeader>
@@ -38,18 +56,7 @@ const Notifications = ({ handleClickNotifications }) => {
                   <S.NotificationsUsername>{notification.sharedByUsername}</S.NotificationsUsername> invites you to{" "}
                   <S.NotificationsBoardName>{notification.sharedBoardName}</S.NotificationsBoardName> todo list
                 </S.NotificationsDescription>
-                {notification.isInvitationFulfilled === "pending" && (
-                  <S.NotificationsBtnsContainer>
-                    <S.NotificationsBtn join={true}>Join </S.NotificationsBtn>
-                    <S.NotificationsBtn decline={true}>Decline</S.NotificationsBtn>
-                  </S.NotificationsBtnsContainer>
-                )}
-                {notification.isInvitationFulfilled === true && (
-                  <S.JoinedStatus>joined to {notification.sharedBoardName} todo list</S.JoinedStatus>
-                )}
-                {!notification.isInvitationFulfilled && (
-                  <S.JoinedStatus>rejected access to {notification.sharedBoardName} todo list</S.JoinedStatus>
-                )}
+                {switchNotificationStatus(notification.isInvitationFulfilled, notification)}
               </S.NotificationsItem>
             ))}
         </S.NotificationsList>
