@@ -3,7 +3,13 @@ import Icon from "./Icon";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as S from "../styled/Notifications.styled";
-import { clearInvitation, clearNewInvitation, setInvitationAlert } from "../store/userSlice";
+import {
+  deleteInvitations,
+  clearNewInvitation,
+  setInvitationAlert,
+  updateInvitationStatus,
+  queryAcceptSharedBoard,
+} from "../store/userSlice";
 
 const Notifications = ({ handleClickNotifications }) => {
   const user = useSelector((state) => state.user);
@@ -14,16 +20,42 @@ const Notifications = ({ handleClickNotifications }) => {
   }, []);
 
   const handleClearInvitation = () => {
-    dispatch(clearInvitation(user.userData.userId));
+    dispatch(deleteInvitations(user.userData.userId));
   };
 
-  const switchNotificationStatus = (status, data) => {
-    switch (status) {
+  const handleJoinToBoard = (data) => {
+    dispatch(
+      updateInvitationStatus({
+        userId: user.userData.userId,
+        boardId: data.sharedBoardId,
+        status: "fulfilled",
+      })
+    );
+    dispatch(queryAcceptSharedBoard(data.sharedBoardId));
+  };
+
+  const switchNotificationStatus = (data) => {
+    switch (data.invitationStatus) {
       case "pending":
         return (
           <S.NotificationsBtnsContainer>
-            <S.NotificationsBtn join={true}>Join </S.NotificationsBtn>
-            <S.NotificationsBtn decline={true}>Decline</S.NotificationsBtn>
+            <S.NotificationsBtn onClick={() => handleJoinToBoard(data)} join={true}>
+              Join{" "}
+            </S.NotificationsBtn>
+            <S.NotificationsBtn
+              onClick={() =>
+                dispatch(
+                  updateInvitationStatus({
+                    userId: user.userData.userId,
+                    boardId: data.sharedBoardId,
+                    status: "rejected",
+                  })
+                )
+              }
+              decline={true}
+            >
+              Decline
+            </S.NotificationsBtn>
           </S.NotificationsBtnsContainer>
         );
       case "rejected":
@@ -56,7 +88,7 @@ const Notifications = ({ handleClickNotifications }) => {
                   <S.NotificationsUsername>{notification.sharedByUsername}</S.NotificationsUsername> invites you to{" "}
                   <S.NotificationsBoardName>{notification.sharedBoardName}</S.NotificationsBoardName> todo list
                 </S.NotificationsDescription>
-                {switchNotificationStatus(notification.isInvitationFulfilled, notification)}
+                {switchNotificationStatus(notification)}
               </S.NotificationsItem>
             ))}
         </S.NotificationsList>

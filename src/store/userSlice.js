@@ -14,6 +14,7 @@ import {
   updateDoc,
   arrayUnion,
   writeBatch,
+  onSnapshot,
 } from "../firebase/firebase";
 import { v4 as uuid } from "uuid";
 
@@ -206,7 +207,7 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { 
 
     const querySharedBoards = await query(
       collection(db, "users", userId, "sharedBoardsBy"),
-      where("isInviteFulfilled", "==", true)
+      where("invitationStatus", "==", "fulfilled")
     );
     const sharedBoardsRef = await getDocs(querySharedBoards);
     const sharedBoardPromises = sharedBoardsRef.docs.map(async (doc) => {
@@ -264,7 +265,7 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
     const sharingSubcollectionRef = collection(sharingUserDataRef, "sharedBoardsBy");
     await addDoc(sharingSubcollectionRef, {
       invitationDate: serverTimestamp(),
-      isInvitationFulfilled: "pending",
+      invitationStatus: "pending",
       isNewInvitation: true,
       isInvitationClear: false,
       sharedBoardId: state.user.activeBoard[0].boardId,
@@ -296,7 +297,7 @@ const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", a
   }
 });
 
-const clearInvitation = createAsyncThunk("user/clearInvitation", async (userId, { dispatch }) => {
+const deleteInvitations = createAsyncThunk("user/deleteInvitations", async (userId, { dispatch }) => {
   dispatch(clearInvitationInState());
   try {
     const querySharedBoards = await query(
@@ -329,6 +330,39 @@ const clearNewInvitation = createAsyncThunk("user/clearNewInvitation", async (us
     await batch.commit();
   } catch (error) {
     console.log("error from clearNewInvitation", error.message);
+  }
+});
+
+const updateInvitationStatus = createAsyncThunk(
+  "user/updateInvitationStatus",
+  async ({ userId, boardId, status }, { dispatch }) => {
+    try {
+      const querySharedBoards = await query(
+        collection(db, "users", userId, "sharedBoardsBy"),
+        where("sharedBoardId", "==", boardId)
+      );
+      const boardRef = await getDocs(querySharedBoards);
+      boardRef.forEach((board) => {
+        updateDoc(board.ref, { invitationStatus: status });
+      });
+      dispatch(setInvitationStatus({ boardId, status }));
+    } catch (error) {
+      console.log("error from updateInvitationStatus", error.message);
+    }
+  }
+);
+
+const queryAcceptSharedBoard = createAsyncThunk("user/queryAcceptSharedBoard", async (boardId, { dispatch }) => {
+  try {
+    const docRef = await query(collection(db, "usersTodos"), where("boardId", "==", boardId));
+    const docSnap = await getDocs(docRef);
+    docSnap.forEach((doc) => {
+      const data = { ...doc.data() };
+      const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+      dispatch(addBoardToState(convertData));
+    });
+  } catch (error) {
+    console.log("error from queryAcceptSharedBoard", error.message);
   }
 });
 
@@ -435,6 +469,14 @@ const userSlice = createSlice({
     setSharedBoardsBy(state, action) {
       state.sharedBoardsBy = action.payload;
     },
+    setInvitationStatus(state, action) {
+      state.sharedBoardsBy = state.sharedBoardsBy.map((board) => {
+        if (board.sharedBoardId === action.payload.boardId) {
+          return { ...board, invitationStatus: action.payload.status };
+        }
+        return board;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -469,8 +511,10 @@ export {
   searchUsersByUsernameDB,
   sharedBoardWithUsers,
   queryAllSharedBoardsBy,
-  clearInvitation,
+  deleteInvitations,
   clearNewInvitation,
+  updateInvitationStatus,
+  queryAcceptSharedBoard,
 };
 export const {
   addBoardToState,
@@ -485,5 +529,6 @@ export const {
   setInvitationAlert,
   clearInvitationInState,
   setSharedBoardsBy,
+  setInvitationStatus,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -23,6 +23,7 @@ import {
   orderBy,
   serverTimestamp,
   writeBatch,
+  onSnapshot,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -61,4 +62,5 @@ export {
   signOut,
   serverTimestamp,
   writeBatch,
+  onSnapshot,
 };
