@@ -27,6 +27,7 @@ const Notifications = ({ handleClickNotifications }) => {
     dispatch(
       updateInvitationStatus({
         userId: user.userData.userId,
+        senderUserId: data.sharedByUserId,
         boardId: data.sharedBoardId,
         status: "fulfilled",
       })

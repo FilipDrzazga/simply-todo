@@ -10,7 +10,7 @@ import Notifications from "../Components/Notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
-import { queryAllSharedBoardsBy, queryUserData, queryUserTodos } from "../store/userSlice";
+import { startSubscriptionTodos, queryAllSharedBoardsBy, queryUserData, queryUserTodos } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 
 const Todo = () => {
@@ -32,6 +32,12 @@ const Todo = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (user.userData?.userId) {
+      dispatch(startSubscriptionTodos(user.userData.userId));
+    }
+  }, [dispatch, user.userData.userId]);
 
   // const userSignOut = async () => {
   //   try {
