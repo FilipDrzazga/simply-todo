@@ -51,6 +51,7 @@ const rules = {
       default: "#FAFAFA",
       delete: "#EA4335",
       checkbox: "#34A853",
+      secondary: "#191919",
     },
     borderLine: "#474747",
   },

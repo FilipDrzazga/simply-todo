@@ -11,18 +11,35 @@ const Section = styled.section`
 `;
 
 const SettingsList = styled.ul`
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 120px;
+  height: 130px;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 30px;
-  padding-left: 20px;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: 5px 5px 0 0;
   list-style-type: none;
 `;
-const Item = styled.li``;
+const Item = styled.li`
+  flex-grow: 1;
+  width: 100%;
+  height: 30%;
+  display: flext;
+  justify-content: center;
+  align-items: center;
+  font-size: ${({ theme }) => theme.fontSizes[0]};
+  text-align: center;
+  color: ${({ theme, isDelete }) => (isDelete ? theme.colors.button.delete : theme.colors.font.secondary)};
+  letter-spacing: 1px;
+  font-weight: 300;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.font.secondary};
+`;
 
-const Button = styled.button`
+const SettingsBtn = styled.button`
+  width: 20%;
+  height: 100%;
   background-color: transparent;
   border: none;
   &:disabled {
@@ -30,4 +47,4 @@ const Button = styled.button`
   }
 `;
 
-export { Section, SettingsList, Item, Button };
+export { Section, SettingsList, Item, SettingsBtn };

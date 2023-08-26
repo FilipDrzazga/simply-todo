@@ -12,43 +12,50 @@ const TodoListSettings = () => {
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const [displayTodoRemove, setDisplayTodoRemove] = useState(false);
   const [displayTodoSharedBoard, setDisplayTodoSharedBoard] = useState(false);
+  const [displaySettingsList, setDisplaySettingsList] = useState(false);
 
   const isDisabled = () => {
     return user.activeBoard[0] && user.activeBoard[0].defaultBoard;
   };
 
   const renameBoard = () => {
+    setDisplaySettingsList(!displaySettingsList);
     return setDisplayTaskEditor(true);
   };
 
   const deleteBoard = () => {
+    setDisplaySettingsList(!displaySettingsList);
     setDisplayTodoRemove(true);
   };
 
   const sharedBoard = () => {
+    setDisplaySettingsList(!displaySettingsList);
     setDisplayTodoSharedBoard(true);
+  };
+
+  const handleOpenSettingsList = () => {
+    setDisplaySettingsList(!displaySettingsList);
   };
 
   return (
     <>
       <S.Section>
-        <S.SettingsList>
-          <S.Item>
-            <S.Button onClick={() => renameBoard()} disabled={isDisabled()}>
-              <Icon iconName="pen-to-square" iconType="fas" iconColor="default" size="lg" />
-            </S.Button>
-          </S.Item>
-          <S.Item>
-            <S.Button onClick={() => sharedBoard()} disabled={isDisabled()}>
-              <Icon iconName="user-group" iconType="fas" iconColor="default" size="lg" />
-            </S.Button>
-          </S.Item>
-          <S.Item>
-            <S.Button onClick={() => deleteBoard()} disabled={isDisabled()}>
-              <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
-            </S.Button>
-          </S.Item>
-        </S.SettingsList>
+        <S.SettingsBtn onClick={() => handleOpenSettingsList()} disabled={isDisabled()}>
+          <Icon iconName="ellipsis" iconType="fas" iconColor="default" size="lg" />
+        </S.SettingsBtn>
+        {displaySettingsList && (
+          <S.SettingsList>
+            <S.Item onClick={() => renameBoard()} disabled={isDisabled()}>
+              Rename board
+            </S.Item>
+            <S.Item onClick={() => sharedBoard()} disabled={isDisabled()}>
+              Shared board
+            </S.Item>
+            <S.Item onClick={() => deleteBoard()} disabled={isDisabled()} isDelete={true}>
+              Delete board
+            </S.Item>
+          </S.SettingsList>
+        )}
       </S.Section>
       {displayTaskEditor && (
         <TaskEditor
