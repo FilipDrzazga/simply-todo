@@ -25,21 +25,28 @@ const Header = styled.header`
     font-weight: lighter;
     padding-left: ${({ theme }) => theme.padding[1]};
   }
-  button {
-    width: 20%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    text-align: right;
-    div {
-      margin-right: 10px;
-    }
   }
+`;
+
+const NotificationBtn = styled.button`
+  width: 15%;
+  height: 100%;
+  margin-left: 20px;
+  background-color: transparent;
+  border: none;
+  text-align: right;
+`;
+const SignOutBtn = styled.button`
+  width: 15%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  text-align: right;
 `;
 
 const AddTaskBtn = styled.button`
   position: fixed;
-  bottom: 1.3rem;
+  bottom: 4rem;
   left: 80%;
   width: 3.5rem;
   height: 3.5rem;
@@ -49,4 +56,4 @@ const AddTaskBtn = styled.button`
   border: none;
 `;
 
-export { Section, Header, AddTaskBtn };
+export { Section, Header, NotificationBtn, SignOutBtn, AddTaskBtn };

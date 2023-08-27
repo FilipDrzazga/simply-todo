@@ -18,7 +18,7 @@ const SettingsList = styled.ul`
   height: 130px;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.background.secondary};
+  background-color: ${({ theme }) => theme.colors.background.primary};
   border-radius: 5px 5px 0 0;
   list-style-type: none;
 `;
@@ -31,10 +31,9 @@ const Item = styled.li`
   align-items: center;
   font-size: ${({ theme }) => theme.fontSizes[0]};
   text-align: center;
-  color: ${({ theme, isDelete }) => (isDelete ? theme.colors.button.delete : theme.colors.font.secondary)};
+  color: ${({ theme, isDelete }) => (isDelete ? theme.colors.button.delete : theme.colors.font.primary)};
   letter-spacing: 1px;
   font-weight: 300;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.font.secondary};
 `;
 
 const SettingsBtn = styled.button`

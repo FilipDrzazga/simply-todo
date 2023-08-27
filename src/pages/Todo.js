@@ -39,14 +39,14 @@ const Todo = () => {
     }
   }, [dispatch, user.userData.userId]);
 
-  // const userSignOut = async () => {
-  //   try {
-  //     await signOut(auth);
-  //   } catch (error) {
-  //     // add some popup 'Are you sure to logout?'
-  //     console.log("error from signOut/"`${error.message}`);
-  //   }
-  // };
+  const userSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      // add some popup 'Are you sure to logout?'
+      console.log("error from signOut/"`${error.message}`);
+    }
+  };
 
   const handleClickNotifications = () => {
     setDisplayNotifications(!displayNotifications);
@@ -62,14 +62,17 @@ const Todo = () => {
         <h1>
           Hello,<span>{user.userData.username}</span>
         </h1>
-        <button onClick={() => handleClickNotifications()}>
+        <S.NotificationBtn onClick={() => handleClickNotifications()}>
           <Icon
             size="xl"
             iconName="bell"
             iconType={user.isNewInvitation ? "fas" : "far"}
             iconColor={user.isNewInvitation ? "checkbox" : "default"}
           />
-        </button>
+        </S.NotificationBtn>
+        <S.SignOutBtn onClick={() => userSignOut()}>
+          <Icon size="xl" iconName="arrow-right-from-bracket" iconType="fas" iconColor="default" />
+        </S.SignOutBtn>
       </S.Header>
       <TodoBoard />
       <TodoTask />
