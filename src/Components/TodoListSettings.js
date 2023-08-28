@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TaskEditor from "./TaskEditor";
 import TodoRemove from "./TodoRemove";
 import TodoSharedBoard from "./TodoSharedBoard";
-import { leaveAndRemoveSharedBoard, removeBoardFromState, updateInvitationStatus } from "../store/userSlice";
+import { leaveAndRemoveSharedBoard, removeAllDoneTask, removeBoardFromState } from "../store/userSlice";
 
 const TodoListSettings = () => {
   const user = useSelector((state) => state.user);
@@ -39,6 +39,11 @@ const TodoListSettings = () => {
     setDisplayTodoSharedBoard(true);
   };
 
+  const deleteDoneTasks = () => {
+    dispatch(removeAllDoneTask(user.activeBoard[0].boardId));
+    setDisplaySettingsList(!displaySettingsList);
+  };
+
   const handleOpenSettingsList = () => {
     setDisplaySettingsList(!displaySettingsList);
   };
@@ -68,6 +73,7 @@ const TodoListSettings = () => {
               <>
                 <S.Item onClick={() => renameBoard()}>Rename board</S.Item>
                 <S.Item onClick={() => sharedBoard()}>Shared board</S.Item>
+                <S.Item onClick={() => deleteDoneTasks()}>Delete done tasks</S.Item>
                 <S.Item onClick={() => deleteBoard()} isDelete={true}>
                   Delete board
                 </S.Item>

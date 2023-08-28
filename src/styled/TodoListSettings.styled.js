@@ -14,8 +14,8 @@ const SettingsList = styled.ul`
   position: absolute;
   bottom: 50px;
   left: 0;
-  width: 120px;
-  height: 110px;
+  width: 140px;
+  height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

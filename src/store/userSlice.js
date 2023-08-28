@@ -201,6 +201,21 @@ const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, t
   return dispatch(removeTaskFromBoard({ taskId: taskId, boardId: boardId }));
 });
 
+const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boardId) => {
+  try {
+    const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", boardId));
+    const boardRef = await getDocs(queryBoard);
+    await boardRef.forEach((board) => {
+      const boardRef = doc(db, "usersTodos", board.id);
+      updateDoc(boardRef, {
+        tasksDone: [],
+      });
+    });
+  } catch (error) {
+    console.log("error from removeAllDoneTasks", `${error.message}`);
+  }
+});
+
 const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays", async (_, { getState }) => {
   const state = getState();
   const [userBoardToUpdate] = state.user.userTodos.filter(
@@ -402,26 +417,30 @@ const updateInvitationStatus = createAsyncThunk(
 const leaveAndRemoveSharedBoard = createAsyncThunk(
   "user/leaveAndRemoveSharedBoard",
   async ({ userId, senderUserId, boardId, boardName }, { dispatch }) => {
-    const queryBoardToRemove = await query(
-      collection(db, "users", userId, "sharedBoardsBy"),
-      where("sharedBoardId", "==", boardId)
-    );
-    const boardRef = await getDocs(queryBoardToRemove);
-    boardRef.docs.forEach((board) => {
-      deleteDoc(doc(db, "users", userId, "sharedBoardsBy", board.id));
-    });
+    try {
+      const queryBoardToRemove = await query(
+        collection(db, "users", userId, "sharedBoardsBy"),
+        where("sharedBoardId", "==", boardId)
+      );
+      const boardRef = await getDocs(queryBoardToRemove);
+      boardRef.docs.forEach((board) => {
+        deleteDoc(doc(db, "users", userId, "sharedBoardsBy", board.id));
+      });
 
-    const querySenderBoardToRemove = await query(
-      collection(db, "users", senderUserId, "sharedBoards"),
-      where("sharedBoardId", "==", boardId)
-    );
+      const querySenderBoardToRemove = await query(
+        collection(db, "users", senderUserId, "sharedBoards"),
+        where("sharedBoardId", "==", boardId)
+      );
 
-    const boardSenderRef = await getDocs(querySenderBoardToRemove);
-    boardSenderRef.docs.forEach((board) => {
-      deleteDoc(doc(db, "users", senderUserId, "sharedBoards", board.id));
-    });
+      const boardSenderRef = await getDocs(querySenderBoardToRemove);
+      boardSenderRef.docs.forEach((board) => {
+        deleteDoc(doc(db, "users", senderUserId, "sharedBoards", board.id));
+      });
 
-    dispatch(removeBoardFromState({ name: boardName }));
+      dispatch(removeBoardFromState({ name: boardName }));
+    } catch (error) {
+      console.log("error from leaveAndRemoveSharedBoard", error.message);
+    }
   }
 );
 
@@ -636,6 +655,7 @@ export {
   removeBoardFromDB,
   removeTaskFromDB,
   createNewTask,
+  removeAllDoneTask,
   createUserDataInDB,
   updateBoardTasksArraysDB,
   searchUsersByUsernameDB,
