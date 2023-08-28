@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Section = styled.section`
   width: 100%;
@@ -15,17 +15,18 @@ const SettingsList = styled.ul`
   bottom: 50px;
   left: 0;
   width: 120px;
-  height: 130px;
+  height: 110px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   background-color: ${({ theme }) => theme.colors.background.primary};
   border-radius: 5px 5px 0 0;
   list-style-type: none;
 `;
 const Item = styled.li`
-  flex-grow: 1;
+  ${({ leaveBoard }) => leaveBoard ?? "flex-grow:1"};
   width: 100%;
-  height: 30%;
+  height: 40%;
   display: flext;
   justify-content: center;
   align-items: center;

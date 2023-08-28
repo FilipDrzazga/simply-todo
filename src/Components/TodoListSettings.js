@@ -2,25 +2,31 @@ import React, { useState } from "react";
 import Icon from "./Icon";
 
 import * as S from "../styled/TodoListSettings.styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TaskEditor from "./TaskEditor";
 import TodoRemove from "./TodoRemove";
 import TodoSharedBoard from "./TodoSharedBoard";
+import { leaveAndRemoveSharedBoard, removeBoardFromState, updateInvitationStatus } from "../store/userSlice";
 
 const TodoListSettings = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const [displayTodoRemove, setDisplayTodoRemove] = useState(false);
   const [displayTodoSharedBoard, setDisplayTodoSharedBoard] = useState(false);
   const [displaySettingsList, setDisplaySettingsList] = useState(false);
 
-  const isDisabled = () => {
-    return user.activeBoard[0] && user.activeBoard[0].defaultBoard;
+  const isDefaultBoard = () => {
+    return user.activeBoard[0] && user.activeBoard[0]?.defaultBoard;
+  };
+
+  const isSharedBoard = () => {
+    return user.activeBoard[0] && user.activeBoard[0]?.isSharedBoard;
   };
 
   const renameBoard = () => {
     setDisplaySettingsList(!displaySettingsList);
-    return setDisplayTaskEditor(true);
+    setDisplayTaskEditor(true);
   };
 
   const deleteBoard = () => {
@@ -37,23 +43,40 @@ const TodoListSettings = () => {
     setDisplaySettingsList(!displaySettingsList);
   };
 
+  const leaveSharedBoard = () => {
+    setDisplaySettingsList(!displaySettingsList);
+    dispatch(removeBoardFromState(user.activeBoard[0].boardName));
+    dispatch(
+      leaveAndRemoveSharedBoard({
+        userId: user.userData.userId,
+        senderUserId: user.activeBoard[0].userId,
+        boardId: user.activeBoard[0].boardId,
+        boardName: user.activeBoard[0].boardName,
+      })
+    );
+  };
+
   return (
     <>
       <S.Section>
-        <S.SettingsBtn onClick={() => handleOpenSettingsList()} disabled={isDisabled()}>
+        <S.SettingsBtn onClick={() => handleOpenSettingsList()} disabled={isDefaultBoard()}>
           <Icon iconName="ellipsis" iconType="fas" iconColor="default" size="lg" />
         </S.SettingsBtn>
         {displaySettingsList && (
           <S.SettingsList>
-            <S.Item onClick={() => renameBoard()} disabled={isDisabled()}>
-              Rename board
-            </S.Item>
-            <S.Item onClick={() => sharedBoard()} disabled={isDisabled()}>
-              Shared board
-            </S.Item>
-            <S.Item onClick={() => deleteBoard()} disabled={isDisabled()} isDelete={true}>
-              Delete board
-            </S.Item>
+            {!isSharedBoard() ? (
+              <>
+                <S.Item onClick={() => renameBoard()}>Rename board</S.Item>
+                <S.Item onClick={() => sharedBoard()}>Shared board</S.Item>
+                <S.Item onClick={() => deleteBoard()} isDelete={true}>
+                  Delete board
+                </S.Item>
+              </>
+            ) : (
+              <S.Item onClick={() => leaveSharedBoard()} isDelete={true} leaveBoard={true}>
+                Leave board
+              </S.Item>
+            )}
           </S.SettingsList>
         )}
       </S.Section>

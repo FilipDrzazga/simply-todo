@@ -214,7 +214,7 @@ const queryUserTodos = createAsyncThunk("user/queryUserTodos", async (userId, { 
       const { sharedBoardId } = doc.data();
       const querySharedBoards = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
       const querySharedBoardsRef = await getDocs(querySharedBoards);
-      return querySharedBoardsRef.docs.map((board) => ({ ...board.data() }));
+      return querySharedBoardsRef.docs.map((board) => ({ ...board.data(), isSharedBoard: true }));
     });
 
     const allBoardsPromises = userTodosPromises.concat(sharedBoardPromises).flatMap((promises) => promises);
@@ -361,6 +361,32 @@ const updateInvitationStatus = createAsyncThunk(
   }
 );
 
+const leaveAndRemoveSharedBoard = createAsyncThunk(
+  "user/leaveAndRemoveSharedBoard",
+  async ({ userId, senderUserId, boardId, boardName }, { dispatch }) => {
+    const queryBoardToRemove = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("sharedBoardId", "==", boardId)
+    );
+    const boardRef = await getDocs(queryBoardToRemove);
+    boardRef.docs.forEach((board) => {
+      deleteDoc(doc(db, "users", userId, "sharedBoardsBy", board.id));
+    });
+
+    const querySenderBoardToRemove = await query(
+      collection(db, "users", senderUserId, "sharedBoards"),
+      where("sharedBoardId", "==", boardId)
+    );
+
+    const boardSenderRef = await getDocs(querySenderBoardToRemove);
+    boardSenderRef.docs.forEach((board) => {
+      deleteDoc(doc(db, "users", senderUserId, "sharedBoards", board.id));
+    });
+
+    dispatch(removeBoardFromState({ name: boardName }));
+  }
+);
+
 const queryAcceptSharedBoard = createAsyncThunk("user/queryAcceptSharedBoard", async (boardId, { dispatch }) => {
   try {
     const docRef = await query(collection(db, "usersTodos"), where("boardId", "==", boardId));
@@ -381,8 +407,28 @@ const startSubscriptionTodos = createAsyncThunk("user/startSubscriptionTodos", a
       collection(db, "users", userId, "sharedBoards"),
       where("invitationStatus", "==", "fulfilled")
     );
+
+    const querySharedBoardsBy = await query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("invitationStatus", "==", "fulfilled")
+    );
+
     const sharedBoardsRef = await getDocs(querySharedBoards);
     sharedBoardsRef.docs.map(async (board) => {
+      const { sharedBoardId } = board.data();
+      const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
+      const unsubscribe = onSnapshot(queryBoard, (querySnapshot) => {
+        const board = [];
+        querySnapshot.forEach((doc) => {
+          const data = { ...doc.data() };
+          const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+          board.push(convertData);
+        });
+        dispatch(getRealtimeDataTodos(board));
+      });
+    });
+    const sharedBoardsByRef = await getDocs(querySharedBoardsBy);
+    sharedBoardsByRef.docs.map(async (board) => {
       const { sharedBoardId } = board.data();
       const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
       const unsubscribe = onSnapshot(queryBoard, (querySnapshot) => {
@@ -512,6 +558,7 @@ const userSlice = createSlice({
       });
     },
     getRealtimeDataTodos(state, action) {
+      console.log(action.payload);
       const updatedTodos = state.userTodos.map((boardToUpdate) => {
         const updatedBoard = action.payload.find((board) => board.boardId === boardToUpdate.boardId);
         return updatedBoard ? Object.assign(boardToUpdate, updatedBoard) : boardToUpdate;
@@ -562,6 +609,7 @@ export {
   updateInvitationStatus,
   queryAcceptSharedBoard,
   startSubscriptionTodos,
+  leaveAndRemoveSharedBoard,
 };
 export const {
   addBoardToState,

@@ -29,10 +29,10 @@ const TodoTask = () => {
   };
 
   const handleItemClick = (e, taskId) => {
-    const item = itemRef.current;
-    item.style.height = "auto";
-    item.style.height = `${item.scrollHeight}px`;
     if (e.target.tagName === "LI") {
+      const item = itemRef.current;
+      item.style.height = "auto";
+      item.style.height = `${item.scrollHeight}px`;
       dispatch(setIsEditing(taskId));
     }
   };
