@@ -376,11 +376,21 @@ const updateInvitationStatus = createAsyncThunk(
       );
       const boardRef = await getDocs(querySharedBoards);
       boardRef.forEach((board) => {
-        updateDoc(board.ref, { invitationStatus: status });
+        if (status === "rejected") {
+          const boardRef = doc(db, "users", userId, "sharedBoardsBy", board.id);
+          deleteDoc(boardRef);
+        } else {
+          updateDoc(board.ref, { invitationStatus: status });
+        }
       });
       const senderBoardRef = await getDocs(updateSenderInvitations);
       senderBoardRef.forEach((board) => {
-        updateDoc(board.ref, { invitationStatus: status });
+        if (status === "rejected") {
+          const boardRef = doc(db, "users", senderUserId, "sharedBoards", board.id);
+          deleteDoc(boardRef);
+        } else {
+          updateDoc(board.ref, { invitationStatus: status });
+        }
       });
       dispatch(setInvitationStatus({ boardId, status }));
     } catch (error) {

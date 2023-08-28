@@ -35,6 +35,17 @@ const Notifications = ({ handleClickNotifications }) => {
     dispatch(queryAcceptSharedBoard(data.sharedBoardId));
   };
 
+  const handleRejectBoard = (data) => {
+    dispatch(
+      updateInvitationStatus({
+        userId: user.userData.userId,
+        senderUserId: data.sharedByUserId,
+        boardId: data.sharedBoardId,
+        status: "rejected",
+      })
+    );
+  };
+
   const switchNotificationStatus = (data) => {
     switch (data.invitationStatus) {
       case "pending":
@@ -43,18 +54,7 @@ const Notifications = ({ handleClickNotifications }) => {
             <S.NotificationsBtn onClick={() => handleJoinToBoard(data)} join={true}>
               Join{" "}
             </S.NotificationsBtn>
-            <S.NotificationsBtn
-              onClick={() =>
-                dispatch(
-                  updateInvitationStatus({
-                    userId: user.userData.userId,
-                    boardId: data.sharedBoardId,
-                    status: "rejected",
-                  })
-                )
-              }
-              decline={true}
-            >
+            <S.NotificationsBtn onClick={() => handleRejectBoard(data)} decline={true}>
               Decline
             </S.NotificationsBtn>
           </S.NotificationsBtnsContainer>
