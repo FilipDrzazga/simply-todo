@@ -120,6 +120,34 @@ const removeBoardFromDB = createAsyncThunk("user/removeBoardFromDB", async (name
       const documentRef = doc(db, "usersTodos", document.id);
       deleteDoc(documentRef);
     });
+
+    const querySharedBoard = await query(
+      collection(db, "users", state.user.userData.userId, "sharedBoards"),
+      where("sharedBoardId", "==", state.user.activeBoard[0].boardId)
+    );
+    const sharedBoardToRemove = await getDocs(querySharedBoard);
+    sharedBoardToRemove.forEach((board) => {
+      const boardRef = doc(db, "users", state.user.userData.userId, "sharedBoards", board.id);
+      deleteDoc(boardRef);
+    });
+
+    const receiverSharedBoardToRemove = await getDocs(querySharedBoard);
+    receiverSharedBoardToRemove.forEach((board) => {
+      const { sharedWith } = board.data();
+      sharedWith.forEach(async (field) => {
+        if (field.userId) {
+          const queryBoardToRemove = await query(
+            collection(db, "users", field.userId, "sharedBoardsBy"),
+            where("sharedBoardId", "==", state.user.activeBoard[0].boardId)
+          );
+          const boardRef = await getDocs(queryBoardToRemove);
+          boardRef.docs.forEach((board) => {
+            deleteDoc(doc(db, "users", field.userId, "sharedBoardsBy", board.id));
+          });
+        }
+      });
+    });
+
     return dispatch(removeBoardFromState({ name: name }));
   } catch (error) {
     // set here rejectedWithValue from thunk late;
@@ -558,7 +586,6 @@ const userSlice = createSlice({
       });
     },
     getRealtimeDataTodos(state, action) {
-      console.log(action.payload);
       const updatedTodos = state.userTodos.map((boardToUpdate) => {
         const updatedBoard = action.payload.find((board) => board.boardId === boardToUpdate.boardId);
         return updatedBoard ? Object.assign(boardToUpdate, updatedBoard) : boardToUpdate;
