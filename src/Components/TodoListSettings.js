@@ -64,17 +64,21 @@ const TodoListSettings = () => {
   return (
     <>
       <S.Section>
-        <S.SettingsBtn onClick={() => handleOpenSettingsList()} disabled={isDefaultBoard()}>
+        <S.SettingsBtn onClick={() => handleOpenSettingsList()}>
           <Icon iconName="ellipsis" iconType="fas" iconColor="default" size="lg" />
         </S.SettingsBtn>
         {displaySettingsList && (
           <S.SettingsList>
             {!isSharedBoard() ? (
               <>
-                <S.Item onClick={() => renameBoard()}>Rename board</S.Item>
-                <S.Item onClick={() => sharedBoard()}>Shared board</S.Item>
+                <S.Item onClick={() => renameBoard()} isDefaultBoard={isDefaultBoard()}>
+                  Rename board
+                </S.Item>
+                <S.Item onClick={() => sharedBoard()} isDefaultBoard={isDefaultBoard()}>
+                  Shared board
+                </S.Item>
                 <S.Item onClick={() => deleteDoneTasks()}>Delete done tasks</S.Item>
-                <S.Item onClick={() => deleteBoard()} isDelete={true}>
+                <S.Item onClick={() => deleteBoard()} isDefaultBoard={isDefaultBoard()} isDelete={true}>
                   Delete board
                 </S.Item>
               </>

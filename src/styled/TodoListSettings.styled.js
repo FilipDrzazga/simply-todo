@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Section = styled.section`
   width: 100%;
@@ -25,6 +25,7 @@ const SettingsList = styled.ul`
 `;
 const Item = styled.li`
   ${({ leaveBoard }) => leaveBoard ?? "flex-grow:1"};
+  ${({ isSharedBoard }) => isSharedBoard ?? "flex-grow:0"};
   width: 100%;
   height: 40%;
   display: flext;
@@ -35,6 +36,11 @@ const Item = styled.li`
   color: ${({ theme, isDelete }) => (isDelete ? theme.colors.button.delete : theme.colors.font.primary)};
   letter-spacing: 1px;
   font-weight: 300;
+  ${({ isDefaultBoard }) =>
+    isDefaultBoard &&
+    css`
+      display: none;
+    `}
 `;
 
 const SettingsBtn = styled.button`
