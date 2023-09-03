@@ -301,7 +301,9 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
     const subcollectionRef = collection(userDataRef, "sharedBoards");
     await addDoc(subcollectionRef, {
       sharedBoardId: state.user.activeBoard[0].boardId,
-      sharedWith: arrayUnion({ ...user }),
+      sharedWith: user.username,
+      sharedWithEmail: user.email,
+      sharedWithUserId: user.userId,
       invitationStatus: "pending",
     });
 
@@ -351,7 +353,6 @@ const deleteInvitations = createAsyncThunk("user/deleteInvitations", async (user
     const batch = writeBatch(db);
     const boardsRef = await getDocs(querySharedBoards);
     boardsRef.forEach((doc) => {
-      console.log(doc.data());
       batch.update(doc.ref, { isInvitationClear: true });
     });
     await batch.commit();
@@ -387,7 +388,7 @@ const updateInvitationStatus = createAsyncThunk(
       );
       const updateSenderInvitations = await query(
         collection(db, "users", senderUserId, "sharedBoards"),
-        where("sharedBoardId", "==", boardId)
+        where("sharedWithUserId", "==", userId)
       );
       const boardRef = await getDocs(querySharedBoards);
       boardRef.forEach((board) => {
@@ -416,24 +417,25 @@ const updateInvitationStatus = createAsyncThunk(
 
 const leaveAndRemoveSharedBoard = createAsyncThunk(
   "user/leaveAndRemoveSharedBoard",
-  async ({ userId, senderUserId, boardId, boardName }, { dispatch }) => {
+  async ({ userId, senderUserId, boardName }, { dispatch }) => {
     try {
       const queryBoardToRemove = await query(
         collection(db, "users", userId, "sharedBoardsBy"),
-        where("sharedBoardId", "==", boardId)
+        where("sharedBoardName", "==", boardName)
       );
       const boardRef = await getDocs(queryBoardToRemove);
-      boardRef.docs.forEach((board) => {
+      boardRef.forEach((board) => {
         deleteDoc(doc(db, "users", userId, "sharedBoardsBy", board.id));
       });
 
       const querySenderBoardToRemove = await query(
         collection(db, "users", senderUserId, "sharedBoards"),
-        where("sharedBoardId", "==", boardId)
+        where("sharedWithUserId", "==", userId)
       );
 
       const boardSenderRef = await getDocs(querySenderBoardToRemove);
-      boardSenderRef.docs.forEach((board) => {
+      boardSenderRef.forEach((board) => {
+        console.log(board.data());
         deleteDoc(doc(db, "users", senderUserId, "sharedBoards", board.id));
       });
 

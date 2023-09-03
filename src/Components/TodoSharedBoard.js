@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
 import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
@@ -65,9 +64,6 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
               </S.SharedBoardUsersItem>
             ))}
         </S.SharedBoardUsersList>
-        {/* <Button primary="true" type="submit" size="95%">
-          Sharing
-        </Button> */}
       </S.SharedBoard>
     </S.Section>
   );

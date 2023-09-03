@@ -55,7 +55,6 @@ const TodoListSettings = () => {
       leaveAndRemoveSharedBoard({
         userId: user.userData.userId,
         senderUserId: user.activeBoard[0].userId,
-        boardId: user.activeBoard[0].boardId,
         boardName: user.activeBoard[0].boardName,
       })
     );
