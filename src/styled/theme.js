@@ -36,6 +36,7 @@ const rules = {
     background: {
       primary: "#191919",
       secondary: "#474747",
+      white: "#FAFAFA",
     },
     input: {
       background: "#191919",

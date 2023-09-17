@@ -11,7 +11,7 @@ const Section = styled.section`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background.white};
   z-index: 999;
 `;
 const Header = styled.header`
@@ -21,7 +21,7 @@ const Header = styled.header`
   text-align: center;
 `;
 const IconContainer = styled.div`
-  color: ${({ iconColor, theme }) => iconColor && theme.colors[iconColor]};
+  color: ${({ iconColor, theme }) => iconColor && theme.colors.icon[iconColor]};
 `;
 
 export { Section, Header, IconContainer };
