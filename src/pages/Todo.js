@@ -15,6 +15,7 @@ import TodoTaskDone from "../Components/TodoTaskDone";
 
 const Todo = () => {
   const user = useSelector((state) => state.user);
+  const [subscription, setSubscription] = useState(true);
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const [displayNotifications, setDisplayNotifications] = useState(false);
   const navigate = useNavigate();
@@ -34,10 +35,11 @@ const Todo = () => {
   }, []);
 
   useEffect(() => {
-    if (user.userData?.userId) {
+    if (subscription && user.userData?.userId) {
       dispatch(startSubscriptionTodos(user.userData.userId));
+      setSubscription(!subscription);
     }
-  }, [dispatch, user.userData.userId]);
+  }, [dispatch, user.userData.userId, subscription]);
 
   const userSignOut = async () => {
     try {
@@ -50,6 +52,7 @@ const Todo = () => {
 
   const handleClickNotifications = () => {
     setDisplayNotifications(!displayNotifications);
+    setSubscription(!subscription);
   };
 
   const addNewTask = () => {

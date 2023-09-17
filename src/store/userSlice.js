@@ -510,6 +510,7 @@ const initialState = {
   userTodos: "",
   activeBoard: "",
   searchUsers: [],
+  sharedBoards: [],
   sharedBoardsBy: [],
   isNewInvitation: false,
 };
