@@ -17,7 +17,9 @@ const CreateAccount = () => {
   const onSubmit = async ({ email, password }, { resetForm }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/todo");
+      if (auth.currentUser) {
+        navigate("/todo");
+      }
     } catch (error) {
       setPopupMsg(authMessageHandler(error.code));
     } finally {

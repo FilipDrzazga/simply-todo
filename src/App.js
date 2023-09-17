@@ -9,13 +9,14 @@ import PasswordRecovery from "./pages/PasswordRecovery";
 import Todo from "./pages/Todo";
 
 const App = () => {
+  console.log(auth.currentUser);
   return (
     <Routes>
       <Route path="/" element={<WelcomeScreen />} />
       <Route path="/create-account" element={<CreateAccount />} />
       <Route path="/login" element={<Login />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
-      <Route path="/todo" element={auth.currentUser ? <Todo /> : <Navigate to="/login" />} />
+      <Route path="/todo" element={<Todo />} />
     </Routes>
   );
 };
