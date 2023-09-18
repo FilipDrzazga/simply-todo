@@ -458,7 +458,7 @@ const leaveAndRemoveSharedBoard = createAsyncThunk(
 
 const removeUserFromSharedBoard = createAsyncThunk(
   "user/removeUserFromSharedBoard",
-  async ({ sharedWithUserId, sharedBoardId }, { dispatch, getState }) => {
+  async ({ sharedWithUserId, sharedBoardId, sharedWith }, { dispatch, getState }) => {
     const state = getState();
     try {
       const queryBoardToRemove = await query(
@@ -480,7 +480,9 @@ const removeUserFromSharedBoard = createAsyncThunk(
         deleteDoc(doc(db, "users", state.user.userData.userId, "sharedBoards", board.id));
       });
 
-      const newSharedBoardsArray = state.user.sharedBoards.filter((board) => board.sharedBoardId !== sharedBoardId);
+      const newSharedBoardsArray = state.user.sharedBoards.filter((board) => {
+        return board.sharedWith !== sharedWith;
+      });
       dispatch(setSharedBoards(newSharedBoardsArray));
     } catch (error) {
       console.log("error from removeUserFromSharedBoard", error.message);
