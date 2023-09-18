@@ -25,6 +25,7 @@ const rules = {
       secondary: "#191919",
       accent: "#474747",
       accentGreen: "#479F45",
+      delete: "#EA4335",
     },
     button: {
       primary: "#479F45",

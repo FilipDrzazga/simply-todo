@@ -58,6 +58,11 @@ const SharedBoardNav = styled.nav`
     }
   }
 `;
+const sharedBoardNavItem = styled.li`
+  font-weight: lighter;
+  cursor: pointer;
+  color: ${({ theme, active }) => active && theme.colors.font.accentGreen};
+`;
 const SharedBoardInputContainer = styled.div`
   width: 100%;
   height: 10%;
@@ -126,6 +131,15 @@ const SharedBoardUsersBtn = styled.button`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.colors.button.secondary};
 `;
+const SharedBoardUserRemoveBtn = styled.button`
+  width: 70px;
+  height: 30px;
+  font-size: ${({ theme }) => theme.fontSizes[0]};
+  color: ${({ theme }) => theme.colors.font.primary};
+  border-radius: 7px;
+  background-color: ${({ theme }) => theme.colors.button.delete};
+  border: none;
+`;
 
 export {
   Section,
@@ -133,6 +147,7 @@ export {
   SharedBoardHeader,
   SharedBoardTitle,
   SharedBoardNav,
+  sharedBoardNavItem,
   SharedBoardInputContainer,
   SharedBoardSearchUser,
   SharedBoardUsersList,
@@ -141,4 +156,5 @@ export {
   SharedBoardUsersAvatarImg,
   SharedBoardUsersname,
   SharedBoardUsersBtn,
+  SharedBoardUserRemoveBtn,
 };

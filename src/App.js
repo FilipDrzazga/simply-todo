@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router";
-import { auth } from "./firebase/firebase";
+import { Route, Routes } from "react-router";
 
 import WelcomeScreen from "./pages/WelcomeScreen";
 import CreateAccount from "./pages/CreateAccount";
@@ -9,7 +8,6 @@ import PasswordRecovery from "./pages/PasswordRecovery";
 import Todo from "./pages/Todo";
 
 const App = () => {
-  console.log(auth.currentUser);
   return (
     <Routes>
       <Route path="/" element={<WelcomeScreen />} />

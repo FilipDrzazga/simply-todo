@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
+import { removeUserFromSharedBoard, searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
 
 const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   const [searchUser, setSearchUser] = useState("");
+  const [users, setUsers] = useState(true);
+  const [sharedUsersList, setSharedUsersList] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -27,6 +29,20 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
     dispatch(sharedBoardWithUsers(user));
   };
 
+  const handleRemoveUserFromBoard = (sharedWithUser) => {
+    dispatch(removeUserFromSharedBoard(sharedWithUser));
+  };
+
+  const handleTabActive = (e) => {
+    if (e.target.textContent === "Users") {
+      setUsers(true);
+      setSharedUsersList(false);
+    } else {
+      setUsers(false);
+      setSharedUsersList(true);
+    }
+  };
+
   return (
     <S.Section onClick={(e) => closeTodoSharedBoard(e)}>
       <S.SharedBoard>
@@ -36,34 +52,61 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
           </S.SharedBoardTitle>
           <S.SharedBoardNav>
             <ul>
-              <li>Users</li>
+              <S.sharedBoardNavItem active={users} onClick={(e) => handleTabActive(e)}>
+                Users
+              </S.sharedBoardNavItem>
               <span>|</span>
-              <li>Shared</li>
+              <S.sharedBoardNavItem active={sharedUsersList} onClick={(e) => handleTabActive(e)}>
+                Shared
+              </S.sharedBoardNavItem>
             </ul>
           </S.SharedBoardNav>
         </S.SharedBoardHeader>
-        <S.SharedBoardInputContainer>
-          <S.SharedBoardSearchUser
-            onChange={handleInputChange}
-            value={searchUser}
-            type="text"
-            name="searchUser"
-            id="searchUser"
-            placeholder="Search user by email..."
-          />
-        </S.SharedBoardInputContainer>
-        <S.SharedBoardUsersList>
-          {user.searchUsers &&
-            user.searchUsers.map((user) => (
-              <S.SharedBoardUsersItem key={user.userId}>
-                <S.SharedBoardUsersAvatar>
-                  <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
-                </S.SharedBoardUsersAvatar>
-                <S.SharedBoardUsersname>{user.username}</S.SharedBoardUsersname>
-                <S.SharedBoardUsersBtn onClick={() => handleAddUserToBoard(user)}>Add</S.SharedBoardUsersBtn>
-              </S.SharedBoardUsersItem>
-            ))}
-        </S.SharedBoardUsersList>
+        {users && (
+          <>
+            <S.SharedBoardInputContainer>
+              <S.SharedBoardSearchUser
+                onChange={handleInputChange}
+                value={searchUser}
+                type="text"
+                name="searchUser"
+                id="searchUser"
+                placeholder="Search user by email..."
+              />
+            </S.SharedBoardInputContainer>
+            <S.SharedBoardUsersList>
+              {user.searchUsers &&
+                user.searchUsers.map((user) => (
+                  <S.SharedBoardUsersItem key={user.userId}>
+                    <S.SharedBoardUsersAvatar>
+                      <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
+                    </S.SharedBoardUsersAvatar>
+                    <S.SharedBoardUsersname>{user.username}</S.SharedBoardUsersname>
+                    <S.SharedBoardUsersBtn onClick={() => handleAddUserToBoard(user)}>Add</S.SharedBoardUsersBtn>
+                  </S.SharedBoardUsersItem>
+                ))}
+            </S.SharedBoardUsersList>
+          </>
+        )}
+        {sharedUsersList && (
+          <S.SharedBoardUsersList>
+            {user.sharedBoards &&
+              user.sharedBoards.map(
+                (sharedWithUser) =>
+                  sharedWithUser.sharedBoardId === user.activeBoard[0].boardId && (
+                    <S.SharedBoardUsersItem key={sharedWithUser.sharedWithUserId}>
+                      <S.SharedBoardUsersAvatar>
+                        <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
+                      </S.SharedBoardUsersAvatar>
+                      <S.SharedBoardUsersname>{sharedWithUser.sharedWith}</S.SharedBoardUsersname>
+                      <S.SharedBoardUserRemoveBtn onClick={() => handleRemoveUserFromBoard(sharedWithUser)}>
+                        Delete
+                      </S.SharedBoardUserRemoveBtn>
+                    </S.SharedBoardUsersItem>
+                  )
+              )}
+          </S.SharedBoardUsersList>
+        )}
       </S.SharedBoard>
     </S.Section>
   );

@@ -10,7 +10,13 @@ import Notifications from "../Components/Notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
-import { startSubscriptionTodos, queryAllSharedBoardsBy, queryUserData, queryUserTodos } from "../store/userSlice";
+import {
+  startSubscriptionTodos,
+  queryAllSharedBoardsBy,
+  queryAllSharedBoards,
+  queryUserData,
+  queryUserTodos,
+} from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 
 const Todo = () => {
@@ -27,6 +33,7 @@ const Todo = () => {
         dispatch(queryUserData(user.uid));
         dispatch(queryUserTodos(user.uid));
         dispatch(queryAllSharedBoardsBy(user.uid));
+        dispatch(queryAllSharedBoards(user.uid));
       } else {
         // user is signout, save data to db
         navigate("/");

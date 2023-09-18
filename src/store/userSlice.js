@@ -343,6 +343,16 @@ const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", a
   }
 });
 
+const queryAllSharedBoards = createAsyncThunk("user/queryAllSharedBoards", async (userId, { dispatch }) => {
+  try {
+    const querySharedBoardsRef = await getDocs(collection(db, "users", userId, "sharedBoards"));
+    const sharedBoardsArray = querySharedBoardsRef.docs.map((doc) => ({ ...doc.data() }));
+    dispatch(setSharedBoards(sharedBoardsArray));
+  } catch (error) {
+    console.log("error from queryAllSharedBoards", error.message);
+  }
+});
+
 const deleteInvitations = createAsyncThunk("user/deleteInvitations", async (userId, { dispatch }) => {
   dispatch(clearInvitationInState());
   try {
@@ -442,6 +452,38 @@ const leaveAndRemoveSharedBoard = createAsyncThunk(
       dispatch(removeBoardFromState({ name: boardName }));
     } catch (error) {
       console.log("error from leaveAndRemoveSharedBoard", error.message);
+    }
+  }
+);
+
+const removeUserFromSharedBoard = createAsyncThunk(
+  "user/removeUserFromSharedBoard",
+  async ({ sharedWithUserId, sharedBoardId }, { dispatch, getState }) => {
+    const state = getState();
+    try {
+      const queryBoardToRemove = await query(
+        collection(db, "users", sharedWithUserId, "sharedBoardsBy"),
+        where("sharedBoardId", "==", sharedBoardId)
+      );
+      const boardRef = await getDocs(queryBoardToRemove);
+      boardRef.forEach((board) => {
+        deleteDoc(doc(db, "users", sharedWithUserId, "sharedBoardsBy", board.id));
+      });
+
+      const querySenderBoardToRemove = await query(
+        collection(db, "users", state.user.userData.userId, "sharedBoards"),
+        where("sharedBoardId", "==", sharedBoardId)
+      );
+
+      const boardSenderRef = await getDocs(querySenderBoardToRemove);
+      boardSenderRef.forEach((board) => {
+        deleteDoc(doc(db, "users", state.user.userData.userId, "sharedBoards", board.id));
+      });
+
+      const newSharedBoardsArray = state.user.sharedBoards.filter((board) => board.sharedBoardId !== sharedBoardId);
+      dispatch(setSharedBoards(newSharedBoardsArray));
+    } catch (error) {
+      console.log("error from removeUserFromSharedBoard", error.message);
     }
   }
 );
@@ -609,6 +651,10 @@ const userSlice = createSlice({
     setSharedBoardsBy(state, action) {
       state.sharedBoardsBy = action.payload;
     },
+    setSharedBoards(state, action) {
+      console.log(action.payload);
+      state.sharedBoards = action.payload;
+    },
     setInvitationStatus(state, action) {
       state.sharedBoardsBy = state.sharedBoardsBy.map((board) => {
         if (board.sharedBoardId === action.payload.boardId) {
@@ -664,12 +710,14 @@ export {
   searchUsersByUsernameDB,
   sharedBoardWithUsers,
   queryAllSharedBoardsBy,
+  queryAllSharedBoards,
   deleteInvitations,
   clearNewInvitation,
   updateInvitationStatus,
   queryAcceptSharedBoard,
   startSubscriptionTodos,
   leaveAndRemoveSharedBoard,
+  removeUserFromSharedBoard,
 };
 export const {
   addBoardToState,
@@ -684,6 +732,7 @@ export const {
   setInvitationAlert,
   clearInvitationInState,
   setSharedBoardsBy,
+  setSharedBoards,
   setInvitationStatus,
   getRealtimeDataTodos,
 } = userSlice.actions;
