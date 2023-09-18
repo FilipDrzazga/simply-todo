@@ -27,13 +27,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBEfZVeUzu-ir24akGyKTc-2pSZG1uzFg4",
-  authDomain: "family-bank-app-4d547.firebaseapp.com",
-  databaseURL: "https://family-bank-app-4d547-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "family-bank-app-4d547",
-  storageBucket: "family-bank-app-4d547.appspot.com",
-  messagingSenderId: "924794641017",
-  appId: "1:924794641017:web:7c26763e2d7f5956a7d2a8",
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  databaseURL: process.env.REACT_APP_databaseURL,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_appId,
 };
 
 const app = initializeApp(firebaseConfig);
