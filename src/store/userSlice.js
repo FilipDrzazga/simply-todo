@@ -294,18 +294,19 @@ const searchUsersByUsernameDB = createAsyncThunk("user/searchUserByUsername", as
   }
 });
 
-const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async (user, { getState }) => {
+const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async (user, { dispatch, getState }) => {
   const state = getState();
   try {
     const userDataRef = doc(db, "users", state.user.userData.userId);
     const subcollectionRef = collection(userDataRef, "sharedBoards");
-    await addDoc(subcollectionRef, {
+    const sharedUserData = {
       sharedBoardId: state.user.activeBoard[0].boardId,
       sharedWith: user.username,
       sharedWithEmail: user.email,
       sharedWithUserId: user.userId,
       invitationStatus: "pending",
-    });
+    };
+    await addDoc(subcollectionRef, sharedUserData);
 
     const sharingUserDataRef = doc(db, "users", user.userId);
     const sharingSubcollectionRef = collection(sharingUserDataRef, "sharedBoardsBy");
@@ -319,6 +320,7 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
       sharedByUserId: state.user.userData.userId,
       sharedByUsername: state.user.userData.username,
     });
+    dispatch(setSharedBoards({ newUser: sharedUserData }));
   } catch (error) {
     console.log("error from sharedBoardWithUsers", error.message);
   }
@@ -347,7 +349,7 @@ const queryAllSharedBoards = createAsyncThunk("user/queryAllSharedBoards", async
   try {
     const querySharedBoardsRef = await getDocs(collection(db, "users", userId, "sharedBoards"));
     const sharedBoardsArray = querySharedBoardsRef.docs.map((doc) => ({ ...doc.data() }));
-    dispatch(setSharedBoards(sharedBoardsArray));
+    dispatch(setSharedBoards({ newArrayOfUsers: sharedBoardsArray }));
   } catch (error) {
     console.log("error from queryAllSharedBoards", error.message);
   }
@@ -483,7 +485,7 @@ const removeUserFromSharedBoard = createAsyncThunk(
       const newSharedBoardsArray = state.user.sharedBoards.filter((board) => {
         return board.sharedWith !== sharedWith;
       });
-      dispatch(setSharedBoards(newSharedBoardsArray));
+      dispatch(setSharedBoards({ newArrayOfUsers: newSharedBoardsArray }));
     } catch (error) {
       console.log("error from removeUserFromSharedBoard", error.message);
     }
@@ -654,8 +656,13 @@ const userSlice = createSlice({
       state.sharedBoardsBy = action.payload;
     },
     setSharedBoards(state, action) {
-      console.log(action.payload);
-      state.sharedBoards = action.payload;
+      const { newArrayOfUsers, newUser } = action.payload;
+      if (newArrayOfUsers) {
+        state.sharedBoards = newArrayOfUsers;
+      }
+      if (newUser) {
+        state.sharedBoards.push(newUser);
+      }
     },
     setInvitationStatus(state, action) {
       state.sharedBoardsBy = state.sharedBoardsBy.map((board) => {
