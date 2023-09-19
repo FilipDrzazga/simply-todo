@@ -3,7 +3,7 @@ import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserFromSharedBoard, searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
 
-const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
+export const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   const [searchUser, setSearchUser] = useState("");
   const [users, setUsers] = useState(true);
   const [sharedUsersList, setSharedUsersList] = useState(false);
@@ -25,11 +25,15 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   };
 
   const handleAddUserToBoard = (user) => {
-    const preventDuplicateUsers = state.sharedBoards
-      .filter((board) => board.sharedBoardId === state.activeBoard[0].boardId)
-      .some((duplicateUser) => duplicateUser.sharedWith === user.username);
+    const preventDuplicateUsers = state.sharedBoards.filter(
+      (board) => board.sharedBoardId === state.activeBoard[0].boardId
+    );
+    // .some((duplicateUser) => duplicateUser.username === user.username);
+    console.log(preventDuplicateUsers);
     if (!preventDuplicateUsers) {
       dispatch(sharedBoardWithUsers(user));
+    } else {
+      console.log("includes");
     }
   };
 
@@ -115,5 +119,3 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
     </S.Section>
   );
 };
-
-export default TodoSharedBoard;
