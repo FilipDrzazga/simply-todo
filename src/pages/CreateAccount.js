@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { createAccountValidation, authMessageHandler } from "../utils/index";
 import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
-import { createBoardForNewUser, createUserDataInDB } from "../store/userSlice";
+import { createBoardForNewUser, createUserDataInDB, isUsernameExist } from "../store/userSlice";
 
 const CreateAccount = () => {
   const [popupMsg, setPopupMsg] = useState(null);
@@ -19,19 +19,24 @@ const CreateAccount = () => {
 
   const onSubmit = async ({ email, password, username }, { resetForm }) => {
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      const data = {
-        username,
-        email,
-        userId: user.uid,
-      };
-      await dispatch(createUserDataInDB(data));
-      await dispatch(createBoardForNewUser(user.uid));
-      if (auth.currentUser) {
-        navigate("/todo");
+      const isExist = await dispatch(isUsernameExist(username));
+      if (!isExist) {
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        const data = {
+          username,
+          email,
+          userId: user.uid,
+        };
+        await dispatch(createUserDataInDB(data));
+        await dispatch(createBoardForNewUser(user.uid));
+        if (auth.currentUser) {
+          navigate("/todo");
+        }
+      } else {
+        throw new Error("Username-exist");
       }
     } catch (error) {
-      setPopupMsg(authMessageHandler(error.code));
+      setPopupMsg(authMessageHandler(error.code || error.message));
     } finally {
       resetForm();
     }

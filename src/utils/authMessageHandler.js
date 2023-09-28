@@ -28,6 +28,13 @@ const authMessageHandler = (errors) => {
         icon: "circle-xmark",
         iconColor: "delete",
       };
+    case "Username-exist":
+      return {
+        message: "Ooops!",
+        messageDescripction: "Username already exist. Try new one.",
+        icon: "circle-xmark",
+        iconColor: "delete",
+      };
     case "auth/user-not-found":
       return {
         message: "Ooops!",

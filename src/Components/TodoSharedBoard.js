@@ -25,10 +25,10 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   };
 
   const handleAddUserToBoard = (user) => {
-    const preventDuplicateUsers = state.sharedBoards
+    const isUserDuplicate = state.sharedBoards
       .filter((board) => board.sharedBoardId === state.activeBoard[0].boardId)
       .some((duplicateUser) => duplicateUser.sharedWith === user.username);
-    if (!preventDuplicateUsers) {
+    if (!isUserDuplicate) {
       dispatch(sharedBoardWithUsers(user));
     }
   };

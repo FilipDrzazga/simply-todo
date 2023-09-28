@@ -31,6 +31,21 @@ const createUserDataInDB = createAsyncThunk("user/createUserDataDocInDB", async 
   }
 });
 
+const isUsernameExist = createAsyncThunk("user/isUsernameExist", async (username) => {
+  try {
+    const queryUsername = await query(collection(db, "users"), where("username", "==", username));
+    const existingUsernameRef = await getDocs(queryUsername);
+    const isExist = existingUsernameRef.docs.map((username) => {
+      if (username.exists()) {
+        return { ...username.data() };
+      }
+    });
+    return isExist;
+  } catch (error) {
+    console.log("error from isUsernameExist", `${error.message}`);
+  }
+});
+
 const queryUserData = createAsyncThunk("user/queryUserData", async (userId) => {
   try {
     const userDataRef = doc(db, "users", userId);
@@ -706,6 +721,7 @@ const userSlice = createSlice({
 
 export {
   queryUserData,
+  isUsernameExist,
   queryUserTodos,
   createBoardForNewUser,
   addNewBoard,
