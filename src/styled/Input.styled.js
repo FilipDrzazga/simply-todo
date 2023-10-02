@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { breakpoints } from "./theme";
 
 const InputContainer = styled.div`
   width: 100%;
@@ -61,6 +62,10 @@ const Input = styled.input`
   &:focus {
     outline: none;
     border: 2px solid ${({ borderStyleLine, theme }) => (borderStyleLine ? "none" : theme.colors.input.focus)};
+  }
+  @media ${breakpoints.tablet} {
+    height: 4rem;
+    font-size: ${({ theme }) => theme.fontSizes[1]};
   }
 `;
 

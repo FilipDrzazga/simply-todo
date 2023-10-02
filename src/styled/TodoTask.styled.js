@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const TaskSection = styled.section`
   width: 100%;
@@ -19,6 +20,9 @@ const TaskItem = styled.li`
   margin-top: ${({ theme }) => theme.margin[2]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   font-weight: lighter;
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[3]};
+  }
 `;
 
 const CompleteTaskBtn = styled.button`

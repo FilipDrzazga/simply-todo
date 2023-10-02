@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   width: 100%;
@@ -8,6 +9,9 @@ const Section = styled.section`
   left: 0px;
   margin-top: 50px;
   background-color: ${({ theme }) => theme.colors.background.secondary};
+  @media ${breakpoints.tablet} {
+    height: 70px;
+  }
 `;
 
 const SettingsList = styled.ul`
@@ -22,6 +26,10 @@ const SettingsList = styled.ul`
   background-color: ${({ theme }) => theme.colors.background.primary};
   border-radius: 5px 5px 0 0;
   list-style-type: none;
+  @media ${breakpoints.tablet} {
+    bottom: 70px;
+    width: 180px;
+  }
 `;
 const Item = styled.li`
   ${({ leaveBoard }) => leaveBoard ?? "flex-grow:1"};
@@ -41,6 +49,9 @@ const Item = styled.li`
     css`
       display: none;
     `}
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 
 const SettingsBtn = styled.button`
@@ -50,6 +61,10 @@ const SettingsBtn = styled.button`
   border: none;
   &:disabled {
     opacity: 0.3;
+  }
+  @media ${breakpoints.tablet} {
+    text-align: left;
+    padding-left: ${({ theme }) => theme.padding[5]};
   }
 `;
 

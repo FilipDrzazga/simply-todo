@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const SeparatorContainer = styled.div`
   display: flex;
@@ -21,6 +22,9 @@ const Line = styled.hr`
 const Span = styled.span`
   font-size: ${({ theme }) => theme.fontSizes[0]};
   font-weight: lighter;
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[1]};
+  }
 `;
 
 export { SeparatorContainer, Line, Span };

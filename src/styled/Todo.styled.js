@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   position: relative;
@@ -18,6 +19,7 @@ const Header = styled.header`
   min-height: 5rem;
   padding: ${({ theme }) => theme.padding[3]};
   h1 {
+    width:80%;
     font-size: ${({ theme }) => theme.fontSizes[4]};
   }
   span {
@@ -26,22 +28,31 @@ const Header = styled.header`
     padding-left: ${({ theme }) => theme.padding[1]};
   }
   }
+  @media ${breakpoints.tablet} {
+    h1{
+      font-size: ${({ theme }) => theme.fontSizes[5]};
+    }
+    span{
+      font-size: ${({ theme }) => theme.fontSizes[4]};
+    }
+  }
 `;
 
 const NotificationBtn = styled.button`
   width: 15%;
   height: 100%;
-  margin-left: 20px;
   background-color: transparent;
   border: none;
-  text-align: right;
+  @media ${breakpoints.tablet} {
+    text-align: center;
+  }
 `;
 const SignOutBtn = styled.button`
   width: 15%;
   height: 100%;
   background-color: transparent;
   border: none;
-  text-align: right;
+  text-align: center;
 `;
 
 const AddTaskBtn = styled.button`
@@ -54,6 +65,12 @@ const AddTaskBtn = styled.button`
   color: ${({ theme }) => theme.colors.font.secendary};
   border-radius: 50px;
   border: none;
+  @media ${breakpoints.tablet} {
+    bottom: 6rem;
+    left: 90%;
+    width: 4rem;
+    height: 4rem;
+  }
 `;
 
 export { Section, Header, NotificationBtn, SignOutBtn, AddTaskBtn };

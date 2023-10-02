@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const TaskDoneSection = styled.section`
   width: 100%;
@@ -19,6 +20,9 @@ const TaskDoneDisplayBtn = styled.button`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
   border: none;
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 
 const TaskDoneList = styled.ul`
@@ -41,6 +45,9 @@ const TaskDoneItem = styled.li`
   overflow-wrap: break-word;
   &:last-child {
     height: 40px;
+  }
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[3]};
   }
 `;
 

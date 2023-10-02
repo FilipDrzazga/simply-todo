@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
+import { breakpoints } from "./theme";
 
 const Button = styled(motion.button)`
   width: ${({ size }) => size};
@@ -24,6 +25,10 @@ const Button = styled(motion.button)`
     css`
       background-color: ${theme.colors.button.delete};
     `};
+  @media ${breakpoints.tablet} {
+    height: 4rem;
+    font-size: ${({ theme }) => theme.fontSizes[1]};
+  }
 `;
 
 export { Button };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const BoardNav = styled.nav`
   width: 100%;
@@ -31,6 +32,9 @@ const BoardItem = styled.li`
   a {
     text-decoration: none;
     color: white;
+  }
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[2]};
   }
 `;
 

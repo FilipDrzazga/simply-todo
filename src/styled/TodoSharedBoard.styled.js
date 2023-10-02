@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   position: absolute;
@@ -22,6 +23,10 @@ const SharedBoard = styled.div`
   padding: ${({ theme }) => theme.padding[3]};
   background-color: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 15px;
+  @media ${breakpoints.tablet} {
+    width: 50%;
+    height: 50vh;
+  }
 `;
 const SharedBoardHeader = styled.header`
   display: flex;
@@ -40,6 +45,9 @@ const SharedBoardTitle = styled.h1`
   span {
     font-weight: bold;
   }
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[5]};
+  }
 `;
 const SharedBoardNav = styled.nav`
   width: 100%;
@@ -55,6 +63,11 @@ const SharedBoardNav = styled.nav`
     li {
       font-weight: lighter;
       cursor: pointer;
+    }
+  }
+  @media ${breakpoints.tablet} {
+    li {
+      font-size: ${({ theme }) => theme.fontSizes[2]};
     }
   }
 `;
@@ -82,6 +95,9 @@ const SharedBoardSearchUser = styled.input`
     padding-left: ${({ theme }) => theme.padding[2]};
     color: ${({ theme }) => theme.colors.font.primary};
   }
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[1]};
+  }
 `;
 
 const SharedBoardUsersList = styled.ul`
@@ -108,6 +124,10 @@ const SharedBoardUsersAvatar = styled.div`
   aligns-self: flex-start;
   border-radius: 50%;
   overflow: hidden;
+  @media ${breakpoints.tablet} {
+    width: 70px;
+    height: 70px;
+  }
 `;
 const SharedBoardUsersAvatarImg = styled.img`
   width: 100%;
@@ -121,6 +141,9 @@ const SharedBoardUsersname = styled.span`
   font-size: ${({ theme }) => theme.fontSizes[0]};
   font-weight: lighter;
   letter-spacing: 1.8px;
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 const SharedBoardUsersBtn = styled.button`
   width: 70px;
@@ -130,6 +153,11 @@ const SharedBoardUsersBtn = styled.button`
   border-radius: 7px;
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.colors.button.secondary};
+  @media ${breakpoints.tablet} {
+    width: 90px;
+    height: 40px;
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 const SharedBoardUserRemoveBtn = styled.button`
   width: 70px;
@@ -139,6 +167,11 @@ const SharedBoardUserRemoveBtn = styled.button`
   border-radius: 7px;
   background-color: ${({ theme }) => theme.colors.button.delete};
   border: none;
+  @media ${breakpoints.tablet} {
+    width: 90px;
+    height: 40px;
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 
 export {
