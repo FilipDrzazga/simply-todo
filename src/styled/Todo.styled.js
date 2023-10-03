@@ -46,6 +46,10 @@ const NotificationBtn = styled.button`
   @media ${breakpoints.tablet} {
     text-align: center;
   }
+  @media ${breakpoints.laptop} {
+    text-align: right;
+    cursor: pointer;
+  }
 `;
 const SignOutBtn = styled.button`
   width: 15%;
@@ -53,6 +57,9 @@ const SignOutBtn = styled.button`
   background-color: transparent;
   border: none;
   text-align: center;
+  @media ${breakpoints.laptop} {
+    cursor: pointer;
+  }
 `;
 
 const AddTaskBtn = styled.button`
@@ -70,6 +77,9 @@ const AddTaskBtn = styled.button`
     left: 90%;
     width: 4rem;
     height: 4rem;
+  }
+  @media ${breakpoints.laptop} {
+    cursor: pointer;
   }
 `;
 

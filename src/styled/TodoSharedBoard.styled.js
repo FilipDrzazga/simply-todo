@@ -27,6 +27,10 @@ const SharedBoard = styled.div`
     width: 50%;
     height: 50vh;
   }
+  @media ${breakpoints.laptop} {
+    width: 28%;
+    height: 70vh;
+  }
 `;
 const SharedBoardHeader = styled.header`
   display: flex;
@@ -82,6 +86,9 @@ const SharedBoardInputContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${breakpoints.laptop} {
+    width: 80%;
+  }
 `;
 const SharedBoardSearchUser = styled.input`
   width: 95%;
@@ -110,6 +117,10 @@ const SharedBoardUsersList = styled.ul`
   height: 50%;
   list-style: none;
   overflow-y: scroll;
+  @media ${breakpoints.laptop} {
+    overflow-y: hidden;
+    margin-top: 30px;
+  }
 `;
 const SharedBoardUsersItem = styled.li`
   display: flex;
@@ -117,6 +128,9 @@ const SharedBoardUsersItem = styled.li`
   align-items: center;
   width: 100%;
   height: 30%;
+  @media ${breakpoints.laptop} {
+    width: 70%;
+  }
 `;
 const SharedBoardUsersAvatar = styled.div`
   width: 50px;

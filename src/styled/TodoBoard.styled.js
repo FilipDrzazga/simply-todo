@@ -36,6 +36,9 @@ const BoardItem = styled.li`
   @media ${breakpoints.tablet} {
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
+  @media ${breakpoints.laptop} {
+    cursor: pointer;
+  }
 `;
 
 const AddBoardBtn = styled.button`

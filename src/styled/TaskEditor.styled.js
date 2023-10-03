@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   position: absolute;
@@ -22,6 +23,9 @@ const Form = styled.form`
   padding-bottom: ${({ theme }) => theme.padding[5]};
   background-color: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 15px;
+  @media ${breakpoints.laptop} {
+    width: 30%;
+  }
 `;
 
 export { Section, Form };

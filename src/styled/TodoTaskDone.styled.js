@@ -23,6 +23,9 @@ const TaskDoneDisplayBtn = styled.button`
   @media ${breakpoints.tablet} {
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
+  @media ${breakpoints.laptop} {
+    cursor: pointer;
+  }
 `;
 
 const TaskDoneList = styled.ul`
@@ -56,6 +59,9 @@ const UncompleteTaskBtn = styled.button`
   height: 100%;
   background-color: transparent;
   border: none;
+  @media ${breakpoints.laptop} {
+    min-width: 5%;
+  }
 `;
 
 export { TaskDoneSection, TaskDoneDisplayBtn, TaskDoneList, TaskDoneItem, UncompleteTaskBtn };

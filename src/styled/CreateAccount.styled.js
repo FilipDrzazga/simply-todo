@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   display: flex;
@@ -8,6 +9,9 @@ const Section = styled.section`
   height: 100vh;
   min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.primary};
+  @media ${breakpoints.laptop} {
+    align-items: center;
+  }
 `;
 
 const Form = styled.form`
@@ -16,6 +20,10 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  @media ${breakpoints.laptop} {
+    width: 30%;
+    justify-content: center;
+  }
 `;
 
 const ButtonContainer = styled.div`

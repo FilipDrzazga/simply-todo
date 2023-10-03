@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "./theme";
 
 const Section = styled.section`
   position: absolute;
@@ -24,6 +25,9 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 15px;
   text-align: center;
+  @media ${breakpoints.laptop} {
+    width: 30%;
+  }
 `;
 const Text = styled.p`
   line-height: 1.3rem;

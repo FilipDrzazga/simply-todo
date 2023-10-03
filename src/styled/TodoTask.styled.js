@@ -30,12 +30,18 @@ const CompleteTaskBtn = styled.button`
   height: 100%;
   background-color: transparent;
   border: none;
+  @media ${breakpoints.laptop} {
+    min-width: 5%;
+  }
 `;
 
 const ApproveChangeBtn = styled.button`
   margin-right: 10px;
   background-color: transparent;
   border: none;
+  @media ${breakpoints.laptop} {
+    margin-right: none;
+  }
 `;
 
 const DeleteBtn = styled.button`
@@ -60,6 +66,10 @@ const Textarea = styled.textarea`
     outline:none;
     border-bottom:1px solid ${({ theme }) => theme.colors.input.valid};
     border:none:
+  }
+  @media ${breakpoints.laptop} {
+    min-width: 90%;
+    font-size: ${({ theme }) => theme.fontSizes[3]};
   }
 `;
 

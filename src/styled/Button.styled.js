@@ -29,6 +29,10 @@ const Button = styled(motion.button)`
     height: 4rem;
     font-size: ${({ theme }) => theme.fontSizes[1]};
   }
+  @media ${breakpoints.laptop} {
+    font-size: ${({ theme }) => theme.fontSizes[0]};
+    cursor: pointer;
+  }
 `;
 
 export { Button };

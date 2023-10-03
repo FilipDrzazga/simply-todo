@@ -30,6 +30,9 @@ const SettingsList = styled.ul`
     bottom: 70px;
     width: 180px;
   }
+  @media ${breakpoints.laptop} {
+    height 160px;
+  }
 `;
 const Item = styled.li`
   ${({ leaveBoard }) => leaveBoard ?? "flex-grow:1"};
@@ -38,6 +41,7 @@ const Item = styled.li`
   height: 40%;
   display: flext;
   justify-content: center;
+  transition: all 0.2s linear;
   align-items: center;
   font-size: ${({ theme }) => theme.fontSizes[0]};
   text-align: center;
@@ -52,6 +56,13 @@ const Item = styled.li`
   @media ${breakpoints.tablet} {
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
+  @media ${breakpoints.laptop} {
+    grow: 1;
+    cursor: pointer;
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.background.secondary};
+    }
+  }
 `;
 
 const SettingsBtn = styled.button`
@@ -65,6 +76,9 @@ const SettingsBtn = styled.button`
   @media ${breakpoints.tablet} {
     text-align: left;
     padding-left: ${({ theme }) => theme.padding[5]};
+  }
+  @media ${breakpoints.laptop} {
+    cursor: pointer;
   }
 `;
 
