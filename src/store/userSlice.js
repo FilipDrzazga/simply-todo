@@ -36,9 +36,7 @@ const isUsernameExist = createAsyncThunk("user/isUsernameExist", async (username
     const queryUsername = await query(collection(db, "users"), where("username", "==", username));
     const existingUsernameRef = await getDocs(queryUsername);
     const isExist = existingUsernameRef.docs.map((username) => {
-      if (username.exists()) {
-        return { ...username.data() };
-      }
+      return username.exists() && { ...username.data() };
     });
     return isExist;
   } catch (error) {

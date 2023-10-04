@@ -20,7 +20,8 @@ const CreateAccount = () => {
   const onSubmit = async ({ email, password, username }, { resetForm }) => {
     try {
       const isExist = await dispatch(isUsernameExist(username));
-      if (!isExist) {
+
+      if (!isExist.payload.length) {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         const data = {
           username,

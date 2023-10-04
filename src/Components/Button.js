@@ -2,7 +2,21 @@ import React from "react";
 import { useNavigate } from "react-router";
 import * as S from "../styled/Button.styled";
 
-const Button = ({ children, type, size, primary, secondary, removebtn, disabled, navigateTo, removeOnClick }) => {
+const Button = ({
+  initial,
+  animate,
+  whileHover,
+  variants,
+  children,
+  type,
+  size,
+  primary,
+  secondary,
+  removebtn,
+  disabled,
+  navigateTo,
+  removeOnClick,
+}) => {
   const navigate = useNavigate();
 
   const handleNavigateOnClick = () => {
@@ -15,6 +29,10 @@ const Button = ({ children, type, size, primary, secondary, removebtn, disabled,
 
   return (
     <S.Button
+      variants={variants}
+      initial={initial}
+      animate={animate}
+      whileHover={whileHover}
       primary={primary}
       secondary={secondary}
       removebtn={removebtn}
