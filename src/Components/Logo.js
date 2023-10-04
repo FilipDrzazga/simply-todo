@@ -20,16 +20,7 @@ const draw = {
 const Logo = () => {
   return (
     <S.LogoContainer>
-      <motion.svg
-        // variants={draw}
-        // initial="hidden"
-        // animate="visible"
-        width="80"
-        height="69"
-        viewBox="0 0 80 69"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="80" height="69" viewBox="0 0 80 69" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="Group 27">
           <motion.path
             variants={draw}
@@ -128,7 +119,7 @@ const Logo = () => {
             fill="#D9D9D9"
           />
         </g>
-      </motion.svg>
+      </svg>
     </S.LogoContainer>
   );
 };

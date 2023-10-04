@@ -6,6 +6,7 @@ const Button = ({
   initial,
   animate,
   whileHover,
+  exit,
   variants,
   children,
   type,
@@ -33,6 +34,7 @@ const Button = ({
       initial={initial}
       animate={animate}
       whileHover={whileHover}
+      exit={exit}
       primary={primary}
       secondary={secondary}
       removebtn={removebtn}
