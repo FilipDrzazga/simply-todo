@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 import * as S from "../styled/Input.styled";
 
 const Input = ({
+  variants,
+  initial,
+  animate,
+  exit,
+  leyout,
   autoFocus,
   id,
   type,
@@ -24,7 +29,7 @@ const Input = ({
   const navigate = useNavigate();
 
   return (
-    <S.InputContainer>
+    <S.InputContainer variants={variants} initial={initial} animate={animate} exit={exit} leyout={leyout}>
       <S.Label error={error} touched={touched} size={size} htmlFor={htmlFor} labelVisibility={labelVisibility}>
         {labelText}
       </S.Label>

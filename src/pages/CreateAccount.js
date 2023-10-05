@@ -12,6 +12,22 @@ import { createAccountValidation, authMessageHandler } from "../utils/index";
 import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
 import { createBoardForNewUser, createUserDataInDB, isUsernameExist } from "../store/userSlice";
 
+const containerVariants = {
+  initial: { x: 0, opacity: 0 },
+  animate: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  exit: { opacity: 0, transition: { staggerChildren: 0.2, opacity: { duration: 1 } } },
+};
+const inputsVariants = {
+  initial: { x: "100vw", opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { opacity: { duration: 0.7 }, x: { duration: 0.5 } } },
+  exit: { x: "-100vw", opacity: 0 },
+};
+const BtnContainerVariants = {
+  initial: { y: "100vh", opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { opacity: { duration: 0.7 }, y: { duration: 0.2 } } },
+  exit: { y: "100vh", opacity: 0 },
+};
+
 const CreateAccount = () => {
   const [popupMsg, setPopupMsg] = useState(null);
   const dispatch = useDispatch();
@@ -57,8 +73,18 @@ const CreateAccount = () => {
   return (
     <S.Section>
       {popupMsg && <AuthPopup message={popupMsg} />}
-      <S.Form onSubmit={handleSubmit} autoComplete="off">
+      <S.Form
+        leyout="true"
+        variants={containerVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+      >
         <Input
+          key={1}
+          variants={inputsVariants}
           id="username"
           type="text"
           value={values.username}
@@ -72,6 +98,7 @@ const CreateAccount = () => {
           size="90%"
         />
         <Input
+          variants={inputsVariants}
           id="email"
           type="text"
           value={values.email}
@@ -85,6 +112,7 @@ const CreateAccount = () => {
           size="90%"
         />
         <Input
+          variants={inputsVariants}
           id="password"
           type="password"
           value={values.password}
@@ -97,7 +125,7 @@ const CreateAccount = () => {
           labelText="Password"
           size="90%"
         />
-        <S.ButtonContainer>
+        <S.ButtonContainer variants={BtnContainerVariants}>
           <Button primary="true" type="submit" size="90%" disabled={!isValid}>
             Create account
           </Button>

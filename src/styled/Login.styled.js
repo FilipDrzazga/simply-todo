@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import { breakpoints } from "./theme";
 
 const Section = styled.section`
@@ -14,7 +15,7 @@ const Section = styled.section`
   }
 `;
 
-const Form = styled.form`
+const Form = styled(motion.form)`
   width: 100%;
   height: 100%;
   display: flex;
@@ -26,7 +27,7 @@ const Form = styled.form`
   }
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(motion.div)`
   width: 100%;
   margin-top: ${({ theme }) => theme.margin[1]};
   display: flex;

@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
 import { breakpoints } from "./theme";
 
-const InputContainer = styled.div`
+const InputContainer = styled(motion.div)`
   width: 100%;
   height: auto;
   display: flex;
