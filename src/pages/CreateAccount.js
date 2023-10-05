@@ -130,7 +130,7 @@ const CreateAccount = () => {
             Create account
           </Button>
           <Separator />
-          <Button secondary="true" size="60%" navigateTo="/login">
+          <Button type="button" secondary="true" size="60%" navigateTo="/login">
             Login
           </Button>
         </S.ButtonContainer>
