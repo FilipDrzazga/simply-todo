@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
 const Section = styled.section`
   display: flex;
@@ -7,6 +8,7 @@ const Section = styled.section`
   width: 100%;
   height: 100vh;
   min-height: 100vh;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.background.primary};
   @media ${breakpoints.laptop} {
     align-items: center;
@@ -18,7 +20,7 @@ const Header = styled.header`
   height: 50%;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(motion.div)`
   width: 100%;
   height: 50%;
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "../styled/CreateAccount.styled";
 import Button from "../Components/Button";
 import Input from "../Components/Input";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { createAccountValidation, authMessageHandler } from "../utils/index";
 import { auth, createUserWithEmailAndPassword } from "../firebase/firebase";
 import { createBoardForNewUser, createUserDataInDB, isUsernameExist } from "../store/userSlice";
+import { AnimatePresence } from "framer-motion";
 
 const containerVariants = {
   initial: { x: 0, opacity: 0 },
@@ -22,16 +23,24 @@ const inputsVariants = {
   animate: { x: 0, opacity: 1, transition: { opacity: { duration: 0.7 }, x: { duration: 0.5 } } },
   exit: { x: "-100vw", opacity: 0 },
 };
-const BtnContainerVariants = {
+const btnContainerVariants = {
   initial: { y: "100vh", opacity: 0 },
   animate: { y: 0, opacity: 1, transition: { opacity: { duration: 0.7 }, y: { duration: 0.2 } } },
   exit: { y: "100vh", opacity: 0 },
+  hoverCreateBtn: { backgroundColor: "#306F30" },
+  hoverLoginBtn: { backgroundColor: "#FAFAFA", color: "#191919" },
 };
 
 const CreateAccount = () => {
   const [popupMsg, setPopupMsg] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPopupMsg(null);
+    }, 3000);
+  }, [popupMsg]);
 
   const onSubmit = async ({ email, password, username }, { resetForm }) => {
     try {
@@ -72,7 +81,7 @@ const CreateAccount = () => {
 
   return (
     <S.Section>
-      {popupMsg && <AuthPopup message={popupMsg} />}
+      <AnimatePresence>{popupMsg && <AuthPopup message={popupMsg} />}</AnimatePresence>
       <S.Form
         leyout="true"
         variants={containerVariants}
@@ -125,12 +134,26 @@ const CreateAccount = () => {
           labelText="Password"
           size="90%"
         />
-        <S.ButtonContainer variants={BtnContainerVariants}>
-          <Button primary="true" type="submit" size="90%" disabled={!isValid}>
+        <S.ButtonContainer variants={btnContainerVariants}>
+          <Button
+            variants={btnContainerVariants}
+            whileHover="hoverCreateBtn"
+            primary="true"
+            type="submit"
+            size="90%"
+            disabled={!isValid}
+          >
             Create account
           </Button>
           <Separator />
-          <Button type="button" secondary="true" size="60%" navigateTo="/login">
+          <Button
+            variants={btnContainerVariants}
+            whileHover="hoverLoginBtn"
+            type="button"
+            secondary="true"
+            size="60%"
+            navigateTo="/login"
+          >
             Login
           </Button>
         </S.ButtonContainer>

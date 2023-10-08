@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-const Section = styled.section`
+const Section = styled(motion.section)`
   position: absolute;
   top: 7%;
   left: 50%;

@@ -31,10 +31,7 @@ const Button = ({
   return (
     <S.Button
       variants={variants}
-      initial={initial}
-      animate={animate}
       whileHover={whileHover}
-      exit={exit}
       primary={primary}
       secondary={secondary}
       removebtn={removebtn}

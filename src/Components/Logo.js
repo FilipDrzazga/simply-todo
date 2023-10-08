@@ -15,17 +15,16 @@ const draw = {
       },
     };
   },
+  exit: { opacity: 0 },
 };
 
 const Logo = () => {
   return (
     <S.LogoContainer>
       <svg width="80" height="69" viewBox="0 0 80 69" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g id="Group 27">
+        <motion.g variants={draw} initial="hidden" animate="visible" exit="exit" id="Group 27">
           <motion.path
             variants={draw}
-            initial="hidden"
-            animate="visible"
             custom={0.7}
             id="sign"
             d="M9 41.0891L23.6667 55.6675L38.3333 41.0891L53 26.6675"
@@ -37,8 +36,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.26}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 7"
             cx="24.2023"
             cy="56.2024"
@@ -49,8 +46,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.37}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 6"
             cx="52.6092"
             cy="55.4652"
@@ -61,8 +56,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.52}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 5"
             cx="38.1884"
             cy="41.0442"
@@ -73,8 +66,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.19}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 4"
             cx="23.7677"
             cy="26.6233"
@@ -85,8 +76,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.45}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 3"
             cx="67.0303"
             cy="41.0442"
@@ -97,8 +86,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.28}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 2"
             cx="53.2023"
             cy="26.2024"
@@ -109,8 +96,6 @@ const Logo = () => {
           <motion.circle
             variants={draw}
             custom={0.35}
-            initial="hidden"
-            animate="visible"
             id="Ellipse 1"
             cx="38.1884"
             cy="12.2024"
@@ -118,7 +103,7 @@ const Logo = () => {
             transform="rotate(-45 38.1884 12.2024)"
             fill="#D9D9D9"
           />
-        </g>
+        </motion.g>
       </svg>
     </S.LogoContainer>
   );
