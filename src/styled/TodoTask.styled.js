@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const TaskSection = styled.section`
+const TaskSection = styled(motion.section)`
   width: 100%;
   border-bottom: solid 0.5px ${({ theme }) => theme.colors.borderLine};
 `;

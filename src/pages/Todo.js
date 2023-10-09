@@ -66,9 +66,18 @@ const Todo = () => {
     setDisplayTaskEditor(true);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1, transition: { delayChildren: 2, staggerChildren: 0.2 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
   return (
-    <S.Section>
-      <S.Header>
+    <S.Section variants={containerVariants} initial="hidden" animate="visible">
+      <S.Header variants={itemVariants}>
         <h1>
           Hello,<span>{user.userData.username}</span>
         </h1>
@@ -84,11 +93,11 @@ const Todo = () => {
           <Icon size="xl" iconName="arrow-right-from-bracket" iconType="fas" iconColor="default" />
         </S.SignOutBtn>
       </S.Header>
-      <TodoBoard />
-      <TodoTask />
-      <TodoTaskDone />
-      <TodoListSettings />
-      <S.AddTaskBtn onClick={() => addNewTask()}>
+      <TodoBoard variants={itemVariants} />
+      <TodoTask variants={itemVariants} />
+      <TodoTaskDone variants={itemVariants} />
+      <TodoListSettings variants={itemVariants} />
+      <S.AddTaskBtn variants={itemVariants} onClick={() => addNewTask()}>
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
       {displayNotifications && <Notifications handleClickNotifications={handleClickNotifications} />}

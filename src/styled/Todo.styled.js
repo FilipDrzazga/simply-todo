@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const Section = styled.section`
+const Section = styled(motion.section)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,7 +12,7 @@ const Section = styled.section`
   color: ${({ theme }) => theme.colors.font.primary};
 `;
 
-const Header = styled.header`
+const Header = styled(motion.header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,7 +63,7 @@ const SignOutBtn = styled.button`
   }
 `;
 
-const AddTaskBtn = styled.button`
+const AddTaskBtn = styled(motion.button)`
   position: fixed;
   bottom: 4rem;
   left: 80%;

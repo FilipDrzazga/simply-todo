@@ -11,7 +11,7 @@ import {
   updateBoardTasksArraysDB,
 } from "../store/userSlice";
 
-const TodoTask = () => {
+const TodoTask = ({ variants }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const textareaRef = useRef(null);
@@ -51,7 +51,7 @@ const TodoTask = () => {
   const displayTask = () => {
     return (
       user.activeBoard && (
-        <S.TaskSection>
+        <S.TaskSection variants={variants}>
           <S.TaskList>
             {user.activeBoard.map((item) => {
               return item.tasks.map((task) =>

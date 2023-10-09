@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTaskStatus, updateBoardTasksArraysDB } from "../store/userSlice";
 import * as S from "../styled/TodoTaskDone.styled";
 
-const TodoTaskDone = () => {
+const TodoTaskDone = ({ variants }) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const TodoTaskDone = () => {
   };
 
   return (
-    <S.TaskDoneSection>
+    <S.TaskDoneSection variants={variants}>
       <S.TaskDoneDisplayBtn onClick={() => displayDoneTask()}>
         Done ({user.activeBoard[0] && user.activeBoard[0].tasksDone.length})
         <Icon iconName="caret-down" iconType="fas" size="sm" isRotate={isOpen} />

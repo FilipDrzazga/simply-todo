@@ -11,7 +11,7 @@ const popupVariants = {
 
 const AuthPopup = ({ message }) => {
   return (
-    <S.Section layout key="modal" variants={popupVariants} initial="hidePopup" animate="showPopup" exit="exit">
+    <S.Section layout="true" key="modal" variants={popupVariants} initial="hidePopup" animate="showPopup" exit="exit">
       <S.Header>
         <p>{message.message}</p>
         <p>{message.messageDescripction}</p>

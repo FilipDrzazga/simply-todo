@@ -83,7 +83,7 @@ const CreateAccount = () => {
     <S.Section>
       <AnimatePresence>{popupMsg && <AuthPopup message={popupMsg} />}</AnimatePresence>
       <S.Form
-        leyout="true"
+        layout="true"
         variants={containerVariants}
         initial="initial"
         animate="animate"
@@ -92,7 +92,6 @@ const CreateAccount = () => {
         autoComplete="off"
       >
         <Input
-          key={1}
           variants={inputsVariants}
           id="username"
           type="text"

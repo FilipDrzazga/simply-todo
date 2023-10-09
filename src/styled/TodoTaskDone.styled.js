@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const TaskDoneSection = styled.section`
+const TaskDoneSection = styled(motion.section)`
   width: 100%;
   min-height: 115px;
 `;

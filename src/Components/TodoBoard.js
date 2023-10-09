@@ -6,22 +6,25 @@ import TaskEditor from "./TaskEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveTodoBoard } from "../store/userSlice";
 
-const TodoBoard = () => {
+const TodoBoard = ({ variants }) => {
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
+  const [selected, setSelected] = useState(0);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const handleActiveBoard = (e, item) => {
+    setSelected(e.target.tabIndex);
+    dispatch(setActiveTodoBoard({ setActiveBoard: [{ ...item }] }));
+  };
 
   const displayBoards = () => {
     return (
       user.userTodos && (
         <S.BoardList>
-          {user.userTodos.map((item) => (
-            <S.BoardItem
-              onClick={() => dispatch(setActiveTodoBoard({ setActiveBoard: [{ ...item }] }))}
-              id={item.boardId}
-              key={item.boardId}
-            >
+          {user.userTodos.map((item, id) => (
+            <S.BoardItem tabIndex={id} onClick={(e) => handleActiveBoard(e, item)} id={item.boardId} key={item.boardId}>
               {item.boardName}
+              {selected === id && <S.SelectedBoardItem layoutId="underline"></S.SelectedBoardItem>}
             </S.BoardItem>
           ))}
           <S.BoardItem></S.BoardItem>
@@ -32,7 +35,7 @@ const TodoBoard = () => {
 
   return (
     <>
-      <S.BoardNav>
+      <S.BoardNav variants={variants}>
         <S.AddBoardBtn onClick={() => setDisplayTaskEditor(true)}>
           <Icon iconName="plus" />
         </S.AddBoardBtn>

@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const Section = styled.section`
+const Section = styled(motion.section)`
   width: 100%;
   height: 50px;
   position: fixed;

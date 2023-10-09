@@ -66,6 +66,7 @@ const CreateAccount = () => {
     <S.Section>
       <AnimatePresence>{popupMsg && <AuthPopup message={popupMsg} />}</AnimatePresence>
       <S.Form
+        layout
         variants={containerVariants}
         initial="initial"
         animate="animate"

@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const BoardNav = styled.nav`
+const BoardNav = styled(motion.nav)`
   width: 100%;
   min-height: 3rem;
+  height: 3rem;
   max-height: 3rem;
   display: flex;
   justify-content: flex-start;
@@ -25,6 +27,11 @@ const BoardList = styled.ul`
 `;
 
 const BoardItem = styled.li`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
   font-size: ${({ theme }) => theme.fontSizes[1]};
   font-weight: lighter;
   letter-spacing: 1px;
@@ -41,6 +48,16 @@ const BoardItem = styled.li`
   }
 `;
 
+const SelectedBoardItem = styled(motion.div)`
+  position: absolute;
+  top: 98%;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  background-color: ${({ theme }) => theme.colors.background.green};
+  border-radius: 3px;
+`;
+
 const AddBoardBtn = styled.button`
   min-width: 50px;
   height: 100%;
@@ -48,4 +65,4 @@ const AddBoardBtn = styled.button`
   border: none;
 `;
 
-export { BoardNav, BoardList, BoardItem, AddBoardBtn };
+export { BoardNav, BoardList, BoardItem, SelectedBoardItem, AddBoardBtn };

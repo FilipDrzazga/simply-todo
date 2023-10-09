@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { breakpoints } from "./theme";
 
 const Section = styled(motion.section)`
   position: absolute;
@@ -14,6 +15,9 @@ const Section = styled(motion.section)`
   border-radius: 15px;
   background-color: ${({ theme }) => theme.colors.background.white};
   z-index: 999;
+  @media ${breakpoints.laptop} {
+    width: 25%;
+  }
 `;
 const Header = styled.header`
   width: 80%;

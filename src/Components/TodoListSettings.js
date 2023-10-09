@@ -8,7 +8,7 @@ import TodoRemove from "./TodoRemove";
 import TodoSharedBoard from "./TodoSharedBoard";
 import { leaveAndRemoveSharedBoard, removeAllDoneTask, removeBoardFromState } from "../store/userSlice";
 
-const TodoListSettings = () => {
+const TodoListSettings = ({ variants }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
@@ -62,7 +62,7 @@ const TodoListSettings = () => {
 
   return (
     <>
-      <S.Section>
+      <S.Section variants={variants}>
         <S.SettingsBtn onClick={() => handleOpenSettingsList()}>
           <Icon iconName="ellipsis" iconType="fas" iconColor="default" size="lg" />
         </S.SettingsBtn>
