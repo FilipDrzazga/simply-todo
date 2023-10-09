@@ -26,6 +26,8 @@ const containerVariants = {
 const itemVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
+  addBtnOnTap: { scale: 0.5, backgroundColor: "#306F30" },
+  addBtnOnHover: { backgroundColor: "#306F30" },
 };
 
 const Todo = () => {
@@ -81,7 +83,7 @@ const Todo = () => {
         <h1>
           Hello,<span>{user.userData.username}</span>
         </h1>
-        <S.NotificationBtn onClick={() => handleClickNotifications()}>
+        <S.NotificationBtn variants={itemVariants} onClick={() => handleClickNotifications()}>
           <Icon
             size="xl"
             iconName="bell"
@@ -97,7 +99,12 @@ const Todo = () => {
       <TodoTask variants={itemVariants} />
       <TodoTaskDone variants={itemVariants} />
       <TodoListSettings variants={itemVariants} />
-      <S.AddTaskBtn variants={itemVariants} onClick={() => addNewTask()}>
+      <S.AddTaskBtn
+        variants={itemVariants}
+        whileTap="addBtnOnTap"
+        whileHover="addBtnOnHover"
+        onClick={() => addNewTask()}
+      >
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
       {displayNotifications && <Notifications handleClickNotifications={handleClickNotifications} />}
