@@ -7,20 +7,20 @@ const TaskDoneSection = styled(motion.section)`
   min-height: 115px;
 `;
 
-const TaskDoneDisplayBtn = styled.button`
+const TaskDoneDisplayBtn = styled(motion.button)`
+  position: relative;
   display: flex;
   justify-content: flex-start;
-  align-content: center;
+  align-items: center;
   gap: 10px;
   width: 100%;
-  height: 30px;
-  margin-top: ${({ theme }) => theme.margin[3]};
+  height: 50px;
   padding-left: ${({ theme }) => theme.padding[4]};
-  padding-right: ${({ theme }) => theme.padding[5]};
   font-size: ${({ theme }) => theme.fontSizes[1]};
   background-color: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
   border: none;
+  overflow: hidden;
   @media ${breakpoints.tablet} {
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
@@ -29,13 +29,23 @@ const TaskDoneDisplayBtn = styled.button`
   }
 `;
 
+const RippleAnimation = styled(motion.div)`
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+`;
+
 const TaskDoneList = styled.ul`
   width: 100%;
   padding: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
 
-const TaskDoneItem = styled.li`
+const TaskDoneItem = styled(motion.li)`
   width: 100%;
   // height: 20px;
   display: flex;
@@ -65,4 +75,4 @@ const UncompleteTaskBtn = styled.button`
   }
 `;
 
-export { TaskDoneSection, TaskDoneDisplayBtn, TaskDoneList, TaskDoneItem, UncompleteTaskBtn };
+export { TaskDoneSection, TaskDoneDisplayBtn, RippleAnimation, TaskDoneList, TaskDoneItem, UncompleteTaskBtn };

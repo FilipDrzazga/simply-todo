@@ -19,6 +19,15 @@ import {
 } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 
+const containerVariants = {
+  hidden: { opacity: 1 },
+  visible: { opacity: 1, transition: { delayChildren: 2, staggerChildren: 0.3 } },
+};
+const itemVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
 const Todo = () => {
   const user = useSelector((state) => state.user);
   const [subscription, setSubscription] = useState(true);
@@ -64,15 +73,6 @@ const Todo = () => {
 
   const addNewTask = () => {
     setDisplayTaskEditor(true);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: { opacity: 1, transition: { delayChildren: 2, staggerChildren: 0.2 } },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
   };
 
   return (

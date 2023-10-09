@@ -10,6 +10,25 @@ import {
   setTaskStatus,
   updateBoardTasksArraysDB,
 } from "../store/userSlice";
+import { AnimatePresence } from "framer-motion";
+
+const tasksVariants = {
+  hidden: (i) => ({
+    opacity: 0,
+    y: -50 * i,
+  }),
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.025,
+    },
+  }),
+  exit: {
+    opacity: 0,
+    transition: { opacity: { duration: 2 } },
+  },
+};
 
 const TodoTask = ({ variants }) => {
   const user = useSelector((state) => state.user);
@@ -48,31 +67,37 @@ const TodoTask = ({ variants }) => {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const displayTask = () => {
-    return (
-      user.activeBoard && (
-        <S.TaskSection variants={variants}>
-          <S.TaskList>
-            {user.activeBoard.map((item) => {
-              return item.tasks.map((task) =>
-                task.isEditing ? (
-                  <S.TaskItem key={task.taskId} id={task.taskId}>
-                    <S.Textarea
-                      ref={textareaRef}
-                      type="text"
-                      defaultValue={task.taskName}
-                      onChange={() => handleResizeTextarea()}
-                      autoFocus
-                    />
-                    <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, item.boardId)}>
-                      <Icon iconName="circle-check" iconType="far" iconColor="checkbox" size="lg" />
-                    </S.ApproveChangeBtn>
-                    <S.DeleteBtn onClick={() => deleteTask(item.boardId, task.taskId)}>
-                      <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
-                    </S.DeleteBtn>
-                  </S.TaskItem>
-                ) : (
+  return (
+    user.activeBoard && (
+      <S.TaskSection layout variants={variants}>
+        <S.TaskList>
+          {user.activeBoard.map((item) => {
+            return item.tasks.map((task, i) =>
+              task.isEditing ? (
+                <S.TaskItem key={task.taskId} id={task.taskId}>
+                  <S.Textarea
+                    ref={textareaRef}
+                    type="text"
+                    defaultValue={task.taskName}
+                    onChange={() => handleResizeTextarea()}
+                    autoFocus
+                  />
+                  <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, item.boardId)}>
+                    <Icon iconName="circle-check" iconType="far" iconColor="checkbox" size="lg" />
+                  </S.ApproveChangeBtn>
+                  <S.DeleteBtn onClick={() => deleteTask(item.boardId, task.taskId)}>
+                    <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
+                  </S.DeleteBtn>
+                </S.TaskItem>
+              ) : (
+                <AnimatePresence key={task.taskId}>
                   <S.TaskItem
+                    variants={tasksVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={i}
+                    layout
                     ref={itemRef}
                     onClick={(e) => handleItemClick(e, task.taskId)}
                     key={task.taskId}
@@ -83,15 +108,14 @@ const TodoTask = ({ variants }) => {
                     </S.CompleteTaskBtn>
                     {task.taskName}
                   </S.TaskItem>
-                )
-              );
-            })}
-          </S.TaskList>
-        </S.TaskSection>
-      )
-    );
-  };
-  return displayTask();
+                </AnimatePresence>
+              )
+            );
+          })}
+        </S.TaskList>
+      </S.TaskSection>
+    )
+  );
 };
 
 export default TodoTask;

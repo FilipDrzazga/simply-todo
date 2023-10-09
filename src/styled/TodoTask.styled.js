@@ -11,7 +11,7 @@ const TaskList = styled.ul`
   padding: ${({ theme }) => theme.padding[2]};
   list-style-type: none;
 `;
-const TaskItem = styled.li`
+const TaskItem = styled(motion.li)`
   width: 100%;
   display: flex;
   gap: 10px;
