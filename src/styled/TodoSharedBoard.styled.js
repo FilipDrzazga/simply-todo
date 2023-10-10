@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const Section = styled.section`
+const Section = styled(motion.section)`
   position: absolute;
   left: 0;
   top: 0;
@@ -13,7 +14,7 @@ const Section = styled.section`
   backdrop-filter: blur(3px);
   z-index: 999;
 `;
-const SharedBoard = styled.div`
+const SharedBoard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,7 +160,7 @@ const SharedBoardUsersname = styled.span`
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
 `;
-const SharedBoardUsersBtn = styled.button`
+const SharedBoardUsersBtn = styled(motion.button)`
   width: 70px;
   height: 30px;
   font-size: ${({ theme }) => theme.fontSizes[0]};
@@ -173,7 +174,7 @@ const SharedBoardUsersBtn = styled.button`
     font-size: ${({ theme }) => theme.fontSizes[2]};
   }
 `;
-const SharedBoardUserRemoveBtn = styled.button`
+const SharedBoardUserRemoveBtn = styled(motion.button)`
   width: 70px;
   height: 30px;
   font-size: ${({ theme }) => theme.fontSizes[0]};

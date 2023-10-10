@@ -30,6 +30,11 @@ const tasksVariants = {
   },
 };
 
+const btnVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, scale: [1, 1.2, 1], transition: { scale: { type: "spring", stiffnes: 300 } } },
+};
+
 const TodoTask = ({ variants }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -82,10 +87,20 @@ const TodoTask = ({ variants }) => {
                     onChange={() => handleResizeTextarea()}
                     autoFocus
                   />
-                  <S.ApproveChangeBtn onClick={() => handleChangeApprove(task.taskId, item.boardId)}>
+                  <S.ApproveChangeBtn
+                    variants={btnVariants}
+                    initial="hidden"
+                    animate="visible"
+                    onClick={() => handleChangeApprove(task.taskId, item.boardId)}
+                  >
                     <Icon iconName="circle-check" iconType="far" iconColor="checkbox" size="lg" />
                   </S.ApproveChangeBtn>
-                  <S.DeleteBtn onClick={() => deleteTask(item.boardId, task.taskId)}>
+                  <S.DeleteBtn
+                    variants={btnVariants}
+                    initial="hidden"
+                    animate="visible"
+                    onClick={() => deleteTask(item.boardId, task.taskId)}
+                  >
                     <Icon iconName="trash-can" iconType="far" iconColor="delete" size="lg" />
                   </S.DeleteBtn>
                 </S.TaskItem>

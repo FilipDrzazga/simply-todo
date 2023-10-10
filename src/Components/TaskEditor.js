@@ -8,6 +8,21 @@ import { useFormik } from "formik";
 import { addNewBoard, updateBoardName, createNewTask } from "../store/userSlice";
 import { editTodo } from "../utils";
 
+const containerVariants = {
+  hidden: { backdropFilter: "blur(0px)" },
+  visible: {
+    backdropFilter: "blur(3px)",
+    transition: { backdropFilter: { duration: 0.2 }, delayChildren: 0.25 },
+  },
+  exit: { backdropFilter: "blur(0px)", transition: { backdropFilter: { delay: 0.3, duration: 0.25 } } },
+};
+
+const formVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 50, transition: { delay: 0.2 } },
+};
+
 const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateField, setDisplayTaskEditor }) => {
   const dispatch = useDispatch();
   const { userData, activeBoard } = useSelector((state) => state.user);
@@ -46,8 +61,14 @@ const TaskEditor = ({ id, htmlFor, placeholder, buttonText, labelText, validateF
   };
 
   return (
-    <S.Section onClick={(e) => closeTaskEditor(e)}>
-      <S.Form onSubmit={handleSubmit} autoComplete="off">
+    <S.Section
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      onClick={(e) => closeTaskEditor(e)}
+    >
+      <S.Form variants={formVariants} onSubmit={handleSubmit} autoComplete="off">
         <Input
           autoFocus
           id={id}

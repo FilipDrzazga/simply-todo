@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
-const Section = styled.section`
+const Section = styled(motion.section)`
   position: absolute;
   left: 0;
   top: 0;
@@ -14,7 +15,7 @@ const Section = styled.section`
   z-index: 999;
 `;
 
-const Form = styled.form`
+const Form = styled(motion.form)`
   display: flex;
   justify-content: center;
   align-items: center;

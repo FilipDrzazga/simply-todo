@@ -3,10 +3,8 @@ import { useNavigate } from "react-router";
 import * as S from "../styled/Button.styled";
 
 const Button = ({
-  initial,
-  animate,
   whileHover,
-  exit,
+  whileTap,
   variants,
   children,
   type,
@@ -32,6 +30,7 @@ const Button = ({
     <S.Button
       variants={variants}
       whileHover={whileHover}
+      whileTap={whileTap}
       primary={primary}
       secondary={secondary}
       removebtn={removebtn}

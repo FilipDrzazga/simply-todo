@@ -18,6 +18,7 @@ import {
   queryUserTodos,
 } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
+import { AnimatePresence } from "framer-motion";
 
 const containerVariants = {
   hidden: { opacity: 1 },
@@ -83,7 +84,7 @@ const Todo = () => {
         <h1>
           Hello,<span>{user.userData.username}</span>
         </h1>
-        <S.NotificationBtn variants={itemVariants} onClick={() => handleClickNotifications()}>
+        <S.NotificationBtn onClick={() => handleClickNotifications()}>
           <Icon
             size="xl"
             iconName="bell"
@@ -108,17 +109,19 @@ const Todo = () => {
         <Icon iconName="plus" size="lg"></Icon>
       </S.AddTaskBtn>
       {displayNotifications && <Notifications handleClickNotifications={handleClickNotifications} />}
-      {displayTaskEditor && (
-        <TaskEditor
-          validateField="addTask"
-          id="addTask"
-          htmlFor="addTask"
-          placeholder="Enter new task..."
-          buttonText="Add"
-          labelText="Add task:"
-          setDisplayTaskEditor={setDisplayTaskEditor}
-        />
-      )}
+      <AnimatePresence kay="taskEditor">
+        {displayTaskEditor && (
+          <TaskEditor
+            validateField="addTask"
+            id="addTask"
+            htmlFor="addTask"
+            placeholder="Enter new task..."
+            buttonText="Add"
+            labelText="Add task:"
+            setDisplayTaskEditor={setDisplayTaskEditor}
+          />
+        )}
+      </AnimatePresence>
     </S.Section>
   );
 };

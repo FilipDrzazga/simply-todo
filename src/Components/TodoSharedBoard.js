@@ -3,6 +3,28 @@ import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserFromSharedBoard, searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
 
+const containerVariants = {
+  hidden: { backdropFilter: "blur(0px)" },
+  visible: {
+    backdropFilter: "blur(3px)",
+    transition: { backdropFilter: { duration: 0.2 }, delayChildren: 0.25 },
+  },
+  exit: { backdropFilter: "blur(0px)", transition: { backdropFilter: { delay: 0.3, duration: 0.25 } } },
+};
+
+const childrenVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 50, transition: { delay: 0.2 } },
+};
+
+const btnVariants = {
+  removeBtnTap: { scale: 0.9, backgroundColor: "#8A2016" },
+  removeBtnHover: { backgroundColor: "#8A2016" },
+  addBtnTap: { scale: 0.9, backgroundColor: "#306F30" },
+  addBtnHover: { backgroundColor: "#306F30", borderColor: "#306F30" },
+};
+
 const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   const [searchUser, setSearchUser] = useState("");
   const [users, setUsers] = useState(true);
@@ -48,8 +70,14 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   };
 
   return (
-    <S.Section onClick={(e) => closeTodoSharedBoard(e)}>
-      <S.SharedBoard>
+    <S.Section
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      onClick={(e) => closeTodoSharedBoard(e)}
+    >
+      <S.SharedBoard variants={childrenVariants}>
         <S.SharedBoardHeader>
           <S.SharedBoardTitle>
             <span>Shared</span> board
@@ -86,7 +114,14 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
                       <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
                     </S.SharedBoardUsersAvatar>
                     <S.SharedBoardUsersname>{user.username}</S.SharedBoardUsersname>
-                    <S.SharedBoardUsersBtn onClick={() => handleAddUserToBoard(user)}>Add</S.SharedBoardUsersBtn>
+                    <S.SharedBoardUsersBtn
+                      variants={btnVariants}
+                      whileTap="addBtnTap"
+                      whileHover="addBtnHover"
+                      onClick={() => handleAddUserToBoard(user)}
+                    >
+                      Add
+                    </S.SharedBoardUsersBtn>
                   </S.SharedBoardUsersItem>
                 ))}
             </S.SharedBoardUsersList>
@@ -103,7 +138,12 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
                         <S.SharedBoardUsersAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
                       </S.SharedBoardUsersAvatar>
                       <S.SharedBoardUsersname>{sharedWithUser.sharedWith}</S.SharedBoardUsersname>
-                      <S.SharedBoardUserRemoveBtn onClick={() => handleRemoveUserFromBoard(sharedWithUser)}>
+                      <S.SharedBoardUserRemoveBtn
+                        variants={btnVariants}
+                        whileTap="removeBtnTap"
+                        whileHover="removeBtnHover"
+                        onClick={() => handleRemoveUserFromBoard(sharedWithUser)}
+                      >
                         Delete
                       </S.SharedBoardUserRemoveBtn>
                     </S.SharedBoardUsersItem>

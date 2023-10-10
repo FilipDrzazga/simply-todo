@@ -36,7 +36,7 @@ const CompleteTaskBtn = styled.button`
   }
 `;
 
-const ApproveChangeBtn = styled.button`
+const ApproveChangeBtn = styled(motion.button)`
   margin-right: 10px;
   background-color: transparent;
   border: none;
@@ -45,7 +45,7 @@ const ApproveChangeBtn = styled.button`
   }
 `;
 
-const DeleteBtn = styled.button`
+const DeleteBtn = styled(motion.button)`
   margin-left: auto;
   margin-right: 10px;
   background-color: transparent;

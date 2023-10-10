@@ -7,6 +7,7 @@ import TaskEditor from "./TaskEditor";
 import TodoRemove from "./TodoRemove";
 import TodoSharedBoard from "./TodoSharedBoard";
 import { leaveAndRemoveSharedBoard, removeAllDoneTask, removeBoardFromState } from "../store/userSlice";
+import { AnimatePresence } from "framer-motion";
 
 const TodoListSettings = ({ variants }) => {
   const user = useSelector((state) => state.user);
@@ -89,19 +90,25 @@ const TodoListSettings = ({ variants }) => {
           </S.SettingsList>
         )}
       </S.Section>
-      {displayTaskEditor && (
-        <TaskEditor
-          validateField="renameBoard"
-          id="renameBoard"
-          htmlFor="renameBoard"
-          placeholder="Enter new board name..."
-          buttonText="Rename"
-          labelText="Rename board:"
-          setDisplayTaskEditor={setDisplayTaskEditor}
-        />
-      )}
-      {displayTodoRemove && <TodoRemove setDisplayTodoRemove={setDisplayTodoRemove} />}
-      {displayTodoSharedBoard && <TodoSharedBoard setDisplayTodoSharedBoard={setDisplayTodoSharedBoard} />}
+      <AnimatePresence>
+        {displayTaskEditor && (
+          <TaskEditor
+            validateField="renameBoard"
+            id="renameBoard"
+            htmlFor="renameBoard"
+            placeholder="Enter new board name..."
+            buttonText="Rename"
+            labelText="Rename board:"
+            setDisplayTaskEditor={setDisplayTaskEditor}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence key="removeBoard">
+        {displayTodoRemove && <TodoRemove setDisplayTodoRemove={setDisplayTodoRemove} />}
+      </AnimatePresence>
+      <AnimatePresence key="sharedBoard">
+        {displayTodoSharedBoard && <TodoSharedBoard setDisplayTodoSharedBoard={setDisplayTodoSharedBoard} />}
+      </AnimatePresence>
     </>
   );
 };
