@@ -214,7 +214,7 @@ const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, t
   return dispatch(removeTaskFromBoard({ taskId: taskId, boardId: boardId }));
 });
 
-const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boardId) => {
+const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boardId, { dispatch }) => {
   try {
     const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", boardId));
     const boardRef = await getDocs(queryBoard);
@@ -224,6 +224,7 @@ const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boa
         tasksDone: [],
       });
     });
+    dispatch(removeAllDoneTaskFromState(boardId));
   } catch (error) {
     console.log("error from removeAllDoneTasks", `${error.message}`);
   }
@@ -601,6 +602,12 @@ const userSlice = createSlice({
       });
       state.activeBoard[0].tasks = removedTask;
     },
+    removeAllDoneTaskFromState(state, action) {
+      state.activeBoard[0].tasksDone = [];
+      state.userTodos = state.userTodos.map((board) => {
+        return board.boardId === action.payload ? { ...board, tasksDone: [] } : board;
+      });
+    },
     setIsEditing(state, action) {
       state.activeBoard[0].tasks = state.activeBoard[0].tasks.map((task) => {
         return task.taskId === action.payload ? { ...task, isEditing: true } : task;
@@ -747,6 +754,7 @@ export const {
   removeBoardFromState,
   addNewTaskToBoard,
   removeTaskFromBoard,
+  removeAllDoneTaskFromState,
   setIsEditing,
   setEditingComplete,
   setActiveTodoBoard,
