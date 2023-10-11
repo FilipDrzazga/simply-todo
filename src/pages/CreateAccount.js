@@ -29,6 +29,8 @@ const btnContainerVariants = {
   exit: { y: "100vh", opacity: 0 },
   hoverCreateBtn: { backgroundColor: "#306F30" },
   hoverLoginBtn: { backgroundColor: "#FAFAFA", color: "#191919" },
+  whileTapCreateBtn: { scale: 0.9 },
+  whileTapLoginBtn: { scale: 0.9 },
 };
 
 const CreateAccount = () => {
@@ -137,6 +139,7 @@ const CreateAccount = () => {
           <Button
             variants={btnContainerVariants}
             whileHover="hoverCreateBtn"
+            whileTap="whileTapCreateBtn"
             primary="true"
             type="submit"
             size="90%"
@@ -148,6 +151,7 @@ const CreateAccount = () => {
           <Button
             variants={btnContainerVariants}
             whileHover="hoverLoginBtn"
+            whileTap="whileTapLoginBtn"
             type="button"
             secondary="true"
             size="60%"
