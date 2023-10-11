@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import { breakpoints } from "./theme";
+import { motion } from "framer-motion";
 
 const NotificationsSection = styled.section`
   position: absolute;
@@ -27,6 +29,7 @@ const NotificationsCloseBtn = styled.button`
   background-color: transparent;
   border: none;
   color: ${({ theme }) => theme.colors.font.primary};
+  cursor: pointer;
 `;
 
 const NotificationsTitle = styled.h1`
@@ -43,6 +46,7 @@ const NotificationsClearBtn = styled.button`
   color: ${({ theme }) => theme.colors.font.primary};
   font-weight: lighter;
   letter-spacing: 1px;
+  cursor: pointer;
 `;
 
 const NotificationsSectionByListDate = styled.section`
@@ -62,22 +66,42 @@ const NotificationsList = styled.ul`
   width: 100%;
   height: auto;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 15px;
 `;
 
 const NotificationsItem = styled.li`
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
+  padding: ${({ theme }) => theme.padding[1]};
+  border-radius: 20px;
+  @media ${breakpoints.tablet} {
+    gap: 20px;
+    justify-content: center;
+  }
+`;
+
+const NotificationContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media ${breakpoints.tablet} {
+    width: 100%;
+  }
 `;
 
 const NotificationsDescription = styled.p`
   font-size: 0.8rem;
   flex-grow: 1;
+  text-align: center;
   margin-left: ${({ theme }) => theme.margin[0]};
+  @media ${breakpoints.tablet} {
+    flex-grow: 0;
+    font-size: ${({ theme }) => theme.fontSizes[2]};
+  }
 `;
 
 const NotificationsUsername = styled.span`
@@ -95,6 +119,10 @@ const NotificationsAvatarContainer = styled.div`
   aligns-self: flex-start;
   border-radius: 50%;
   overflow: hidden;
+  @media ${breakpoints.tablet} {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 const NotificationsAvatarImg = styled.img`
@@ -110,9 +138,10 @@ const NotificationsBtnsContainer = styled.div`
   gap: 10px;
   justify-content: center;
   align-items: center;
+  padding-left: 20px;
 `;
 
-const NotificationsBtn = styled.button`
+const NotificationsBtn = styled(motion.button)`
   width: 30%;
   height: 30px;
   border-radius: 10px;
@@ -132,14 +161,22 @@ const NotificationsBtn = styled.button`
       letter-spacing: 0.5px;
       color: ${theme.colors.font.primary};
     `};
+  @media ${breakpoints.tablet} {
+    height: 40px;
+    font-size: ${({ theme }) => theme.fontSizes[1]};
+  }
 `;
 
-const JoinedStatus = styled.span`
+const JoinedStatus = styled.div`
   margin-left: 56px;
   margin-top: -13px;
   font-size: 0.8rem;
   font-style: italic;
   color: ${({ theme }) => theme.colors.font.accent};
+  @media ${breakpoints.tablet} {
+    font-size: ${({ theme }) => theme.fontSizes[1]};
+    margin-top: -50px;
+  }
 `;
 
 export {
@@ -152,6 +189,7 @@ export {
   NotificationsDate,
   NotificationsList,
   NotificationsItem,
+  NotificationContent,
   NotificationsDescription,
   NotificationsUsername,
   NotificationsBoardName,

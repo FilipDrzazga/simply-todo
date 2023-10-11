@@ -51,10 +51,20 @@ const Notifications = ({ handleClickNotifications }) => {
       case "pending":
         return (
           <S.NotificationsBtnsContainer>
-            <S.NotificationsBtn onClick={() => handleJoinToBoard(data)} join={true}>
+            <S.NotificationsBtn
+              whileTap={{ scale: 0.9, backgroundColor: "#306F30" }}
+              whileHover={{ backgroundColor: "#306F30" }}
+              onClick={() => handleJoinToBoard(data)}
+              join={true}
+            >
               Join{" "}
             </S.NotificationsBtn>
-            <S.NotificationsBtn onClick={() => handleRejectBoard(data)} decline={true}>
+            <S.NotificationsBtn
+              whileTap={{ scale: 0.9, backgroundColor: "#8A2016" }}
+              whileHover={{ backgroundColor: "#8A2016" }}
+              onClick={() => handleRejectBoard(data)}
+              decline={true}
+            >
               Decline
             </S.NotificationsBtn>
           </S.NotificationsBtnsContainer>
@@ -82,13 +92,15 @@ const Notifications = ({ handleClickNotifications }) => {
           {user.sharedBoardsBy &&
             user.sharedBoardsBy.map((notification) => (
               <S.NotificationsItem key={notification.sharedBoardId}>
-                <S.NotificationsAvatarContainer>
-                  <S.NotificationsAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
-                </S.NotificationsAvatarContainer>
-                <S.NotificationsDescription>
-                  <S.NotificationsUsername>{notification.sharedByUsername}</S.NotificationsUsername> invites you to{" "}
-                  <S.NotificationsBoardName>{notification.sharedBoardName}</S.NotificationsBoardName> todo list
-                </S.NotificationsDescription>
+                <S.NotificationContent>
+                  <S.NotificationsAvatarContainer>
+                    <S.NotificationsAvatarImg alt="avatar" src="https://i.pravatar.cc/150?img=12" />
+                  </S.NotificationsAvatarContainer>
+                  <S.NotificationsDescription>
+                    <S.NotificationsUsername>{notification.sharedByUsername}</S.NotificationsUsername> invites you to{" "}
+                    <S.NotificationsBoardName>{notification.sharedBoardName}</S.NotificationsBoardName> todo list
+                  </S.NotificationsDescription>
+                </S.NotificationContent>
                 {switchNotificationStatus(notification)}
               </S.NotificationsItem>
             ))}
