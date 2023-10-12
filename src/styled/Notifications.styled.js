@@ -66,16 +66,18 @@ const NotificationsList = styled.ul`
   width: 100%;
   height: auto;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 15px;
 `;
 
 const NotificationsItem = styled.li`
   width: 90%;
+  height: 5rem;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   padding: ${({ theme }) => theme.padding[1]};
   border-radius: 20px;
   @media ${breakpoints.tablet} {
@@ -84,20 +86,41 @@ const NotificationsItem = styled.li`
   }
 `;
 
-const NotificationContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const NotificationsAvatarContainer = styled.div`
+  width: 60px;
+  height: 60px;
+  aligns-self: flex-start;
+  border-radius: 50%;
+  overflow: hidden;
   @media ${breakpoints.tablet} {
-    width: 100%;
+    width: 70px;
+    height: 70px;
   }
+`;
+
+const NotificationContent = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-left: ${({ theme }) => theme.margin[1]};
+  @media ${breakpoints.tablet} {
+    width: 80%;
+  }
+`;
+
+const NotificationsBtnsContainer = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
 `;
 
 const NotificationsDescription = styled.p`
   font-size: 0.8rem;
-  flex-grow: 1;
   text-align: center;
-  margin-left: ${({ theme }) => theme.margin[0]};
   @media ${breakpoints.tablet} {
     flex-grow: 0;
     font-size: ${({ theme }) => theme.fontSizes[2]};
@@ -113,36 +136,14 @@ const NotificationsBoardName = styled.span`
   color: ${({ theme }) => theme.colors.font.accentGreen};
 `;
 
-const NotificationsAvatarContainer = styled.div`
-  width: 50px;
-  height: 50px;
-  aligns-self: flex-start;
-  border-radius: 50%;
-  overflow: hidden;
-  @media ${breakpoints.tablet} {
-    width: 70px;
-    height: 70px;
-  }
-`;
-
 const NotificationsAvatarImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const NotificationsBtnsContainer = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  padding-left: 20px;
-`;
-
 const NotificationsBtn = styled(motion.button)`
-  width: 30%;
+  width: 50%;
   height: 30px;
   border-radius: 10px;
   ${({ join, theme }) =>
@@ -168,14 +169,11 @@ const NotificationsBtn = styled(motion.button)`
 `;
 
 const JoinedStatus = styled.div`
-  margin-left: 56px;
-  margin-top: -13px;
   font-size: 0.8rem;
   font-style: italic;
   color: ${({ theme }) => theme.colors.font.accent};
   @media ${breakpoints.tablet} {
     font-size: ${({ theme }) => theme.fontSizes[1]};
-    margin-top: -50px;
   }
 `;
 

@@ -353,7 +353,6 @@ const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", a
       invitationDate: JSON.stringify(notification.invitationDate.toMillis()),
     }));
     dispatch(setSharedBoardsBy(convertedBoards));
-    dispatch(setInvitationAlert(convertedBoards));
   } catch (error) {
     console.log("error from ueryNotifications", error.message);
   }
@@ -401,6 +400,27 @@ const clearNewInvitation = createAsyncThunk("user/clearNewInvitation", async (us
     await batch.commit();
   } catch (error) {
     console.log("error from clearNewInvitation", error.message);
+  }
+});
+
+const listenForNewInvitation = createAsyncThunk("user/listenForNewInvitation", async (userId, { dispatch }) => {
+  try {
+    const queryNewInvitation = query(
+      collection(db, "users", userId, "sharedBoardsBy"),
+      where("isNewInvitation", "==", true)
+    );
+    onSnapshot(queryNewInvitation, (querySnapshot) => {
+      const invitations = [];
+      querySnapshot.forEach((invitation) => {
+        const data = { ...invitation.data() };
+        const convertData = { ...data, invitationDate: JSON.stringify(data.invitationDate.toMillis()) };
+        invitations.push(convertData);
+      });
+      const isNew = invitations.some((invitation) => invitation.isNewInvitation === true);
+      return dispatch(setInvitationAlert(isNew));
+    });
+  } catch (error) {
+    console.log("error from listenForNewInvitation", error.message);
   }
 });
 
@@ -662,12 +682,7 @@ const userSlice = createSlice({
       state.searchUsers = [...action.payload];
     },
     setInvitationAlert(state, action) {
-      if (action.payload) {
-        const isNew = action.payload.some((invitation) => invitation.isNewInvitation === true);
-        state.isNewInvitation = isNew;
-      } else {
-        state.isNewInvitation = false;
-      }
+      state.isNewInvitation = action.payload;
     },
     clearInvitationInState(state, action) {
       state.sharedBoardsBy = [];
@@ -744,6 +759,7 @@ export {
   deleteInvitations,
   clearNewInvitation,
   updateInvitationStatus,
+  listenForNewInvitation,
   queryAcceptSharedBoard,
   startSubscriptionTodos,
   leaveAndRemoveSharedBoard,

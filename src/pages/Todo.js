@@ -16,6 +16,7 @@ import {
   queryAllSharedBoards,
   queryUserData,
   queryUserTodos,
+  listenForNewInvitation,
 } from "../store/userSlice";
 import TodoTaskDone from "../Components/TodoTaskDone";
 import { AnimatePresence } from "framer-motion";
@@ -46,6 +47,7 @@ const Todo = () => {
         dispatch(queryUserTodos(user.uid));
         dispatch(queryAllSharedBoardsBy(user.uid));
         dispatch(queryAllSharedBoards(user.uid));
+        dispatch(listenForNewInvitation(user.uid));
       } else {
         // user is signout, save data to db
         navigate("/");
