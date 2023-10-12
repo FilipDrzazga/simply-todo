@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import * as S from "../styled/TodoSharedBoard.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUserFromSharedBoard, searchUsersByUsernameDB, sharedBoardWithUsers } from "../store/userSlice";
+import {
+  filterUsersFromDB,
+  removeUserFromSharedBoard,
+  searchUsersByUsernameDB,
+  sharedBoardWithUsers,
+} from "../store/userSlice";
 
 const containerVariants = {
   hidden: { backdropFilter: "blur(0px)" },
@@ -35,6 +40,8 @@ const TodoSharedBoard = ({ setDisplayTodoSharedBoard }) => {
   useEffect(() => {
     if (searchUser) {
       dispatch(searchUsersByUsernameDB(searchUser));
+    } else if (searchUser === "") {
+      dispatch(filterUsersFromDB(false));
     }
   }, [searchUser, dispatch]);
 

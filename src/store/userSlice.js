@@ -679,7 +679,7 @@ const userSlice = createSlice({
       }
     },
     filterUsersFromDB(state, action) {
-      state.searchUsers = [...action.payload];
+      !action.payload ? (state.searchUsers = []) : (state.searchUsers = [...action.payload]);
     },
     setInvitationAlert(state, action) {
       state.isNewInvitation = action.payload;
