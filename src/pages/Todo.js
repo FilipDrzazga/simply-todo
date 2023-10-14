@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Children } from "react";
 import * as S from "../styled/Todo.styled";
 import Icon from "../Components/Icon";
 import TodoBoard from "../Components/TodoBoard";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, onAuthStateChanged, signOut } from "../firebase/firebase";
 import {
-  startSubscriptionTodos,
+  listenOnSharedBoard,
   queryAllSharedBoardsBy,
   queryAllSharedBoards,
   queryUserData,
@@ -34,7 +34,6 @@ const itemVariants = {
 
 const Todo = () => {
   const user = useSelector((state) => state.user);
-  const [subscription, setSubscription] = useState(true);
   const [displayTaskEditor, setDisplayTaskEditor] = useState(false);
   const [displayNotifications, setDisplayNotifications] = useState(false);
   const navigate = useNavigate();
@@ -48,19 +47,14 @@ const Todo = () => {
         dispatch(queryAllSharedBoardsBy(user.uid));
         dispatch(queryAllSharedBoards(user.uid));
         dispatch(listenForNewInvitation(user.uid));
+        dispatch(listenOnSharedBoard(user.uid));
       } else {
         // user is signout, save data to db
+
         navigate("/");
       }
     });
   }, []);
-
-  useEffect(() => {
-    if (subscription && user.userData?.userId) {
-      dispatch(startSubscriptionTodos(user.userData.userId));
-      setSubscription(!subscription);
-    }
-  }, [dispatch, user.userData.userId, subscription]);
 
   const userSignOut = async () => {
     try {
@@ -73,7 +67,6 @@ const Todo = () => {
 
   const handleClickNotifications = () => {
     setDisplayNotifications(!displayNotifications);
-    setSubscription(!subscription);
   };
 
   const addNewTask = () => {

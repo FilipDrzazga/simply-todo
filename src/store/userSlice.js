@@ -340,6 +340,26 @@ const sharedBoardWithUsers = createAsyncThunk("user/sharedBoardWithUsers", async
   }
 });
 
+const listenForNewInvitation = createAsyncThunk("user/listenForNewInvitation", async (userId, { dispatch }) => {
+  try {
+    const queryNewInvitation = query(collection(db, "users", userId, "sharedBoardsBy"));
+    onSnapshot(queryNewInvitation, (querySnapshot) => {
+      const invitations = [];
+      querySnapshot.forEach((invitation) => {
+        const data = { ...invitation.data() };
+        const convertData = { ...data, invitationDate: JSON.stringify(data.invitationDate.toMillis()) };
+        invitations.push(convertData);
+      });
+      const isNew = invitations.some((invitation) => invitation.isNewInvitation === true);
+      const acceptedBoardInvitation = invitations.filter((invitation) => invitation.invitationStatus !== false);
+      dispatch(setInvitationAlert(isNew));
+      dispatch(setSharedBoardsBy(acceptedBoardInvitation));
+    });
+  } catch (error) {
+    console.log("error from listenForNewInvitation", error.message);
+  }
+});
+
 const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", async (userId, { dispatch }) => {
   try {
     const queryBoards = await query(
@@ -354,7 +374,7 @@ const queryAllSharedBoardsBy = createAsyncThunk("user/queryAllSharedBoardsBy", a
     }));
     dispatch(setSharedBoardsBy(convertedBoards));
   } catch (error) {
-    console.log("error from ueryNotifications", error.message);
+    console.log("error from queryAllSharedBoardsBy", error.message);
   }
 });
 
@@ -400,27 +420,6 @@ const clearNewInvitation = createAsyncThunk("user/clearNewInvitation", async (us
     await batch.commit();
   } catch (error) {
     console.log("error from clearNewInvitation", error.message);
-  }
-});
-
-const listenForNewInvitation = createAsyncThunk("user/listenForNewInvitation", async (userId, { dispatch }) => {
-  try {
-    const queryNewInvitation = query(
-      collection(db, "users", userId, "sharedBoardsBy"),
-      where("isNewInvitation", "==", true)
-    );
-    onSnapshot(queryNewInvitation, (querySnapshot) => {
-      const invitations = [];
-      querySnapshot.forEach((invitation) => {
-        const data = { ...invitation.data() };
-        const convertData = { ...data, invitationDate: JSON.stringify(data.invitationDate.toMillis()) };
-        invitations.push(convertData);
-      });
-      const isNew = invitations.some((invitation) => invitation.isNewInvitation === true);
-      return dispatch(setInvitationAlert(isNew));
-    });
-  } catch (error) {
-    console.log("error from listenForNewInvitation", error.message);
   }
 });
 
@@ -532,7 +531,7 @@ const queryAcceptSharedBoard = createAsyncThunk("user/queryAcceptSharedBoard", a
     const docSnap = await getDocs(docRef);
     docSnap.forEach((doc) => {
       const data = { ...doc.data() };
-      const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+      const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()), isSharedBoard: true };
       dispatch(addBoardToState(convertData));
     });
   } catch (error) {
@@ -540,7 +539,7 @@ const queryAcceptSharedBoard = createAsyncThunk("user/queryAcceptSharedBoard", a
   }
 });
 
-const startSubscriptionTodos = createAsyncThunk("user/startSubscriptionTodos", async (userId, { dispatch }) => {
+const listenOnSharedBoard = createAsyncThunk("user/listenOnSharedBoard ", async (userId, { dispatch, getState }) => {
   try {
     const querySharedBoards = await query(
       collection(db, "users", userId, "sharedBoards"),
@@ -552,36 +551,57 @@ const startSubscriptionTodos = createAsyncThunk("user/startSubscriptionTodos", a
       where("invitationStatus", "==", "fulfilled")
     );
 
-    const sharedBoardsRef = await getDocs(querySharedBoards);
-    sharedBoardsRef.docs.map(async (board) => {
-      const { sharedBoardId } = board.data();
-      const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
-      const unsubscribe = onSnapshot(queryBoard, (querySnapshot) => {
-        const board = [];
-        querySnapshot.forEach((doc) => {
-          const data = { ...doc.data() };
-          const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
-          board.push(convertData);
-        });
-        dispatch(getRealtimeDataTodos(board));
+    const sharedBoardsIdToSubscribe = [];
+    const unsubscribeSharedBoardsListener = onSnapshot(querySharedBoards, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const state = getState();
+        const { sharedBoardId } = doc.data();
+        if (state.user.uniqSharedBoards.includes(sharedBoardId) === false) {
+          sharedBoardsIdToSubscribe.push(sharedBoardId);
+          dispatch(setUniqValue({ uniqSharedBoardId: sharedBoardId }));
+        }
       });
+      sharedBoardsIdToSubscribe &&
+        sharedBoardsIdToSubscribe.forEach(async (uniqueBoardId) => {
+          const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", uniqueBoardId));
+          const unsubscribeBoardListener = onSnapshot(queryBoard, (querySnapshot) => {
+            const subscribeBoards = [];
+            querySnapshot.forEach((doc) => {
+              const data = { ...doc.data() };
+              const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+              subscribeBoards.push(convertData);
+            });
+            dispatch(getRealtimeDataTodos(subscribeBoards));
+          });
+        });
     });
-    const sharedBoardsByRef = await getDocs(querySharedBoardsBy);
-    sharedBoardsByRef.docs.map(async (board) => {
-      const { sharedBoardId } = board.data();
-      const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", sharedBoardId));
-      const unsubscribe = onSnapshot(queryBoard, (querySnapshot) => {
-        const board = [];
-        querySnapshot.forEach((doc) => {
-          const data = { ...doc.data() };
-          const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
-          board.push(convertData);
-        });
-        dispatch(getRealtimeDataTodos(board));
+
+    const sharedBoardsByIdToSubscribe = [];
+    const unsubscribeSharedBoardsByListener = onSnapshot(querySharedBoardsBy, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const state = getState();
+        const { sharedBoardId } = doc.data();
+        if (state.user.uniqSharedBoardsBy.includes(sharedBoardId) === false) {
+          sharedBoardsByIdToSubscribe.push(sharedBoardId);
+          dispatch(setUniqValue({ uniqSharedBoardBy: sharedBoardId }));
+        }
       });
+      sharedBoardsByIdToSubscribe &&
+        sharedBoardsByIdToSubscribe.forEach(async (uniqueBoardId) => {
+          const queryBoard = await query(collection(db, "usersTodos"), where("boardId", "==", uniqueBoardId));
+          const unsubscribeBoardListener = onSnapshot(queryBoard, (querySnapshot) => {
+            const subscribeBoards = [];
+            querySnapshot.forEach((doc) => {
+              const data = { ...doc.data() };
+              const convertData = { ...data, createdAt: JSON.stringify(data.createdAt.toMillis()) };
+              subscribeBoards.push(convertData);
+            });
+            dispatch(getRealtimeDataTodos(subscribeBoards));
+          });
+        });
     });
   } catch (error) {
-    console.log("error from startSubscriptionTodos", error.message);
+    console.log("error from listenOnSharedBoard ", error.message);
   }
 });
 
@@ -592,6 +612,8 @@ const initialState = {
   searchUsers: [],
   sharedBoards: [],
   sharedBoardsBy: [],
+  uniqSharedBoardsBy: [],
+  uniqSharedBoards: [],
   isNewInvitation: false,
 };
 
@@ -599,6 +621,14 @@ const userSlice = createSlice({
   initialState,
   name: "user",
   reducers: {
+    setUniqValue(state, action) {
+      if (action.payload.uniqSharedBoardId) {
+        state.uniqSharedBoards.push(action.payload.uniqSharedBoardId);
+      }
+      if (action.payload.uniqSharedBoardBy) {
+        state.uniqSharedBoardsBy.push(action.payload.uniqSharedBoardBy);
+      }
+    },
     addBoardToState(state, action) {
       state.userTodos.push(action.payload);
     },
@@ -755,13 +785,13 @@ export {
   searchUsersByUsernameDB,
   sharedBoardWithUsers,
   queryAllSharedBoardsBy,
+  listenForNewInvitation,
   queryAllSharedBoards,
   deleteInvitations,
   clearNewInvitation,
   updateInvitationStatus,
-  listenForNewInvitation,
   queryAcceptSharedBoard,
-  startSubscriptionTodos,
+  listenOnSharedBoard,
   leaveAndRemoveSharedBoard,
   removeUserFromSharedBoard,
 };
@@ -782,5 +812,6 @@ export const {
   setSharedBoards,
   setInvitationStatus,
   getRealtimeDataTodos,
+  setUniqValue,
 } = userSlice.actions;
 export default userSlice.reducer;
