@@ -188,31 +188,34 @@ const createNewTask = createAsyncThunk("user/createNewTask", async ({ taskName, 
     );
   } catch (error) {
     // set here rejectedWithValue from thunk late;
-    console.log("error from queryUserTodos", `${error.message}`);
+    console.log("error from createNewTask", `${error.message}`);
   }
 });
 
-const removeTaskFromDB = createAsyncThunk("user/removeTask", async ({ boardId, taskId }, { dispatch, getState }) => {
-  const state = getState();
-  const updatedArray = state.user.activeBoard[0].tasks.filter((task) => task.taskId !== taskId);
-  try {
-    const queryBoard = await query(
-      collection(db, "usersTodos"),
-      where("boardName", "==", state.user.activeBoard[0].boardName)
-    );
-    const querySnapshot = await getDocs(queryBoard);
-    querySnapshot.forEach((document) => {
-      const documentRef = doc(db, "usersTodos", document.id);
-      updateDoc(documentRef, {
-        tasks: updatedArray,
+const removeTaskFromDB = createAsyncThunk(
+  "user/removeTaskFromDB",
+  async ({ boardId, taskId }, { dispatch, getState }) => {
+    const state = getState();
+    const updatedArray = state.user.activeBoard[0].tasks.filter((task) => task.taskId !== taskId);
+    try {
+      const queryBoard = await query(
+        collection(db, "usersTodos"),
+        where("boardName", "==", state.user.activeBoard[0].boardName)
+      );
+      const querySnapshot = await getDocs(queryBoard);
+      querySnapshot.forEach((document) => {
+        const documentRef = doc(db, "usersTodos", document.id);
+        updateDoc(documentRef, {
+          tasks: updatedArray,
+        });
       });
-    });
-  } catch (error) {
-    // set here rejectedWithValue from thunk late;
-    console.log("error from removeTaskFromBoard", `${error.message}`);
+    } catch (error) {
+      // set here rejectedWithValue from thunk late;
+      console.log("error from removeTaskFromDB", `${error.message}`);
+    }
+    return dispatch(removeTaskFromBoard({ taskId: taskId, boardId: boardId }));
   }
-  return dispatch(removeTaskFromBoard({ taskId: taskId, boardId: boardId }));
-});
+);
 
 const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boardId, { dispatch }) => {
   try {
@@ -230,7 +233,7 @@ const removeAllDoneTask = createAsyncThunk("user/removeAllDoneTasks", async (boa
   }
 });
 
-const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays", async (_, { getState }) => {
+const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays", async (renameTask, { getState }) => {
   const state = getState();
   const [userBoardToUpdate] = state.user.userTodos.filter(
     (board) => board.boardName === state.user.activeBoard[0].boardName
@@ -244,11 +247,18 @@ const updateBoardTasksArraysDB = createAsyncThunk("user/updateBoardTasksArrays",
     );
     const querySnapshot = await getDocs(queryBoard);
     querySnapshot.forEach((document) => {
-      const documentRef = doc(db, "usersTodos", document.id);
-      updateDoc(documentRef, {
-        tasks: userTasksArrToUpdate,
-        tasksDone: userTasksDoneArrToUpdate,
-      });
+      if (renameTask) {
+        const documentRef = doc(db, "usersTodos", document.id);
+        updateDoc(documentRef, {
+          tasks: userTasksArrToUpdate,
+        });
+      } else {
+        const documentRef = doc(db, "usersTodos", document.id);
+        updateDoc(documentRef, {
+          tasks: userTasksArrToUpdate,
+          tasksDone: userTasksDoneArrToUpdate,
+        });
+      }
     });
   } catch (error) {
     // set here rejectedWithValue from thunk late;

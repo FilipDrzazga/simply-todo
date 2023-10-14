@@ -49,7 +49,7 @@ const TodoTask = ({ variants }) => {
 
   const taskDone = (taskId) => {
     dispatch(setTaskStatus({ status: true, taskId: taskId }));
-    dispatch(updateBoardTasksArraysDB());
+    dispatch(updateBoardTasksArraysDB({ renameTask: true }));
   };
 
   const handleItemClick = (e, taskId) => {
@@ -64,6 +64,7 @@ const TodoTask = ({ variants }) => {
   const handleChangeApprove = (taskId, boardId) => {
     const textareaValue = textareaRef.current.value;
     dispatch(setEditingComplete({ taskId: taskId, boardId: boardId, newTaskName: textareaValue }));
+    dispatch(updateBoardTasksArraysDB());
   };
 
   const handleResizeTextarea = () => {
