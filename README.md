@@ -8,13 +8,13 @@ TodoApp is a training project I developed as I work toward becoming a front-end 
 
 ## Key Features::key:
 
-**Authentication & Authorization:** Powered by Firebase, my app ensures secure user authentication and role-based authorization.
+* **Authentication & Authorization:** Powered by Firebase, my app ensures secure user authentication and role-based authorization.
 
-**Real-Time Collaboration:** Share your todo board with others and experience real-time updates on shared tasks and boards.
+* **Real-Time Collaboration:** Share your todo board with others and experience real-time updates on shared tasks and boards.
 
-**Invitations:** Receive and accept invitations from other users in real time for seamless collaboration.
+* **Invitations:** Receive and accept invitations from other users in real time for seamless collaboration.
 
-**Basic Functionalities:** Easily add, edit, and delete tasks. Create new boards and manage your tasks effortlessly.
+* **Basic Functionalities:** Easily add, edit, and delete tasks. Create new boards and manage your tasks effortlessly.
 
 
 ## Installation:dvd:
